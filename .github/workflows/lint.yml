@@ -17,10 +17,6 @@ jobs:
         python-version: '3.x'
     - name: Install ruff
       run: pip install ruff
-    - name: Check files are formatted with black
-      run: |
-        # Paths specified to avoid formatting submodules
-        black --check .
     - name: ruff check
       run: |
         ruff check .
