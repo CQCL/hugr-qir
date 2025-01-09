@@ -21,6 +21,9 @@ jobs:
       run: |
         # Paths specified to avoid formatting submodules
         black --check .
+    - name: pylint check
+      run: |
+        pylint
     - name: ruff check
       run: |
         ruff check .
