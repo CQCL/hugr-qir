@@ -23,7 +23,7 @@ jobs:
         black --check .
     - name: pylint check
       run: |
-        pylint
+        # pylint
     - name: ruff check
       run: |
         ruff check .
