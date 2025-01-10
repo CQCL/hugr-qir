@@ -1,0 +1,7 @@
+[package]
+name = "hugr-qir"
+dynamic = ["version"]
+edition = "2021"
+
+[dependencies]
+pyo3 = { version = "0.22.6", features = ["abi3-py310", "anyhow"] }
