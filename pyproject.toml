@@ -8,7 +8,8 @@ dependencies = []
 
 [dependency-groups]
 dev = [
-    "maturin>=1.1,<2.0"
+    "maturin>=1.1,<2.0",
+    "pytest>=8.3.4",
 ]
 
 [build-system]
@@ -18,3 +19,4 @@ build-backend = "maturin"
 [tool.maturin]
 features = ["pyo3/extension-module"]
 module-name = "hugr_qir._hugr_qir"
+python-source = "python"
