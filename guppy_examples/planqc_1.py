@@ -1,8 +1,6 @@
-#!/usr/bin/env python3
-
 from guppylang import guppy, quantum, qubit
 from guppylang.std.angles import angle, angles
-from guppylang.std.quantum import *
+from guppylang.std.quantum import h, measure, result, rz
 
 guppy.load(quantum)
 guppy.load(angles)
