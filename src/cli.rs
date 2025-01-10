@@ -18,7 +18,7 @@ pub struct Cli {
     /// common arguments for injesting HUGRs
     pub hugr_args: HugrArgs,
 
-    #[clap(value_parser, default_value = "-")]
+    #[clap(value_parser, default_value = "-", short, long)]
     pub output: clio::Output,
     // #[arg(short, long, value_parser, value_name = "FILE")]
     // output: PathBuf,
@@ -29,6 +29,7 @@ pub struct Cli {
     #[arg(long, help = "Save transformed HUGR to a file")]
     save_hugr: Option<String>,
 
+    #[clap(value_parser, short = 'f', long)]
     output_format: Option<OutputFormat>,
 }
 
@@ -48,6 +49,7 @@ impl Cli {
         &mut self,
         context: &'c inkwell::context::Context,
     ) -> Result<inkwell::module::Module<'c>> {
+        println!("dougrulz: {self:?}");
         let mut hugr = self
             .hugr_args
             .validate()?

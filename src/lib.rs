@@ -21,5 +21,6 @@ pub fn compile<'c>(
     context: &'c Context,
     args: CompileArgs,
 ) -> Result<Module<'c>> {
-    todo!()
+
+    Ok(context.create_module("hello"))
 }

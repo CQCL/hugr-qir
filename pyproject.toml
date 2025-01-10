@@ -4,11 +4,14 @@ dynamic = ["version"]
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "guppylang>=0.14.0",
+]
 
 [dependency-groups]
 dev = [
     "maturin>=1.1,<2.0",
+    "pip>=24.3.1",
     "pytest>=8.3.4",
 ]
 
@@ -20,3 +23,5 @@ build-backend = "maturin"
 features = ["pyo3/extension-module"]
 module-name = "hugr_qir._hugr_qir"
 python-source = "python"
+python-packages = ["hugr_qir"]
+bindings = "pyo3"
