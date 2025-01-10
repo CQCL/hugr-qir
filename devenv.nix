@@ -1,27 +1,46 @@
-{ pkgs, lib, config, inputs, ... }:
+{ pkgs, lib, config, inputs, ... }: let
+  cfg = config.hugr-qir;
+in {
+  options.hugr-qir = {
+    llvmVersion = lib.mkOption {
+      type = lib.types.str;
+      default = "14";
+    };
+  };
+  config = {
+    packages = [
+      # These are required for hugr-llvm to be able to link to llvm.
+      pkgs.libffi
+      pkgs.libxml2
+      pkgs.libz
+      pkgs.ncurses
+    ];
 
-{
-  packages = [ ];
-  # enterShell = ''
-  # '';
+    # enterShell = ''
+    # '';
 
-  # https://devenv.sh/tasks/
-  # tasks = {
-  #   "myproj:setup".exec = "mytool build";
-  #   "devenv:enterShell".after = [ "myproj:setup" ];
-  # };
+    # https://devenv.sh/tasks/
+    # tasks = {
+    #   "myproj:setup".exec = "mytool build";
+    #   "devenv:enterShell".after = [ "myproj:setup" ];
+    # };
 
-  languages = {
-    rust = {
-      enable = true;
-      channel = "stable";
+    env = {
+      "LLVM_SYS_${cfg.llvmVersion}0_PREFIX" = "${pkgs."llvmPackages_${cfg.llvmVersion}".libllvm.dev}";
     };
 
-    python = {
-      enable = true;
-      venv.enable = true;
-      uv = {
+    languages = {
+      rust = {
         enable = true;
+        channel = "stable";
+      };
+
+      python = {
+        enable = true;
+        venv.enable = true;
+        uv = {
+          enable = true;
+        };
       };
     };
   };
