@@ -8,7 +8,7 @@ use hugr::llvm::inkwell;
 use hugr_cli::HugrArgs;
 use itertools::Itertools;
 
-use crate::{CompileArgs};
+use crate::CompileArgs;
 
 /// Main command line interface
 #[derive(Parser, Debug)]
@@ -104,7 +104,7 @@ impl Cli {
             debug: self.debug,
             save_hugr: self.save_hugr.clone(),
             verbosity: self.hugr_args.verbose.log_level(),
-            validate: self.validate
+            validate: self.validate,
         }
     }
 }

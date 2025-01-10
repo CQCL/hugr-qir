@@ -1,12 +1,10 @@
-use std::fs::{self, OpenOptions};
+use std::fs::{OpenOptions};
 use std::rc::Rc;
 
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
-use hugr::algorithms::validation::ValidationLevel;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
-use hugr::llvm::extension::DefaultPreludeCodegen;
 use hugr::llvm::utils::fat::FatExt;
 use hugr::llvm::{inkwell, CodegenExtsBuilder};
 use hugr::Hugr;
@@ -14,13 +12,12 @@ use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
-use tket2_hseries::QSystemPass;
 
 pub mod cli;
 pub mod qir;
 // TODO this was copy pasted, ideally it would live in tket2-hseries
-pub mod rotation;
 mod py;
+pub mod rotation;
 
 #[non_exhaustive]
 pub struct CompileArgs {
@@ -30,7 +27,6 @@ pub struct CompileArgs {
     pub verbosity: Option<Level>,
     pub validate: bool,
 }
-
 
 impl CompileArgs {
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
@@ -54,7 +50,6 @@ impl CompileArgs {
         // TODO get this from args
         "hugr-qir"
     }
-
 
     /// TODO: hugr: &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {

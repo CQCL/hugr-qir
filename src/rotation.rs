@@ -1,8 +1,8 @@
 use anyhow::{anyhow, bail, Result};
-use hugr::llvm::inkwell;
 use hugr::llvm::custom::CodegenExtsBuilder;
 use hugr::llvm::emit::{emit_value, EmitFuncContext, EmitOpArgs};
 use hugr::llvm::extension::{DefaultPreludeCodegen, PreludeCodegen};
+use hugr::llvm::inkwell;
 use hugr::llvm::types::TypingSession;
 use hugr::llvm::CodegenExtension;
 use inkwell::types::FloatType;
