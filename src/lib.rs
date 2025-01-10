@@ -12,9 +12,14 @@ use hugr::llvm::{inkwell, CodegenExtsBuilder};
 use hugr::Hugr;
 use inkwell::context::Context;
 use inkwell::module::Module;
+use qir::{QirCodegenExtension, QirPreludeCodegen};
+use rotation::RotationCodegenExtension;
 use tket2_hseries::QSystemPass;
 
 pub mod cli;
+pub mod qir;
+// TODO this was copy pasted, ideally it would live in tket2-hseries
+pub mod rotation;
 mod py;
 
 #[non_exhaustive]
@@ -30,7 +35,7 @@ pub struct CompileArgs {
 impl CompileArgs {
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
         // TODO: we probably need to customise prelude codegen
-        let pcg = DefaultPreludeCodegen;
+        let pcg = QirPreludeCodegen;
 
         CodegenExtsBuilder::default()
             .add_prelude_extensions(pcg.clone())
@@ -40,6 +45,8 @@ impl CompileArgs {
             // .add_extension(RotationCodegenExtension::new(pcg))
             .add_conversion_extensions()
             .add_logic_extensions()
+            .add_extension(RotationCodegenExtension::new(QirPreludeCodegen))
+            .add_extension(QirCodegenExtension)
             .finish()
     }
 
@@ -52,11 +59,11 @@ impl CompileArgs {
     /// TODO: hugr: &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
         // note this rebases into tket2.qsystem extension
-        let mut pass = QSystemPass::default();
-        if self.validate {
-            pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-        }
-        pass.run(hugr)?;
+        // let mut pass = QSystemPass::default();
+        // if self.validate {
+        //     pass = pass.with_validation_level(ValidationLevel::WithExtensions);
+        // }
+        // pass.run(hugr)?;
 
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();
