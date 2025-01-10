@@ -7,9 +7,11 @@ edition = "2021"
 anyhow = "1.0.95"
 clap = "4.5.26"
 clap-verbosity-flag = "3.0.2"
+clio = { version = "0.3.5", features = ["clap-parse"] }
 delegate = "0.13.1"
 hugr = { version = "0.14.1", features = ["llvm"] }
 hugr-cli = "0.14.1"
+itertools = "0.14.0"
 pyo3 = { version = "0.22.6", features = ["abi3-py310", "anyhow"] }
 tket2 = "0.7.0"
 tket2-hseries = {  version = "0.7.1", features = ["cli"] }
