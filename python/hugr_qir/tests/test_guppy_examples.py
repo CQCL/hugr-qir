@@ -18,5 +18,8 @@ def cli_on_guppy(guppy_file, tmp_path, *args):
 
 
 def test_guppy_planqc_q(tmp_path):
+    # this doesn't seem to fail on errors
+    # The rust bindings return an Err, that should cause an exception :/
+
     out_file = tmp_path / "out.ll"
     cli_on_guppy("planqc_1.py", tmp_path, "-o", out_file)

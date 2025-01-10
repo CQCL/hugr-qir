@@ -8,7 +8,7 @@ use hugr::llvm::inkwell;
 use hugr_cli::HugrArgs;
 use itertools::Itertools;
 
-use crate::{compile, CompileArgs};
+use crate::{CompileArgs};
 
 /// Main command line interface
 #[derive(Parser, Debug)]
@@ -31,6 +31,9 @@ pub struct Cli {
 
     #[clap(value_parser, short = 'f', long)]
     output_format: Option<OutputFormat>,
+
+    #[clap(long, help = "Validate hugr before and after each pass")]
+    validate: bool,
 }
 
 #[derive(clap::ValueEnum, Clone, Debug, Copy)]
@@ -49,7 +52,6 @@ impl Cli {
         &mut self,
         context: &'c inkwell::context::Context,
     ) -> Result<inkwell::module::Module<'c>> {
-        println!("dougrulz: {self:?}");
         let mut hugr = self
             .hugr_args
             .validate()?
@@ -61,7 +63,8 @@ impl Cli {
                     e.count()
                 )
             })?;
-        compile(&mut hugr, context, self.compile_args())
+        let args = self.compile_args();
+        args.compile(&mut hugr, context)
     }
 
     pub fn write_module(&mut self, module: &inkwell::module::Module<'_>) -> Result<()> {
@@ -101,6 +104,7 @@ impl Cli {
             debug: self.debug,
             save_hugr: self.save_hugr.clone(),
             verbosity: self.hugr_args.verbose.log_level(),
+            validate: self.validate
         }
     }
 }

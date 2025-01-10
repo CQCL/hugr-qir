@@ -737,6 +737,7 @@ dependencies = [
  "hugr-cli",
  "itertools 0.14.0",
  "pyo3",
+ "serde_json",
  "tket2",
  "tket2-hseries",
 ]
