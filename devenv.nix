@@ -1,5 +1,6 @@
 { pkgs, lib, config, inputs, ... }: let
   cfg = config.hugr-qir;
+  libllvm = pkgs."llvmPackages_${cfg.llvmVersion}".libllvm;
 in {
   options.hugr-qir = {
     llvmVersion = lib.mkOption {
@@ -14,6 +15,7 @@ in {
       pkgs.libxml2
       pkgs.libz
       pkgs.ncurses
+      libllvm
     ];
 
     # enterShell = ''
@@ -26,7 +28,7 @@ in {
     # };
 
     env = {
-      "LLVM_SYS_${cfg.llvmVersion}0_PREFIX" = "${pkgs."llvmPackages_${cfg.llvmVersion}".libllvm.dev}";
+      "LLVM_SYS_${cfg.llvmVersion}0_PREFIX" = "${libllvm.dev}";
     };
 
     languages = {
