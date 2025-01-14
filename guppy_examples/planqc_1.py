@@ -1,7 +1,7 @@
 from guppylang import guppy, quantum, qubit
 from guppylang.std.angles import angle, angles
-from guppylang.std.quantum import h, measure, rz
 from guppylang.std.builtins import result
+from guppylang.std.quantum import h, measure, rz
 
 guppy.load(quantum)
 guppy.load(angles)
