@@ -15,8 +15,9 @@ use rotation::RotationCodegenExtension;
 
 pub mod cli;
 pub mod qir;
-// TODO this was copy pasted, ideally it would live in tket2-hseries
 mod py;
+
+// TODO this was copy pasted, ideally it would live in tket2-hseries
 pub mod rotation;
 
 #[non_exhaustive]
@@ -37,8 +38,6 @@ impl CompileArgs {
             .add_prelude_extensions(pcg.clone())
             .add_int_extensions()
             .add_float_extensions()
-            // TODO we will likely need this, but it's in eldarion
-            // .add_extension(RotationCodegenExtension::new(pcg))
             .add_conversion_extensions()
             .add_logic_extensions()
             .add_extension(RotationCodegenExtension::new(QirPreludeCodegen))
@@ -51,9 +50,11 @@ impl CompileArgs {
         "hugr-qir"
     }
 
-    /// TODO: hugr: &mut impl HugrMut
+    /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
-        // note this rebases into tket2.qsystem extension
+        // TODO we don't do this for now because this rebases into the
+        // tket2.qsystem extension, which we do not yet have lowerings for:
+        //
         // let mut pass = QSystemPass::default();
         // if self.validate {
         //     pass = pass.with_validation_level(ValidationLevel::WithExtensions);
