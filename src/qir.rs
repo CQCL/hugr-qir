@@ -1,3 +1,5 @@
+pub mod tket2_ext;
+
 use anyhow::{anyhow, bail, Result};
 use hugr::llvm as hugr_llvm;
 use hugr::{
@@ -16,7 +18,7 @@ use inkwell::{
     values::BasicMetadataValueEnum,
 };
 use itertools::Itertools;
-use tket2::extension::rotation::rotation_type;
+use ::tket2::extension::rotation::rotation_type;
 use tket2_hseries::extension::result::{ResultOp, ResultOpDef};
 
 use hugr_llvm::{
@@ -100,7 +102,10 @@ fn emit_qir_xqb<'c, H: HugrView>(
     args.outputs.finish(context.builder(), args.inputs)
 }
 
+#[derive(Clone,Debug)]
 pub struct QirCodegenExtension;
+
+
 
 impl CodegenExtension for QirCodegenExtension {
     fn add_extension<'a, H: HugrView + 'a>(
@@ -111,124 +116,9 @@ impl CodegenExtension for QirCodegenExtension {
         Self: 'a,
     {
         builder
-            .simple_extension_op::<tket2::Tk2Op>(|context, args, op| match op {
-                tket2::Tk2Op::H => emit_qir_xqb(context, args, "__quantum__qis__h__body"),
-                tket2::Tk2Op::CX => emit_qir_xqb(context, args, "__quantum__qis__cx__body"),
-                tket2::Tk2Op::CY => emit_qir_xqb(context, args, "__quantum__qis__cy__body"),
-                tket2::Tk2Op::CZ => emit_qir_xqb(context, args, "__quantum__qis__cz__body"),
-                tket2::Tk2Op::T => emit_qir_xqb(context, args, "__quantum__qis__t__body"),
-                tket2::Tk2Op::Tdg => emit_qir_xqb(context, args, "__quantum__qis__t__adj"),
-                tket2::Tk2Op::S => emit_qir_xqb(context, args, "__quantum__qis__s__body"),
-                tket2::Tk2Op::Sdg => emit_qir_xqb(context, args, "__quantum__qis__s__adj"),
-                tket2::Tk2Op::X => emit_qir_xqb(context, args, "__quantum__qis__x__body"),
-                tket2::Tk2Op::Y => emit_qir_xqb(context, args, "__quantum__qis__y__body"),
-                tket2::Tk2Op::Z => emit_qir_xqb(context, args, "__quantum__qis__z__body"),
-                tket2::Tk2Op::Rx => emit_qir_1f_xqb(context, args, "__quantum__qis__rx__body"),
-                tket2::Tk2Op::Ry => emit_qir_1f_xqb(context, args, "__quantum__qis__ry__body"),
-                tket2::Tk2Op::Rz => emit_qir_1f_xqb(context, args, "__quantum__qis__rz__body"),
-                tket2::Tk2Op::Reset => emit_qir_xqb(context, args, "__quantum__qis__reset__body"),
-                tket2::Tk2Op::Measure => {
-                    let qb = args.inputs[0];
-                    let iw_ctx = context.iw_context();
-                    let qb_t = qb.get_type();
-                    let res_t = result_type(iw_ctx);
-                    let measure_t = res_t.fn_type(&[qb_t.into()], false);
-                    let measure_func =
-                        context.get_extern_func("__quantum__qis__m__body", measure_t)?;
-
-                    let read_result_t = iw_ctx
-                        .bool_type()
-                        .fn_type(&[res_t.as_basic_type_enum().into()], false);
-                    let read_result_func = context
-                        .get_extern_func("__quantum__qis__read_result__body", read_result_t)?;
-
-                    let result = context
-                        .builder()
-                        .build_call(measure_func, &[qb.into()], "")?
-                        .try_as_basic_value()
-                        .left()
-                        .ok_or_else(|| anyhow!("expected a result from measure"))?;
-                    let result_i1 = context
-                        .builder()
-                        .build_call(read_result_func, &[result.into()], "")?
-                        .try_as_basic_value()
-                        .left()
-                        .ok_or_else(|| anyhow!("expected a bool from read_result"))?
-                        .into_int_value();
-
-                    let true_val = emit_value(context, &Value::true_val())?;
-                    let false_val = emit_value(context, &Value::false_val())?;
-                    let res = context
-                        .builder()
-                        .build_select(result_i1, true_val, false_val, "")?;
-                    args.outputs.finish(context.builder(), [qb, res])
-                }
-                tket2::Tk2Op::MeasureFree => {
-                    let qb = args.inputs[0];
-                    let iw_ctx = context.iw_context();
-                    let qb_t = qb.get_type();
-                    let res_t = result_type(iw_ctx);
-                    let measure_t = res_t.fn_type(&[qb_t.into()], false);
-                    let measure_func =
-                        context.get_extern_func("__quantum__qis__m__body", measure_t)?;
-
-                    let read_result_t = iw_ctx
-                        .bool_type()
-                        .fn_type(&[res_t.as_basic_type_enum().into()], false);
-                    let read_result_func = context
-                        .get_extern_func("__quantum__qis__read_result__body", read_result_t)?;
-
-                    let result = context
-                        .builder()
-                        .build_call(measure_func, &[qb.into()], "")?
-                        .try_as_basic_value()
-                        .left()
-                        .ok_or_else(|| anyhow!("expected a result from measure"))?;
-                    let result_i1 = context
-                        .builder()
-                        .build_call(read_result_func, &[result.into()], "")?
-                        .try_as_basic_value()
-                        .left()
-                        .ok_or_else(|| anyhow!("expected a bool from read_result"))?
-                        .into_int_value();
-
-                    let true_val = emit_value(context, &Value::true_val())?;
-                    let false_val = emit_value(context, &Value::false_val())?;
-
-                    let qfree_t = iw_ctx.void_type().fn_type(&[qb_t.into()], false);
-                    let qfree_func =
-                        context.get_extern_func("__quantum__rt__qubit_release", qfree_t)?;
-                    context.builder().build_call(qfree_func, &[qb.into()], "")?;
-
-                    let res = context
-                        .builder()
-                        .build_select(result_i1, true_val, false_val, "")?;
-                    args.outputs.finish(context.builder(), [res])
-                }
-                tket2::Tk2Op::QAlloc => {
-                    let qb_t = context.llvm_type(&qb_t())?;
-                    let qalloc_t = qb_t.fn_type(&[], false);
-                    let qalloc_func =
-                        context.get_extern_func("__quantum__rt__qubit_allocate", qalloc_t)?;
-                    let qb = context
-                        .builder()
-                        .build_call(qalloc_func, &[], "")?
-                        .try_as_basic_value()
-                        .left()
-                        .ok_or_else(|| anyhow!("expected a qubit from qalloc"))?;
-                    args.outputs.finish(context.builder(), [qb])
-                }
-                tket2::Tk2Op::QFree => {
-                    let iw_ctx = context.iw_context();
-                    let qb = args.inputs[0];
-                    let qb_t = qb.get_type();
-                    let qfree_t = iw_ctx.void_type().fn_type(&[qb_t.into()], false);
-                    let qfree_func =
-                        context.get_extern_func("__quantum__rt__qubit_release", qfree_t)?;
-                    context.builder().build_call(qfree_func, &[qb.into()], "")?;
-                    args.outputs.finish(context.builder(), [])
-                }
-                _ => bail!("Unknown op: {op:?}"),
+            .simple_extension_op::<tket2::Tk2Op>( {
+                let s = self.clone();
+                move |context, args, op| s.emit_tk2op(context, args, op)
             })
             .simple_extension_op::<tket2_hseries::extension::result::ResultOpDef>(
                 |context, args, op| {

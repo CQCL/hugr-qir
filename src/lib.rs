@@ -31,7 +31,6 @@ pub struct CompileArgs {
 
 impl CompileArgs {
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
-        // TODO: we probably need to customise prelude codegen
         let pcg = QirPreludeCodegen;
 
         CodegenExtsBuilder::default()
