@@ -1,7 +1,10 @@
 pub mod tket2_ext;
+pub mod result_ext;
+pub mod qsystem_ext;
 
-use anyhow::{anyhow, bail, Result};
+use anyhow::{anyhow, bail, ensure, Result};
 use hugr::llvm as hugr_llvm;
+use hugr::std_extensions::arithmetic::float_types::float64_type;
 use hugr::{
     extension::{
         prelude::{qb_t, ConstString},
@@ -11,7 +14,9 @@ use hugr::{
     ops::{ExtensionOp, Value},
     HugrView,
 };
+use hugr_llvm::emit::RowPromise;
 use hugr_llvm::inkwell;
+use hugr_llvm::inkwell::values::BasicValueEnum;
 use inkwell::{
     context::Context,
     types::{BasicMetadataTypeEnum, BasicType, FloatType},
@@ -46,60 +51,35 @@ fn result_type(ctx: &Context) -> impl BasicType<'_> {
         .ptr_type(Default::default())
 }
 
-fn emit_qir_1f_xqb<'c, H: HugrView>(
+// fn emit_rotation_to_angle<'c,H>(context: &mut EmitFuncContext<'c, '_, H>,
+//                           rotation: BasicValueEnum<'c>,
+// ) -> Result<BasicValueEnum<'c>> {
+
+// }
+
+fn emit_qir_qis_call<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
-    args: EmitOpArgs<'c, '_, ExtensionOp, H>,
     func: impl AsRef<str>,
+    angles: impl AsRef<[BasicValueEnum<'c>]>,
+    qbs: impl AsRef<[BasicValueEnum<'c>]>,
+    outputs: RowPromise<'c>
 ) -> Result<()> {
+    let (func, angles, qbs) = (func.as_ref(), angles.as_ref(), qbs.as_ref());
     let iw_ctx = context.iw_context();
-    let qb_t = context.llvm_type(&qb_t())?;
-    let half_turns_t: FloatType = context
-        .llvm_type(&rotation_type())?
-        .try_into()
-        .map_err(|_| anyhow!("hugr type 'rotation' does not map to an LLVM float type"))?;
-    let args_tys = {
-        let mut x = vec![BasicMetadataTypeEnum::from(half_turns_t)];
-        x.extend((0..args.inputs.len() - 1).map(|_| BasicMetadataTypeEnum::from(qb_t)));
-        x
-    };
+    let qb_ty = context.llvm_type(&qb_t())?;
+    let f64_ty = iw_ctx.f64_type();
+    ensure!(outputs.len() == qbs.len(), "outputs and qbs must have the same length");
+    ensure!(angles.iter().all(|v| v.get_type() == f64_ty.into()), "angles must be of type f64");
+    ensure!(qbs.iter().all(|v| v.get_type() == qb_ty), "qbs must be of type Qubit");
+    ensure!(outputs.get_types().all(|v| v == qb_ty), "outputs must be of type Qubit");
+
+    let args_tys = angles.into_iter().chain(qbs).copied().map(|x| x.get_type().into()).collect_vec();
     let func_ty = iw_ctx.void_type().fn_type(&args_tys, false);
     let func = context.get_extern_func(func, func_ty)?;
 
-    let qb_inputs = args
-        .inputs
-        .iter()
-        .copied()
-        .take(args.inputs.len() - 1)
-        .collect_vec();
-    let func_inputs = {
-        let mut x = vec![args.inputs.last().copied().unwrap().into()];
-        x.extend(
-            qb_inputs
-                .iter()
-                .copied()
-                .map_into::<BasicMetadataValueEnum>(),
-        );
-        x
-    };
+    let func_inputs = angles.into_iter().chain(qbs).copied().map_into().collect_vec();
     context.builder().build_call(func, &func_inputs, "")?;
-    args.outputs.finish(context.builder(), qb_inputs)
-}
-
-fn emit_qir_xqb<'c, H: HugrView>(
-    context: &mut EmitFuncContext<'c, '_, H>,
-    args: EmitOpArgs<'c, '_, ExtensionOp, H>,
-    func: impl AsRef<str>,
-) -> Result<()> {
-    let iw_ctx = context.iw_context();
-    let qb_t = context.llvm_type(&qb_t())?;
-    let func_ty = iw_ctx
-        .void_type()
-        .fn_type(&vec![qb_t.into(); args.inputs.len()], false);
-    let func = context.get_extern_func(func, func_ty)?;
-
-    let func_inputs = args.inputs.iter().copied().map_into().collect_vec();
-    context.builder().build_call(func, &func_inputs, "")?;
-    args.outputs.finish(context.builder(), args.inputs)
+    outputs.finish(context.builder(), qbs.into_iter().copied())
 }
 
 #[derive(Clone,Debug)]
@@ -120,95 +100,9 @@ impl CodegenExtension for QirCodegenExtension {
                 let s = self.clone();
                 move |context, args, op| s.emit_tk2op(context, args, op)
             })
-            .simple_extension_op::<tket2_hseries::extension::result::ResultOpDef>(
-                |context, args, op| {
-                    let result_op = ResultOp::from_extension_op(&args.node())?;
-                    let tag_str = result_op.tag;
-                    if tag_str.is_empty() {
-                        return Err(anyhow!("Empty result tag received"));
-                    }
-
-                    let tag_ptr = emit_value(context, &ConstString::new(tag_str).into())?;
-                    let i8_ptr_ty = context
-                        .iw_context()
-                        .i8_type()
-                        .ptr_type(Default::default())
-                        .as_basic_type_enum();
-
-                    match op {
-                        ResultOpDef::Bool => {
-                            let [val] = args
-                                .inputs
-                                .try_into()
-                                .map_err(|_| anyhow!("result_bool expects one input"))?;
-                            let bool_type = context.llvm_sum_type(HugrSumType::new_unary(2))?;
-                            let val = LLVMSumValue::try_new(val, bool_type)
-                                .map_err(|_| anyhow!("bool_type expects a value"))?
-                                .build_get_tag(context.builder())?;
-                            let i1_ty = context.iw_context().bool_type();
-                            let trunc_val = context.builder().build_int_truncate(val, i1_ty, "")?;
-                            let print_fn_ty = context
-                                .iw_context()
-                                .void_type()
-                                .fn_type(&[i1_ty.into(), i8_ptr_ty.into()], false);
-                            let print_fn = context.get_extern_func(
-                                "__quantum__rt__bool_record_output",
-                                print_fn_ty,
-                            )?;
-                            context.builder().build_call(
-                                print_fn,
-                                &[trunc_val.into(), tag_ptr.into()],
-                                "print_bool",
-                            )?;
-                            args.outputs.finish(context.builder(), [])
-                        }
-                        ResultOpDef::Int | ResultOpDef::UInt => {
-                            let [val] = args
-                                .inputs
-                                .try_into()
-                                .map_err(|_| anyhow!("result_bool expects one input"))?;
-                            let i64_ty = context.iw_context().i64_type();
-                            let print_fn_ty = context
-                                .iw_context()
-                                .void_type()
-                                .fn_type(&[i64_ty.into(), i8_ptr_ty.into()], false);
-                            let print_fn = context
-                                .get_extern_func("__quantum__rt__int_record_output", print_fn_ty)?;
-                            context.builder().build_call(
-                                print_fn,
-                                &[val.into(), tag_ptr.into()],
-                                "print_bool",
-                            )?;
-                            args.outputs.finish(context.builder(), [])
-                        }
-                        ResultOpDef::F64 => {
-                            let [val] = args
-                                .inputs
-                                .try_into()
-                                .map_err(|_| anyhow!("result_bool expects one input"))?;
-                            let f64_ty = context.iw_context().f64_type();
-                            let print_fn_ty = context
-                                .iw_context()
-                                .void_type()
-                                .fn_type(&[f64_ty.into(), i8_ptr_ty.into()], false);
-                            let print_fn = context.get_extern_func(
-                                "__quantum__rt__double_record_output",
-                                print_fn_ty,
-                            )?;
-                            context.builder().build_call(
-                                print_fn,
-                                &[val.into(), tag_ptr.into()],
-                                "print_bool",
-                            )?;
-                            args.outputs.finish(context.builder(), [])
-                        }
-                        ResultOpDef::ArrBool => todo!(),
-                        ResultOpDef::ArrInt => todo!(),
-                        ResultOpDef::ArrUInt => todo!(),
-                        ResultOpDef::ArrF64 => todo!(),
-                        _ => todo!(),
-                    }
-                },
-            )
+            .simple_extension_op::<tket2_hseries::extension::result::ResultOpDef>({
+                let s = self.clone();
+                move |context, args, op| s.emit_resultop(context, args, op)
+            })
     }
 }
