@@ -1,32 +1,131 @@
-use hugr::{extension::{prelude::qb_t, simple_op::MakeExtensionOp as _}, ops::{ExtensionOp, Value}, HugrView};
-use hugr_llvm::{emit::{EmitFuncContext, EmitOpArgs, emit_value}, inkwell::types::BasicType as _};
-use anyhow::{anyhow, bail, Result};
-use tket2_hseries::extension::result::{ResultOp, ResultOpDef};
+use anyhow::{bail, Result};
+use hugr::{
+    ops::ExtensionOp,
+    HugrView,
+};
+use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 
+use crate::qir::{
+    emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc,
+    emit_qis_qfree, emit_qis_read_result,
+};
 
-use crate::qir::{emit_qir_qis_call, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_read_result, emit_qis_qfree};
-
-use super::{result_type, QirCodegenExtension};
+use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
-    pub fn emit_tk2op<'c, H: HugrView>(&self, context: &mut EmitFuncContext<'c,'_,H>, args: EmitOpArgs<'c, '_, ExtensionOp, H>, op: tket2::Tk2Op) -> Result<()> {
+    pub fn emit_tk2op<'c, H: HugrView>(
+        &self,
+        context: &mut EmitFuncContext<'c, '_, H>,
+        args: EmitOpArgs<'c, '_, ExtensionOp, H>,
+        op: tket2::Tk2Op,
+    ) -> Result<()> {
         use tket2::Tk2Op::*;
         match op {
-            H => emit_qir_qis_call(context, "__quantum__qis__h__body", [], args.inputs, args.outputs),
-            CX => emit_qir_qis_call(context, "__quantum__qis__cx__body", [], args.inputs, args.outputs),
-            CY => emit_qir_qis_call(context, "__quantum__qis__cy__body", [], args.inputs, args.outputs),
-            CZ => emit_qir_qis_call(context, "__quantum__qis__cz__body", [], args.inputs, args.outputs),
-            T => emit_qir_qis_call(context, "__quantum__qis__t__body", [], args.inputs, args.outputs),
-            Tdg => emit_qir_qis_call(context, "__quantum__qis__t__adj", [], args.inputs, args.outputs),
-            S => emit_qir_qis_call(context, "__quantum__qis__s__body", [], args.inputs, args.outputs),
-            Sdg => emit_qir_qis_call(context, "__quantum__qis__s__adj", [], args.inputs, args.outputs),
-            X => emit_qir_qis_call(context, "__quantum__qis__x__adj", [], args.inputs, args.outputs),
-            Y => emit_qir_qis_call(context, "__quantum__qis__y__adj", [], args.inputs, args.outputs),
-            Z => emit_qir_qis_call(context, "__quantum__qis__z__adj", [], args.inputs, args.outputs),
-            Rx => emit_qir_qis_call(context, "__quantum__qis__rx__adj", &args.inputs[0..1], &args.inputs[1..2], args.outputs),
-            Ry => emit_qir_qis_call(context, "__quantum__qis__ry__adj", &args.inputs[0..1], &args.inputs[1..2], args.outputs),
-            Rz => emit_qir_qis_call(context, "__quantum__qis__rz__adj", &args.inputs[0..1], &args.inputs[1..2], args.outputs),
-            Reset => emit_qir_qis_call(context, "__quantum__qis__rz__adj", [], &args.inputs, args.outputs),
+            H => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__h__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            CX => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__cx__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            CY => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__cy__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            CZ => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__cz__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            T => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__t__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            Tdg => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__t__adj",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            S => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__s__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            Sdg => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__s__adj",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            X => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__x__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            Y => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__y__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            Z => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__z__body",
+                [],
+                args.inputs,
+                args.outputs,
+            ),
+            Rx => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__rx__body",
+                &args.inputs[1..2],
+                &args.inputs[0..1],
+                args.outputs,
+            ),
+            Ry => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__ry__body",
+                &args.inputs[1..2],
+                &args.inputs[0..1],
+                args.outputs,
+            ),
+            Rz => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__rz__body",
+                &args.inputs[1..2],
+                &args.inputs[0..1],
+                args.outputs,
+            ),
+            Reset => emit_qis_gate_finish(
+                context,
+                "__quantum__qis__reset__body",
+                [],
+                &args.inputs,
+                args.outputs,
+            ),
             Measure => {
                 let qb = args.inputs[0];
                 // i.e. RESULT*
@@ -51,5 +150,4 @@ impl QirCodegenExtension {
             _ => bail!("Unknown op: {op:?}"),
         }
     }
-
 }

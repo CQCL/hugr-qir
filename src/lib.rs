@@ -1,4 +1,4 @@
-use std::fs::{OpenOptions};
+use std::fs::OpenOptions;
 use std::rc::Rc;
 
 use anyhow::Result;
@@ -14,8 +14,8 @@ use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 
 pub mod cli;
-pub mod qir;
 mod py;
+pub mod qir;
 
 // TODO this was copy pasted, ideally it would live in tket2-hseries
 pub mod rotation;

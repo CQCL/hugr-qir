@@ -18,8 +18,7 @@ pub fn cli(args: &Bound<PyTuple>) -> PyResult<()> {
         .chain(args.extract::<Vec<OsString>>()?)
         .collect_vec();
     let context = inkwell::context::Context::create();
-    let mut cli = Cli::try_parse_from(args)
-        .map_err(anyhow::Error::from)?;
+    let mut cli = Cli::try_parse_from(args).map_err(anyhow::Error::from)?;
     let module = cli.run(&context)?;
     cli.write_module(&module)?;
     Ok(())
