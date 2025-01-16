@@ -1,6 +1,5 @@
 ---
 source: src/qir/result_ext.rs
-assertion_line: 152
 expression: mod_str
 ---
 ; ModuleID = 'test_context'

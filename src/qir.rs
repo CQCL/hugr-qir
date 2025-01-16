@@ -14,10 +14,7 @@ use hugr::{
 use hugr_llvm::emit::RowPromise;
 use hugr_llvm::inkwell;
 use hugr_llvm::inkwell::values::BasicValueEnum;
-use inkwell::{
-    context::Context,
-    types::BasicType,
-};
+use inkwell::{context::Context, types::BasicType};
 use itertools::Itertools;
 use tket2_hseries::extension::futures;
 
@@ -79,12 +76,7 @@ fn emit_qis_gate<'c, H: HugrView>(
     let func_ty = iw_ctx.void_type().fn_type(&args_tys, false);
     let func = context.get_extern_func(func, func_ty)?;
 
-    let func_inputs = angles
-        .iter()
-        .chain(qbs)
-        .copied()
-        .map_into()
-        .collect_vec();
+    let func_inputs = angles.iter().chain(qbs).copied().map_into().collect_vec();
     context.builder().build_call(func, &func_inputs, "")?;
     Ok(qbs.iter().copied().collect_vec())
 }

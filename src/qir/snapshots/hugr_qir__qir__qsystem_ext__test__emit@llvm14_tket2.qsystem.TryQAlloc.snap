@@ -1,0 +1,21 @@
+---
+source: src/qir/qsystem_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%QUBIT = type opaque
+
+define { i32, {}, { %QUBIT* } } @_hl.main.1() {
+alloca_block:
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %1 = insertvalue { %QUBIT* } undef, %QUBIT* %0, 0
+  %2 = insertvalue { i32, {}, { %QUBIT* } } { i32 1, {} poison, { %QUBIT* } poison }, { %QUBIT* } %1, 2
+  ret { i32, {}, { %QUBIT* } } %2
+}
+
+declare %QUBIT* @__quantum__rt__qubit_allocate()

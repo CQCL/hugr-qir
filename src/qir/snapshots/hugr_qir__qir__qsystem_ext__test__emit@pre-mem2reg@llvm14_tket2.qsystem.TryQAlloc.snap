@@ -1,0 +1,27 @@
+---
+source: src/qir/qsystem_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%QUBIT = type opaque
+
+define { i32, {}, { %QUBIT* } } @_hl.main.1() {
+alloca_block:
+  %"0" = alloca { i32, {}, { %QUBIT* } }, align 8
+  %"4_0" = alloca { i32, {}, { %QUBIT* } }, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %1 = insertvalue { %QUBIT* } undef, %QUBIT* %0, 0
+  %2 = insertvalue { i32, {}, { %QUBIT* } } { i32 1, {} poison, { %QUBIT* } poison }, { %QUBIT* } %1, 2
+  store { i32, {}, { %QUBIT* } } %2, { i32, {}, { %QUBIT* } }* %"4_0", align 8
+  %"4_01" = load { i32, {}, { %QUBIT* } }, { i32, {}, { %QUBIT* } }* %"4_0", align 8
+  store { i32, {}, { %QUBIT* } } %"4_01", { i32, {}, { %QUBIT* } }* %"0", align 8
+  %"02" = load { i32, {}, { %QUBIT* } }, { i32, {}, { %QUBIT* } }* %"0", align 8
+  ret { i32, {}, { %QUBIT* } } %"02"
+}
+
+declare %QUBIT* @__quantum__rt__qubit_allocate()

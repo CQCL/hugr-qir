@@ -1,13 +1,10 @@
 use anyhow::{bail, Result};
-use hugr::{
-    ops::ExtensionOp,
-    HugrView,
-};
+use hugr::{ops::ExtensionOp, HugrView};
 use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 
 use crate::qir::{
-    emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc,
-    emit_qis_qfree, emit_qis_read_result,
+    emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_qfree,
+    emit_qis_read_result,
 };
 
 use super::QirCodegenExtension;
@@ -154,19 +151,29 @@ impl QirCodegenExtension {
 
 #[cfg(test)]
 mod test {
-    use hugr_llvm::{check_emission, test::{llvm_ctx, TestContext}};
-    use rstest::rstest;
     use hugr::ops::{NamedOp, OpType};
+    use hugr_llvm::{
+        check_emission,
+        test::{llvm_ctx, TestContext},
+    };
+    use rstest::rstest;
     use tket2::Tk2Op;
 
-    use crate::{qir::{QirCodegenExtension, QirPreludeCodegen}, rotation::RotationCodegenExtension};
     use crate::test::single_op_hugr;
+    use crate::{
+        qir::{QirCodegenExtension, QirPreludeCodegen},
+        rotation::RotationCodegenExtension,
+    };
 
     #[rstest::fixture]
     fn ctx(mut llvm_ctx: TestContext) -> TestContext {
-        llvm_ctx.add_extensions(|builder| builder.add_extension(QirCodegenExtension).add_prelude_extensions(QirPreludeCodegen).add_extension(RotationCodegenExtension::new(QirPreludeCodegen)));
+        llvm_ctx.add_extensions(|builder| {
+            builder
+                .add_extension(QirCodegenExtension)
+                .add_prelude_extensions(QirPreludeCodegen)
+                .add_extension(RotationCodegenExtension::new(QirPreludeCodegen))
+        });
         llvm_ctx
-
     }
 
     #[rstest]
@@ -191,11 +198,14 @@ mod test {
     fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
         let op = op.into();
         let mut insta = insta::Settings::clone_current();
-        insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op.name()));
+        insta.set_snapshot_suffix(format!(
+            "{}_{}",
+            insta.snapshot_suffix().unwrap_or(""),
+            op.name()
+        ));
         insta.bind(|| {
-            let hugr = single_op_hugr(op.into());
+            let hugr = single_op_hugr(op);
             check_emission!(hugr, ctx);
         })
     }
-
 }

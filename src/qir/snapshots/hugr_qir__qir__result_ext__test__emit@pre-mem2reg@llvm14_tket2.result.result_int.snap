@@ -15,7 +15,8 @@ alloca_block:
 entry_block:                                      ; preds = %alloca_block
   store i16 %0, i16* %"2_0", align 2
   %"2_01" = load i16, i16* %"2_0", align 2
-  call void @__quantum__rt__int_record_output(i16 %"2_01", i8* getelementptr inbounds ([8 x i8], [8 x i8]* @0, i32 0, i32 0))
+  %1 = sext i16 %"2_01" to i64
+  call void @__quantum__rt__int_record_output(i64 %1, i8* getelementptr inbounds ([8 x i8], [8 x i8]* @0, i32 0, i32 0))
   ret void
 }
 

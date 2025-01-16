@@ -73,10 +73,15 @@ impl QirCodegenExtension {
                 let i64_ty = context.iw_context().i64_type();
                 if val.get_type() != i64_ty.into() {
                     val = if op == ResultOpDef::Int {
-                        context.builder().build_int_s_extend(val.into_int_value(), i64_ty, "")
+                        context
+                            .builder()
+                            .build_int_s_extend(val.into_int_value(), i64_ty, "")
                     } else {
-                        context.builder().build_int_z_extend(val.into_int_value(), i64_ty, "")
-                    }?.into();
+                        context
+                            .builder()
+                            .build_int_z_extend(val.into_int_value(), i64_ty, "")
+                    }?
+                    .into();
                 }
                 let print_fn_ty = context
                     .iw_context()
@@ -121,21 +126,28 @@ impl QirCodegenExtension {
 
 #[cfg(test)]
 mod test {
-    use hugr_llvm::{check_emission, test::{llvm_ctx, TestContext}};
+    use hugr::ops::{NamedOp, OpType};
+    use hugr_llvm::{
+        check_emission,
+        test::{llvm_ctx, TestContext},
+    };
     use rstest::rstest;
-    use hugr::{extension::prelude::bool_t, ops::{NamedOp, OpType}};
-    use hugr::extension::simple_op::HasConcrete as _;
-    use tket2::Tk2Op;
-    use tket2_hseries::extension::{futures::{FutureOp, FutureOpDef}, result::{ResultOp, ResultOpDef}};
+    
+    use tket2_hseries::extension::result::ResultOpDef;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};
     use crate::test::single_op_hugr;
 
     #[rstest::fixture]
     fn ctx(mut llvm_ctx: TestContext) -> TestContext {
-        llvm_ctx.add_extensions(|builder| builder.add_extension(QirCodegenExtension).add_prelude_extensions(QirPreludeCodegen).add_int_extensions().add_float_extensions());
+        llvm_ctx.add_extensions(|builder| {
+            builder
+                .add_extension(QirCodegenExtension)
+                .add_prelude_extensions(QirPreludeCodegen)
+                .add_int_extensions()
+                .add_float_extensions()
+        });
         llvm_ctx
-
     }
 
     #[rstest]
@@ -146,11 +158,14 @@ mod test {
     fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
         let op = op.into();
         let mut insta = insta::Settings::clone_current();
-        insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op.name()));
+        insta.set_snapshot_suffix(format!(
+            "{}_{}",
+            insta.snapshot_suffix().unwrap_or(""),
+            op.name()
+        ));
         insta.bind(|| {
-            let hugr = single_op_hugr(op.into());
+            let hugr = single_op_hugr(op);
             check_emission!(hugr, ctx);
         })
     }
-
 }
