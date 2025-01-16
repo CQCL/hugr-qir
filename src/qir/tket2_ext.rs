@@ -4,14 +4,13 @@ use anyhow::{anyhow, bail, Result};
 use tket2_hseries::extension::result::{ResultOp, ResultOpDef};
 
 
-use crate::qir::{emit_qir_qis_call, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_read_result, emit_qis_release};
+use crate::qir::{emit_qir_qis_call, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_read_result, emit_qis_qfree};
 
 use super::{result_type, QirCodegenExtension};
 
 impl QirCodegenExtension {
     pub fn emit_tk2op<'c, H: HugrView>(&self, context: &mut EmitFuncContext<'c,'_,H>, args: EmitOpArgs<'c, '_, ExtensionOp, H>, op: tket2::Tk2Op) -> Result<()> {
         use tket2::Tk2Op::*;
-        let qb_ty = context.llvm_type(&qb_t())?;
         match op {
             H => emit_qir_qis_call(context, "__quantum__qis__h__body", [], args.inputs, args.outputs),
             CX => emit_qir_qis_call(context, "__quantum__qis__cx__body", [], args.inputs, args.outputs),
@@ -40,7 +39,7 @@ impl QirCodegenExtension {
                 let qb = args.inputs[0];
                 // i.e. RESULT*
                 let result = emit_qis_measure_to_result(context, qb)?;
-                emit_qis_release(context, qb)?;
+                emit_qis_qfree(context, qb)?;
                 let result_i1 = emit_qis_read_result(context, result)?;
                 args.outputs.finish(context.builder(), [result_i1])
             }
@@ -48,7 +47,7 @@ impl QirCodegenExtension {
                 let qb = emit_qis_qalloc(context)?;
                 args.outputs.finish(context.builder(), [qb])
             }
-            QFree => emit_qis_release(context, args.inputs[0]),
+            QFree => emit_qis_qfree(context, args.inputs[0]),
             _ => bail!("Unknown op: {op:?}"),
         }
     }

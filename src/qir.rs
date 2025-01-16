@@ -1,6 +1,6 @@
 pub mod tket2_ext;
 pub mod result_ext;
-pub mod qsystem_ext;
+// pub mod qsystem_ext;
 
 use anyhow::{anyhow, bail, ensure, Result};
 use hugr::llvm as hugr_llvm;
@@ -173,7 +173,7 @@ impl CodegenExtension for QirCodegenExtension {
             })
             .simple_extension_op::<tket2_hseries::extension::result::ResultOpDef>({
                 let s = self.clone();
-                move |context, args, op| s.emit_resultop(context, args, op)
+                move |context, args, op| s.emit_result_op(context, args, op)
             })
     }
 }
