@@ -3,6 +3,7 @@ use std::rc::Rc;
 
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
+use hugr::algorithms::validation::ValidationLevel;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
@@ -51,14 +52,11 @@ impl CompileArgs {
 
     /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
-        // TODO we don't do this for now because this rebases into the
-        // tket2.qsystem extension, which we do not yet have lowerings for:
-        //
-        // let mut pass = QSystemPass::default();
-        // if self.validate {
-        //     pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-        // }
-        // pass.run(hugr)?;
+        let mut pass = tket2_hseries::QSystemPass::default();
+        if self.validate {
+            pass = pass.with_validation_level(ValidationLevel::WithExtensions);
+        }
+        pass.run(hugr)?;
 
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();
