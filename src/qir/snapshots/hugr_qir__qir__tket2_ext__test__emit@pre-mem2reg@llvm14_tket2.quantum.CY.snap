@@ -1,0 +1,39 @@
+---
+source: src/qir/tket2_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%QUBIT = type opaque
+
+define { %QUBIT*, %QUBIT* } @_hl.main.1(%QUBIT* %0, %QUBIT* %1) {
+alloca_block:
+  %"0" = alloca %QUBIT*, align 8
+  %"1" = alloca %QUBIT*, align 8
+  %"2_0" = alloca %QUBIT*, align 8
+  %"2_1" = alloca %QUBIT*, align 8
+  %"4_0" = alloca %QUBIT*, align 8
+  %"4_1" = alloca %QUBIT*, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  store %QUBIT* %0, %QUBIT** %"2_0", align 8
+  store %QUBIT* %1, %QUBIT** %"2_1", align 8
+  %"2_01" = load %QUBIT*, %QUBIT** %"2_0", align 8
+  %"2_12" = load %QUBIT*, %QUBIT** %"2_1", align 8
+  call void @__quantum__qis__cy__body(%QUBIT* %"2_01", %QUBIT* %"2_12")
+  store %QUBIT* %"2_01", %QUBIT** %"4_0", align 8
+  store %QUBIT* %"2_12", %QUBIT** %"4_1", align 8
+  %"4_03" = load %QUBIT*, %QUBIT** %"4_0", align 8
+  %"4_14" = load %QUBIT*, %QUBIT** %"4_1", align 8
+  store %QUBIT* %"4_03", %QUBIT** %"0", align 8
+  store %QUBIT* %"4_14", %QUBIT** %"1", align 8
+  %"05" = load %QUBIT*, %QUBIT** %"0", align 8
+  %"16" = load %QUBIT*, %QUBIT** %"1", align 8
+  %mrv = insertvalue { %QUBIT*, %QUBIT* } undef, %QUBIT* %"05", 0
+  %mrv7 = insertvalue { %QUBIT*, %QUBIT* } %mrv, %QUBIT* %"16", 1
+  ret { %QUBIT*, %QUBIT* } %mrv7
+}
+
+declare void @__quantum__qis__cy__body(%QUBIT*, %QUBIT*)

@@ -79,3 +79,6 @@ impl CompileArgs {
         self.hugr_to_llvm(hugr, context)
     }
 }
+
+#[cfg(test)]
+pub(crate) mod test;

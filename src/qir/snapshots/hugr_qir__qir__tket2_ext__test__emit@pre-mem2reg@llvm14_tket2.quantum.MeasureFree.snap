@@ -1,0 +1,36 @@
+---
+source: src/qir/tket2_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%QUBIT = type opaque
+%RESULT = type opaque
+
+define { i32, {}, {} } @_hl.main.1(%QUBIT* %0) {
+alloca_block:
+  %"0" = alloca { i32, {}, {} }, align 8
+  %"2_0" = alloca %QUBIT*, align 8
+  %"4_0" = alloca { i32, {}, {} }, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  store %QUBIT* %0, %QUBIT** %"2_0", align 8
+  %"2_01" = load %QUBIT*, %QUBIT** %"2_0", align 8
+  %1 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"2_01")
+  call void @__quantum__rt__qubit_release(%QUBIT* %"2_01")
+  %2 = call i1 @__quantum__qis__read_result__body(%RESULT* %1)
+  %3 = select i1 %2, { i32, {}, {} } { i32 1, {} poison, {} undef }, { i32, {}, {} } { i32 0, {} undef, {} poison }
+  store { i32, {}, {} } %3, { i32, {}, {} }* %"4_0", align 4
+  %"4_02" = load { i32, {}, {} }, { i32, {}, {} }* %"4_0", align 4
+  store { i32, {}, {} } %"4_02", { i32, {}, {} }* %"0", align 4
+  %"03" = load { i32, {}, {} }, { i32, {}, {} }* %"0", align 4
+  ret { i32, {}, {} } %"03"
+}
+
+declare %RESULT* @__quantum__qis__m__body(%QUBIT*)
+
+declare void @__quantum__rt__qubit_release(%QUBIT*)
+
+declare i1 @__quantum__qis__read_result__body(%RESULT*)
