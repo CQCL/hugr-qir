@@ -159,12 +159,12 @@ mod test {
     use hugr::ops::{NamedOp, OpType};
     use tket2::Tk2Op;
 
-    use crate::qir::{QirCodegenExtension, QirPreludeCodegen};
+    use crate::{qir::{QirCodegenExtension, QirPreludeCodegen}, rotation::RotationCodegenExtension};
     use crate::test::single_op_hugr;
 
     #[rstest::fixture]
     fn ctx(mut llvm_ctx: TestContext) -> TestContext {
-        llvm_ctx.add_extensions(|builder| builder.add_extension(QirCodegenExtension).add_prelude_extensions(QirPreludeCodegen));
+        llvm_ctx.add_extensions(|builder| builder.add_extension(QirCodegenExtension).add_prelude_extensions(QirPreludeCodegen).add_extension(RotationCodegenExtension::new(QirPreludeCodegen)));
         llvm_ctx
 
     }

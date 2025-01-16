@@ -1,12 +1,12 @@
 use anyhow::{bail, ensure, Result};
 use hugr::{
     extension::prelude::bool_t,
-    ops::ExtensionOp,
+    ops::{ExtensionOp, Value},
     types::CustomType,
     HugrView,
 };
 use hugr_llvm::{
-    emit::{EmitFuncContext, EmitOpArgs},
+    emit::{EmitFuncContext, EmitOpArgs, emit_value},
     inkwell::types::BasicTypeEnum,
     types::TypingSession,
 };
@@ -35,7 +35,13 @@ impl QirCodegenExtension {
         op: FutureOpDef,
     ) -> Result<()> {
         match op {
-            FutureOpDef::Read => args.outputs.finish(context.builder(), [args.inputs[0]]),
+            FutureOpDef::Read => {
+                let true_val = emit_value(context, &Value::true_val())?;
+                let false_val = emit_value(context, &Value::false_val())?;
+
+                let bool_r = context.builder().build_select(args.inputs[0].into_int_value(), true_val, false_val, "")?;
+                args.outputs.finish(context.builder(), [bool_r])
+            },
             FutureOpDef::Dup => {
                 let input = args.inputs[0];
                 args.outputs.finish(context.builder(), [input, input])
@@ -44,4 +50,39 @@ impl QirCodegenExtension {
             _ => bail!("Unknown op: {op:?}"),
         }
     }
+}
+
+#[cfg(test)]
+mod test {
+    use hugr_llvm::{check_emission, test::{llvm_ctx, TestContext}};
+    use rstest::rstest;
+    use hugr::{extension::prelude::bool_t, ops::{NamedOp, OpType}};
+    use hugr::extension::simple_op::HasConcrete as _;
+    use tket2::Tk2Op;
+    use tket2_hseries::extension::futures::{FutureOp, FutureOpDef};
+
+    use crate::qir::{QirCodegenExtension, QirPreludeCodegen};
+    use crate::test::single_op_hugr;
+
+    #[rstest::fixture]
+    fn ctx(mut llvm_ctx: TestContext) -> TestContext {
+        llvm_ctx.add_extensions(|builder| builder.add_extension(QirCodegenExtension).add_prelude_extensions(QirPreludeCodegen));
+        llvm_ctx
+
+    }
+
+    #[rstest]
+    #[case(FutureOpDef::Read.instantiate(&[bool_t().into()]).unwrap())]
+    #[case(FutureOpDef::Dup.instantiate(&[bool_t().into()]).unwrap())]
+    #[case(FutureOpDef::Free.instantiate(&[bool_t().into()]).unwrap())]
+    fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
+        let op = op.into();
+        let mut insta = insta::Settings::clone_current();
+        insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op.name()));
+        insta.bind(|| {
+            let hugr = single_op_hugr(op.into());
+            check_emission!(hugr, ctx);
+        })
+    }
+
 }
