@@ -20,7 +20,7 @@ tket2 = "0.7.0"
 tket2-hseries = {  version = "0.7.1", features = ["cli"] }
 
 [dev-dependencies]
-insta = "1.42.0"
+insta = { version = "1.42.0"}
 rstest = "0.24.0"
 serde = { version = "1.0.217", features = ["derive"] }
 typetag = "0.2.19"
