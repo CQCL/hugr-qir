@@ -69,7 +69,7 @@ mod test {
         test::{llvm_ctx, TestContext},
     };
     use rstest::rstest;
-    
+
     use tket2_hseries::extension::futures::FutureOpDef;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};

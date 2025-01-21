@@ -25,9 +25,11 @@ pub mod rotation;
 pub struct CompileArgs {
     pub debug: u8,
     pub save_hugr: Option<String>,
+
     /// None means no output
     pub verbosity: Option<Level>,
     pub validate: bool,
+    pub qsystem_pass: bool,
 }
 
 impl CompileArgs {
@@ -52,11 +54,13 @@ impl CompileArgs {
 
     /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
-        let mut pass = tket2_hseries::QSystemPass::default();
-        if self.validate {
-            pass = pass.with_validation_level(ValidationLevel::WithExtensions);
+        if self.qsystem_pass {
+            let mut pass = tket2_hseries::QSystemPass::default();
+            if self.validate {
+                pass = pass.with_validation_level(ValidationLevel::WithExtensions);
+            }
+            pass.run(hugr)?;
         }
-        pass.run(hugr)?;
 
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();

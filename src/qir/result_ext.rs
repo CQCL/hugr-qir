@@ -132,7 +132,7 @@ mod test {
         test::{llvm_ctx, TestContext},
     };
     use rstest::rstest;
-    
+
     use tket2_hseries::extension::result::ResultOpDef;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};

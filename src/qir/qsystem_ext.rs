@@ -116,14 +116,14 @@ impl QirCodegenExtension {
 
 #[cfg(test)]
 mod test {
-    
+
     use hugr::ops::{NamedOp, OpType};
     use hugr_llvm::{
         check_emission,
         test::{llvm_ctx, TestContext},
     };
     use rstest::rstest;
-    
+
     use tket2_hseries::extension::qsystem::QSystemOp;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};

@@ -42,12 +42,6 @@ fn result_type(ctx: &Context) -> impl BasicType<'_> {
         .ptr_type(Default::default())
 }
 
-// fn emit_rotation_to_angle<'c,H>(context: &mut EmitFuncContext<'c, '_, H>,
-//                           rotation: BasicValueEnum<'c>,
-// ) -> Result<BasicValueEnum<'c>> {
-
-// }
-
 fn emit_qis_gate<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
     func: impl AsRef<str>,
