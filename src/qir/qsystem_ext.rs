@@ -33,9 +33,6 @@ impl QirCodegenExtension {
                 let result = emit_qis_measure_to_result(context, qb)?;
 
                 let result_bool = emit_qis_read_result(context, result)?;
-                // let true_val = emit_value(context, &Value::true_val())?;
-                // let false_val = emit_value(context, &Value::false_val())?;
-                // let result_bool = context.builder().build_select(result_i1.into_int_value(), true_val, false_val,"")?;
                 args.outputs.finish(context.builder(), [result_bool])
             }
             LazyMeasure => {
@@ -62,9 +59,6 @@ impl QirCodegenExtension {
                 let result = emit_qis_measure_to_result(context, qb)?;
                 let _ = emit_qis_gate(context, "__quantum__qis__reset__body", [], [qb])?;
                 let result_bool = emit_qis_read_result(context, result)?;
-                // let true_val = emit_value(context, &Value::true_val())?;
-                // let false_val = emit_value(context, &Value::false_val())?;
-                // let result_bool = context.builder().build_select(result_i1.into_int_value(), true_val, false_val,"")?;
                 args.outputs.finish(context.builder(), [qb, result_bool])
             }
             Rz => emit_qis_gate_finish(
@@ -109,7 +103,7 @@ impl QirCodegenExtension {
                 &args.inputs,
                 args.outputs,
             ),
-            _ => todo!(),
+            _ => anyhow::bail!("Unknown op: {op:?}"),
         }
     }
 }

@@ -24,6 +24,7 @@ use hugr_llvm::{
 };
 
 #[derive(Clone, Debug)]
+/// Customises how we lower prelude ops, types, and constants.
 pub struct QirPreludeCodegen;
 
 impl PreludeCodegen for QirPreludeCodegen {
@@ -36,12 +37,16 @@ impl PreludeCodegen for QirPreludeCodegen {
     }
 }
 
+/// Returns the qir "RESULT" type.
 fn result_type(ctx: &Context) -> impl BasicType<'_> {
     ctx.get_struct_type("RESULT")
         .unwrap_or_else(|| ctx.opaque_struct_type("RESULT"))
         .ptr_type(Default::default())
 }
 
+/// Emits a call to a qir gate fuction.
+/// This function takes some number of angles as doubles, followed by some
+/// number of qubits as QUBIT pointers.
 fn emit_qis_gate<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
     func: impl AsRef<str>,
@@ -75,6 +80,8 @@ fn emit_qis_gate<'c, H: HugrView>(
     Ok(qbs.iter().copied().collect_vec())
 }
 
+/// A helper to emit a qir gate function as [emit_qis_gate], and then finish a
+/// [RowPromise] with the qubit inputs.
 fn emit_qis_gate_finish<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
     func: impl AsRef<str>,
@@ -86,6 +93,8 @@ fn emit_qis_gate_finish<'c, H: HugrView>(
     outputs.finish(context.builder(), outs)
 }
 
+/// A helper to emit a qir measure function and return the result as a RESULT
+/// pointer.
 fn emit_qis_measure_to_result<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
     qb: BasicValueEnum<'c>,
@@ -105,6 +114,7 @@ fn emit_qis_measure_to_result<'c, H: HugrView>(
     Ok(result)
 }
 
+/// A helper to convert a RESULT pointer to a (representation of) a hugr bool.
 fn emit_qis_read_result<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
     result: BasicValueEnum<'c>,
@@ -130,6 +140,7 @@ fn emit_qis_read_result<'c, H: HugrView>(
         .build_select(result_i1.into_int_value(), true_val, false_val, "")?)
 }
 
+/// A helper to emit a qir __quantum__rt__qubit_release call.
 fn emit_qis_qfree<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
     qb: BasicValueEnum<'c>,
@@ -141,6 +152,8 @@ fn emit_qis_qfree<'c, H: HugrView>(
     Ok(())
 }
 
+/// A helper to emit a qir __quantum__rt__qubit_allocate call.
+/// Returns a qir QUBIT pointer.
 fn emit_qis_qalloc<'c, H: HugrView>(
     context: &mut EmitFuncContext<'c, '_, H>,
 ) -> Result<BasicValueEnum<'c>> {

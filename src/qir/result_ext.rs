@@ -115,11 +115,12 @@ impl QirCodegenExtension {
                 )?;
                 args.outputs.finish(context.builder(), [])
             }
-            ResultOpDef::ArrBool => todo!(),
-            ResultOpDef::ArrInt => todo!(),
-            ResultOpDef::ArrUInt => todo!(),
-            ResultOpDef::ArrF64 => todo!(),
-            _ => todo!(),
+            // these ops are not supported yet
+            ResultOpDef::ArrBool
+            | ResultOpDef::ArrInt
+            | ResultOpDef::ArrUInt
+            | ResultOpDef::ArrF64
+            | _ => bail!("Unknown op: {op:?}"),
         }
     }
 }

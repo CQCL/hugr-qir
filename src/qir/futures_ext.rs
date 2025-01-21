@@ -15,6 +15,7 @@ use tket2_hseries::extension::futures::{FutureOpDef, EXTENSION_ID, FUTURE_TYPE_N
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
+    /// We represent a hugr `tket.futures.future<bool>` as an i1.
     pub fn convert_future_type<'c>(
         &self,
         session: TypingSession<'c, '_>,
