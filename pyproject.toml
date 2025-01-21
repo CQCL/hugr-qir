@@ -8,9 +8,6 @@ dependencies = [
     "guppylang>=0.14.0",
 ]
 
-[projects.scripts]
-hugr-qir = "hugr_qir:main_cli"
-
 [dependency-groups]
 dev = [
     "maturin>=1.1,<2.0",
