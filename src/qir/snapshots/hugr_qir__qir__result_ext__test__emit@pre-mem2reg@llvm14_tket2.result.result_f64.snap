@@ -1,0 +1,22 @@
+---
+source: src/qir/result_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+@0 = private unnamed_addr constant [8 x i8] c"foo_f64\00", align 1
+
+define void @_hl.main.1(double %0) {
+alloca_block:
+  %"2_0" = alloca double, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  store double %0, double* %"2_0", align 8
+  %"2_01" = load double, double* %"2_0", align 8
+  call void @__quantum__rt__double_record_output(double %"2_01", i8* getelementptr inbounds ([8 x i8], [8 x i8]* @0, i32 0, i32 0))
+  ret void
+}
+
+declare void @__quantum__rt__double_record_output(double, i8*)

@@ -1,0 +1,21 @@
+---
+source: src/qir/tket2_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%QUBIT = type opaque
+
+define { %QUBIT*, %QUBIT* } @_hl.main.1(%QUBIT* %0, %QUBIT* %1) {
+alloca_block:
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  call void @__quantum__qis__cy__body(%QUBIT* %0, %QUBIT* %1)
+  %mrv = insertvalue { %QUBIT*, %QUBIT* } undef, %QUBIT* %0, 0
+  %mrv7 = insertvalue { %QUBIT*, %QUBIT* } %mrv, %QUBIT* %1, 1
+  ret { %QUBIT*, %QUBIT* } %mrv7
+}
+
+declare void @__quantum__qis__cy__body(%QUBIT*, %QUBIT*)

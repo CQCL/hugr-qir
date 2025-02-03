@@ -1,8 +1,9 @@
-use std::fs::{OpenOptions};
+use std::fs::OpenOptions;
 use std::rc::Rc;
 
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
+use hugr::algorithms::validation::ValidationLevel;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
@@ -14,8 +15,8 @@ use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 
 pub mod cli;
-pub mod qir;
 mod py;
+pub mod qir;
 
 // TODO this was copy pasted, ideally it would live in tket2-hseries
 pub mod rotation;
@@ -24,14 +25,15 @@ pub mod rotation;
 pub struct CompileArgs {
     pub debug: u8,
     pub save_hugr: Option<String>,
+
     /// None means no output
     pub verbosity: Option<Level>,
     pub validate: bool,
+    pub qsystem_pass: bool,
 }
 
 impl CompileArgs {
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
-        // TODO: we probably need to customise prelude codegen
         let pcg = QirPreludeCodegen;
 
         CodegenExtsBuilder::default()
@@ -52,14 +54,13 @@ impl CompileArgs {
 
     /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
-        // TODO we don't do this for now because this rebases into the
-        // tket2.qsystem extension, which we do not yet have lowerings for:
-        //
-        // let mut pass = QSystemPass::default();
-        // if self.validate {
-        //     pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-        // }
-        // pass.run(hugr)?;
+        if self.qsystem_pass {
+            let mut pass = tket2_hseries::QSystemPass::default();
+            if self.validate {
+                pass = pass.with_validation_level(ValidationLevel::WithExtensions);
+            }
+            pass.run(hugr)?;
+        }
 
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();
@@ -82,3 +83,6 @@ impl CompileArgs {
         self.hugr_to_llvm(hugr, context)
     }
 }
+
+#[cfg(test)]
+pub(crate) mod test;

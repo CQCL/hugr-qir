@@ -1,0 +1,22 @@
+---
+source: src/qir/qsystem_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%QUBIT = type opaque
+
+define void @_hl.main.1(%QUBIT* %0) {
+alloca_block:
+  %"2_0" = alloca %QUBIT*, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  store %QUBIT* %0, %QUBIT** %"2_0", align 8
+  %"2_01" = load %QUBIT*, %QUBIT** %"2_0", align 8
+  call void @__quantum__rt__qubit_release(%QUBIT* %"2_01")
+  ret void
+}
+
+declare void @__quantum__rt__qubit_release(%QUBIT*)

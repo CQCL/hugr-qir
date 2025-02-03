@@ -18,22 +18,29 @@ pub struct Cli {
     /// common arguments for injesting HUGRs
     pub hugr_args: HugrArgs,
 
-    #[clap(value_parser, default_value = "-", short, long)]
+    #[clap(
+        value_parser,
+        default_value = "-",
+        short,
+        long,
+        help = "Output file, or - for stdout"
+    )]
     pub output: clio::Output,
-    // #[arg(short, long, value_parser, value_name = "FILE")]
-    // output: PathBuf,
-    /// Turn debugging information on
-    #[arg(short, long, action = clap::ArgAction::Count)]
-    debug: u8,
+
+    #[arg(short, long, action = clap::ArgAction::Count, help = "Turn debugging information on")]
+    pub debug: u8,
 
     #[arg(long, help = "Save transformed HUGR to a file")]
-    save_hugr: Option<String>,
+    pub save_hugr: Option<String>,
 
     #[clap(value_parser, short = 'f', long)]
-    output_format: Option<OutputFormat>,
+    pub output_format: Option<OutputFormat>,
 
     #[clap(long, help = "Validate hugr before and after each pass")]
-    validate: bool,
+    pub validate: bool,
+
+    #[arg(long, help = "Run QSystemPass", default_value_t = true)]
+    pub qsystem_pass: bool,
 }
 
 #[derive(clap::ValueEnum, Clone, Debug, Copy)]
@@ -105,6 +112,7 @@ impl Cli {
             save_hugr: self.save_hugr.clone(),
             verbosity: self.hugr_args.verbose.log_level(),
             validate: self.validate,
+            qsystem_pass: self.qsystem_pass,
         }
     }
 }
