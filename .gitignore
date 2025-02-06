@@ -15,3 +15,6 @@ devenv.local.nix
 /target
 
 **/__pycache__/
+
+# jetbrains
+.idea
