@@ -2,7 +2,6 @@ import subprocess
 import sys
 from pathlib import Path
 
-import pytest
 from quantinuum_qircheck import qircheck
 
 from hugr_qir._hugr_qir import cli
@@ -27,7 +26,6 @@ def cli_on_guppy(guppy_file: Path, tmp_path: Path, *args: str) -> None:
     cli(str(json_file), *[str(arg) for arg in args])
 
 
-@pytest.mark.xfail(reason="hugr to qir conversion still a wip")
 def test_guppy_files(tmp_path: Path) -> None:
     out_file = tmp_path / "out.ll"
     guppy_dir = Path(GUPPY_EXAMPLES_DIR)
