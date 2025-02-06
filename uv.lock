@@ -82,6 +82,7 @@ dev = [
     { name = "maturin" },
     { name = "pip" },
     { name = "pytest" },
+    { name = "quantinuum-qircheck" },
     { name = "ruff" },
 ]
 
@@ -93,6 +94,7 @@ dev = [
     { name = "maturin", specifier = ">=1.1,<2.0" },
     { name = "pip", specifier = ">=24.3.1" },
     { name = "pytest", specifier = ">=8.3.4" },
+    { name = "quantinuum-qircheck", git = "https://github.com/CQCL/quantinuum-qircheck.git?branch=main" },
     { name = "ruff", specifier = ">=0.9.0" },
 ]
 
@@ -267,6 +269,16 @@ wheels = [
 ]
 
 [[package]]
+name = "pyqir"
+version = "0.10.6"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9d/3f/2d3ddbfce342d17bc838078c3fed6ebdc159bd5d9218ac1f3fc92107f7f6/pyqir-0.10.6-cp38-abi3-macosx_10_12_x86_64.macosx_11_0_arm64.macosx_10_12_universal2.whl", hash = "sha256:6a0221de2f0134fc4c4a3b55e957d48225221f582fd05a640bd9cebd4c70d5e0", size = 3423223 },
+    { url = "https://files.pythonhosted.org/packages/2f/aa/710eb5ea5f8430b5da4f90b456bcd3040ffe0237642d6a83a81bbdeeb964/pyqir-0.10.6-cp38-abi3-manylinux_2_31_x86_64.whl", hash = "sha256:c78ce2e669f1237150a43a08c26f3b19a793f788e489e3add79bd051169b5891", size = 2316195 },
+    { url = "https://files.pythonhosted.org/packages/7d/5e/72b5481ecf6c2cd70dd9cbf0d3b476f53b9ce4711fa80fe9ac785c7631e2/pyqir-0.10.6-cp38-abi3-win_amd64.whl", hash = "sha256:89fa8467b67da611e65c0241d5f859a0487299c47c2629fceb7a0d0eddee3079", size = 1692076 },
+]
+
+[[package]]
 name = "pytest"
 version = "8.3.4"
 source = { registry = "https://pypi.org/simple" }
@@ -281,6 +293,14 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/05/35/30e0d83068951d90a01852cb1cef56e5d8a09d20c7f511634cc2f7e0372a/pytest-8.3.4.tar.gz", hash = "sha256:965370d062bce11e73868e0335abac31b4d3de0e82f4007408d242b4f8610761", size = 1445919 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/11/92/76a1c94d3afee238333bc0a42b82935dd8f9cf8ce9e336ff87ee14d9e1cf/pytest-8.3.4-py3-none-any.whl", hash = "sha256:50e16d954148559c9a74109af1eaf0c945ba2d8f30f0a3d3335edde19788b6f6", size = 343083 },
+]
+
+[[package]]
+name = "quantinuum-qircheck"
+version = "0.1.1.dev4+gb5f79b4"
+source = { git = "https://github.com/CQCL/quantinuum-qircheck.git?branch=main#b5f79b4dc7eb61c21814005f2ba86c64698062be" }
+dependencies = [
+    { name = "pyqir" },
 ]
 
 [[package]]
