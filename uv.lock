@@ -89,7 +89,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "guppylang", specifier = ">=0.14.0" },
-    { name = "quantinuum-qircheck", specifier = ">=0.1.0" },
+    { name = "quantinuum-qircheck", git = "https://github.com/CQCL/quantinuum-qircheck.git" },
 ]
 
 [package.metadata.requires-dev]
@@ -299,14 +299,10 @@ wheels = [
 
 [[package]]
 name = "quantinuum-qircheck"
-version = "0.1.0"
-source = { registry = "https://pypi.org/simple" }
+version = "0.1.1.dev4+gb5f79b4"
+source = { git = "https://github.com/CQCL/quantinuum-qircheck.git#b5f79b4dc7eb61c21814005f2ba86c64698062be" }
 dependencies = [
     { name = "pyqir" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/08/1c/e267e6d116c077a9704fd667ee42e88a26b833fcd3965baa9270e319d7a1/quantinuum_qircheck-0.1.0.tar.gz", hash = "sha256:1753e734a3200f7084a118014a0e23d7cb8d17ff658c9937e2a31f79a3416249", size = 462593 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/6d/15/22f579e6b0cfa0323d6c3182456945a266567ad47a12dd8b932e1e21d9df/quantinuum_qircheck-0.1.0-py3-none-any.whl", hash = "sha256:d6ccec50a7a682588fa87c6185b9a17a015e8ee88314f6bebae99db18abd92ff", size = 626771 },
 ]
 
 [[package]]
