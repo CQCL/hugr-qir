@@ -75,7 +75,6 @@ version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "guppylang" },
-    { name = "quantinuum-qircheck" },
 ]
 
 [package.dev-dependencies]
@@ -83,20 +82,19 @@ dev = [
     { name = "maturin" },
     { name = "pip" },
     { name = "pytest" },
+    { name = "quantinuum-qircheck" },
     { name = "ruff" },
 ]
 
 [package.metadata]
-requires-dist = [
-    { name = "guppylang", specifier = ">=0.14.0" },
-    { name = "quantinuum-qircheck", git = "https://github.com/CQCL/quantinuum-qircheck.git" },
-]
+requires-dist = [{ name = "guppylang", specifier = ">=0.14.0" }]
 
 [package.metadata.requires-dev]
 dev = [
     { name = "maturin", specifier = ">=1.1,<2.0" },
     { name = "pip", specifier = ">=24.3.1" },
     { name = "pytest", specifier = ">=8.3.4" },
+    { name = "quantinuum-qircheck", git = "https://github.com/CQCL/quantinuum-qircheck.git?branch=main" },
     { name = "ruff", specifier = ">=0.9.0" },
 ]
 
@@ -300,7 +298,7 @@ wheels = [
 [[package]]
 name = "quantinuum-qircheck"
 version = "0.1.1.dev4+gb5f79b4"
-source = { git = "https://github.com/CQCL/quantinuum-qircheck.git#b5f79b4dc7eb61c21814005f2ba86c64698062be" }
+source = { git = "https://github.com/CQCL/quantinuum-qircheck.git?branch=main#b5f79b4dc7eb61c21814005f2ba86c64698062be" }
 dependencies = [
     { name = "pyqir" },
 ]
