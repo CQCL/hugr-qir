@@ -32,6 +32,18 @@ pub struct CompileArgs {
     pub qsystem_pass: bool,
 }
 
+impl Default for CompileArgs {
+    fn default() -> Self {
+        Self {
+            debug: 0,
+            save_hugr: None,
+            verbosity: None,
+            validate: false,
+            qsystem_pass: true,
+        }
+    }
+}
+
 impl CompileArgs {
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
         let pcg = QirPreludeCodegen;
