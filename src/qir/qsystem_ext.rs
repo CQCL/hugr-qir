@@ -51,7 +51,7 @@ impl QirCodegenExtension {
                 let result_i1 = context.builder().build_int_truncate(result_i32, i1, "")?;
                 // futures are i1s, so this is fine
                 args.outputs
-                    .finish(context.builder(), [qb, result_i1.into()])
+                    .finish(context.builder(), [result_i1.into()])
             }
             QSystemOp::MeasureReset => {
                 let qb = args.inputs[0];

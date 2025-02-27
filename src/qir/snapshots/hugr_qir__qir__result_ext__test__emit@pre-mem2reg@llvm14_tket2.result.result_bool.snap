@@ -7,17 +7,15 @@ source_filename = "test_context"
 
 @0 = private unnamed_addr constant [9 x i8] c"bool_int\00", align 1
 
-define void @_hl.main.1({ i32, {}, {} } %0) {
+define void @_hl.main.1(i1 %0) {
 alloca_block:
-  %"2_0" = alloca { i32, {}, {} }, align 8
+  %"2_0" = alloca i1, align 1
   br label %entry_block
 
 entry_block:                                      ; preds = %alloca_block
-  store { i32, {}, {} } %0, { i32, {}, {} }* %"2_0", align 4
-  %"2_01" = load { i32, {}, {} }, { i32, {}, {} }* %"2_0", align 4
-  %1 = extractvalue { i32, {}, {} } %"2_01", 0
-  %2 = trunc i32 %1 to i1
-  call void @__quantum__rt__bool_record_output(i1 %2, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @0, i32 0, i32 0))
+  store i1 %0, i1* %"2_0", align 1
+  %"2_01" = load i1, i1* %"2_0", align 1
+  call void @__quantum__rt__bool_record_output(i1 %"2_01", i8* getelementptr inbounds ([9 x i8], [9 x i8]* @0, i32 0, i32 0))
   ret void
 }
 

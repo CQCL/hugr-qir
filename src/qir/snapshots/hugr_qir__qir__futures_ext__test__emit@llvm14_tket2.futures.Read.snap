@@ -5,11 +5,11 @@ expression: mod_str
 ; ModuleID = 'test_context'
 source_filename = "test_context"
 
-define { i32, {}, {} } @_hl.main.1(i1 %0) {
+define i1 @_hl.main.1(i1 %0) {
 alloca_block:
   br label %entry_block
 
 entry_block:                                      ; preds = %alloca_block
-  %1 = select i1 %0, { i32, {}, {} } { i32 1, {} poison, {} undef }, { i32, {}, {} } { i32 0, {} undef, {} poison }
-  ret { i32, {}, {} } %1
+  %1 = select i1 %0, i1 true, i1 false
+  ret i1 %1
 }

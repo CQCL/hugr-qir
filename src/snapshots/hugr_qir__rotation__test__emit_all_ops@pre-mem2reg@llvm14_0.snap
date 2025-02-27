@@ -15,7 +15,7 @@ alloca_block:
   %"2_0" = alloca double, align 8
   %"4_0" = alloca double, align 8
   %"5_0" = alloca double, align 8
-  %"6_0" = alloca { i32, {}, { double } }, align 8
+  %"6_0" = alloca { i1, double }, align 8
   %"7_0" = alloca double, align 8
   %"0" = alloca double, align 8
   %"12_0" = alloca { i32, i8* }, align 8
@@ -52,39 +52,36 @@ entry_block:                                      ; preds = %alloca_block
   %13 = or i1 %10, %11
   %14 = or i1 %13, %12
   %15 = xor i1 %14, true
-  %16 = insertvalue { double } undef, double %"5_03", 0
-  %17 = insertvalue { i32, {}, { double } } { i32 1, {} poison, { double } poison }, { double } %16, 2
-  %18 = select i1 %15, { i32, {}, { double } } %17, { i32, {}, { double } } { i32 0, {} undef, { double } poison }
-  store { i32, {}, { double } } %18, { i32, {}, { double } }* %"6_0", align 8
-  %"6_04" = load { i32, {}, { double } }, { i32, {}, { double } }* %"6_0", align 8
-  %19 = extractvalue { i32, {}, { double } } %"6_04", 0
-  switch i32 %19, label %20 [
-    i32 1, label %22
+  %16 = insertvalue { i1, double } { i1 true, double poison }, double %"5_03", 1
+  %17 = select i1 %15, { i1, double } %16, { i1, double } { i1 false, double poison }
+  store { i1, double } %17, { i1, double }* %"6_0", align 8
+  %"6_04" = load { i1, double }, { i1, double }* %"6_0", align 8
+  %18 = extractvalue { i1, double } %"6_04", 0
+  switch i1 %18, label %19 [
+    i1 true, label %20
   ]
 
-20:                                               ; preds = %9
-  %21 = extractvalue { i32, {}, { double } } %"6_04", 1
+19:                                               ; preds = %9
   br label %cond_7_case_0
 
-22:                                               ; preds = %9
-  %23 = extractvalue { i32, {}, { double } } %"6_04", 2
-  %24 = extractvalue { double } %23, 0
-  store double %24, double* %"08", align 8
+20:                                               ; preds = %9
+  %21 = extractvalue { i1, double } %"6_04", 1
+  store double %21, double* %"08", align 8
   br label %cond_7_case_1
 
-cond_7_case_0:                                    ; preds = %20
+cond_7_case_0:                                    ; preds = %19
   store { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, { i32, i8* }* %"12_0", align 8
   %"12_06" = load { i32, i8* }, { i32, i8* }* %"12_0", align 8
-  %25 = extractvalue { i32, i8* } %"12_06", 0
-  %26 = extractvalue { i32, i8* } %"12_06", 1
-  %27 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %25, i8* %26)
+  %22 = extractvalue { i32, i8* } %"12_06", 0
+  %23 = extractvalue { i32, i8* } %"12_06", 1
+  %24 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %22, i8* %23)
   call void @abort()
   store double 0.000000e+00, double* %"13_0", align 8
   %"13_07" = load double, double* %"13_0", align 8
   store double %"13_07", double* %"0", align 8
   br label %cond_exit_7
 
-cond_7_case_1:                                    ; preds = %22
+cond_7_case_1:                                    ; preds = %20
   %"09" = load double, double* %"08", align 8
   store double %"09", double* %"15_0", align 8
   %"15_010" = load double, double* %"15_0", align 8
@@ -96,8 +93,8 @@ cond_exit_7:                                      ; preds = %cond_7_case_1, %con
   store double %"05", double* %"7_0", align 8
   %"4_011" = load double, double* %"4_0", align 8
   %"7_012" = load double, double* %"7_0", align 8
-  %28 = fadd double %"4_011", %"7_012"
-  store double %28, double* %"17_0", align 8
+  %25 = fadd double %"4_011", %"7_012"
+  store double %25, double* %"17_0", align 8
   ret void
 }
 
