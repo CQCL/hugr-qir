@@ -51,7 +51,7 @@ impl QirCodegenExtension {
                 let result_i1 = context.builder().build_int_truncate(result_i32, i1, "")?;
                 // futures are i1s, so this is fine
                 args.outputs
-                    .finish(context.builder(), [qb, result_i1.into()])
+                    .finish(context.builder(), [result_i1.into()])
             }
             QSystemOp::MeasureReset => {
                 let qb = args.inputs[0];
@@ -92,7 +92,7 @@ impl QirCodegenExtension {
             QSystemOp::TryQAlloc => {
                 let qb = emit_qis_qalloc(context)?;
                 let option_ty = context.llvm_sum_type(option_type(qb_t()))?;
-                let qb = option_ty.build_tag(context.builder(), 1, vec![qb])?;
+                let qb = option_ty.build_tag(context.builder(), 1, vec![qb])?.into();
                 args.outputs.finish(context.builder(), [qb])
             }
             QSystemOp::QFree => emit_qis_qfree(context, args.inputs[0]),
@@ -152,7 +152,7 @@ mod test {
         insta.set_snapshot_suffix(format!(
             "{}_{}",
             insta.snapshot_suffix().unwrap_or(""),
-            op.name()
+            NamedOp::name(&op)
         ));
         insta.bind(|| {
             let hugr = single_op_hugr(op);

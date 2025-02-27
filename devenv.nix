@@ -18,7 +18,6 @@ in {
       pkgs.libxml2
       pkgs.libz
       pkgs.ncurses
-      libllvm
     ];
 
     # enterShell = ''
