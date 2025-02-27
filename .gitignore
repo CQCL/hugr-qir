@@ -15,3 +15,9 @@ devenv.local.nix
 /target
 
 **/__pycache__/
+
+# qir snapshots
+*.snap.new
+
+# jetbrains ide
+.idea
