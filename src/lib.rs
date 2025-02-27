@@ -15,8 +15,10 @@ use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 
 pub mod cli;
-mod py;
 pub mod qir;
+
+#[cfg(feature = "py")]
+mod py;
 
 // TODO this was copy pasted, ideally it would live in tket2-hseries
 pub mod rotation;
