@@ -17,465 +17,97 @@ source_filename = "hugr-qir"
 
 define void @__hugr__.main.1() {
 alloca_block:
-  %"19_0" = alloca i64, align 8
-  %"19_1" = alloca i64, align 8
-  %"19_2" = alloca %QUBIT*, align 8
-  %"19_3" = alloca %QUBIT*, align 8
-  %"23_0" = alloca i64, align 8
-  %"23_1" = alloca i64, align 8
-  %"23_2" = alloca %QUBIT*, align 8
-  %"23_3" = alloca %QUBIT*, align 8
-  %"34_0" = alloca i64, align 8
-  %"34_1" = alloca i64, align 8
-  %"34_2" = alloca %QUBIT*, align 8
-  %"34_3" = alloca %QUBIT*, align 8
-  %"50_0" = alloca i64, align 8
-  %"50_1" = alloca i64, align 8
-  %"50_2" = alloca %QUBIT*, align 8
-  %"50_3" = alloca %QUBIT*, align 8
-  %"64_0" = alloca i64, align 8
-  %"64_1" = alloca i64, align 8
-  %"64_2" = alloca %QUBIT*, align 8
-  %"64_3" = alloca %QUBIT*, align 8
-  %"17_0" = alloca {}, align 8
-  %"16_0" = alloca i64, align 8
-  %"16_1" = alloca i64, align 8
-  %"106_0" = alloca %QUBIT*, align 8
-  %"117_0" = alloca %QUBIT*, align 8
-  %"116_0" = alloca { i1, %QUBIT* }, align 8
-  %"105_0" = alloca { i1, %QUBIT* }, align 8
-  %"0" = alloca %QUBIT*, align 8
-  %"122_0" = alloca { i32, i8* }, align 8
-  %"123_0" = alloca %QUBIT*, align 8
-  %"05" = alloca %QUBIT*, align 8
-  %"125_0" = alloca %QUBIT*, align 8
-  %"09" = alloca %QUBIT*, align 8
-  %"111_0" = alloca { i32, i8* }, align 8
-  %"112_0" = alloca %QUBIT*, align 8
-  %"013" = alloca %QUBIT*, align 8
-  %"114_0" = alloca %QUBIT*, align 8
-  %"14_0" = alloca i64, align 8
-  %"12_0" = alloca i64, align 8
-  %"15_0" = alloca { i64, i64 }, align 8
-  %"21_0" = alloca {}, align 8
-  %"31_0" = alloca i1, align 1
-  %"32_0" = alloca i64, align 8
-  %"32_1" = alloca i64, align 8
-  %"28_0" = alloca { i64, i64 }, align 8
-  %"29_0" = alloca i1, align 1
-  %"29_1" = alloca { i64, i64 }, align 8
-  %"30_0" = alloca { { i64, i64 }, i1 }, align 8
-  %"31_1" = alloca { i64, i64 }, align 8
-  %"48_0" = alloca {}, align 8
-  %"139_0" = alloca i1, align 1
-  %"136_0" = alloca i1, align 1
-  %"47_0" = alloca {}, align 8
-  %"44_0" = alloca {}, align 8
-  %"41_0" = alloca {}, align 8
-  %"39_0" = alloca { i64, i64 }, align 8
-  %"140_0" = alloca i1, align 1
-  %"137_0" = alloca i1, align 1
-  %"62_0" = alloca {}, align 8
-  %"59_0" = alloca i64, align 8
-  %"59_1" = alloca i64, align 8
-  %"134_0" = alloca %QUBIT*, align 8
-  %"132_0" = alloca double, align 8
-  %"130_0" = alloca double, align 8
-  %"133_0" = alloca %QUBIT*, align 8
-  %"128_0" = alloca double, align 8
-  %"61_0" = alloca {}, align 8
-  %"55_0" = alloca { i64, i64 }, align 8
-  %"56_0" = alloca i64, align 8
-  %"56_1" = alloca { i64, i64 }, align 8
-  %"57_0" = alloca { { i64, i64 }, i64 }, align 8
-  %"58_0" = alloca i64, align 8
-  %"58_1" = alloca { i64, i64 }, align 8
-  %"66_0" = alloca {}, align 8
-  br label %entry_block
+  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
+  %2 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %3 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %2, 1
+  %4 = extractvalue { i1, %QUBIT* } %1, 0
+  %cond = icmp eq i1 %4, true
+  br i1 %cond, label %cond_117_case_1, label %cond_117_case_0
 
-entry_block:                                      ; preds = %alloca_block
-  br label %0
-
-0:                                                ; preds = %entry_block
-  %1 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %2 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %1, 1
-  store { i1, %QUBIT* } %2, { i1, %QUBIT* }* %"116_0", align 8
-  %3 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %4 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %3, 1
-  store { i1, %QUBIT* } %4, { i1, %QUBIT* }* %"105_0", align 8
-  %"116_01" = load { i1, %QUBIT* }, { i1, %QUBIT* }* %"116_0", align 8
-  %5 = extractvalue { i1, %QUBIT* } %"116_01", 0
-  switch i1 %5, label %6 [
-    i1 true, label %7
-  ]
-
-6:                                                ; preds = %0
-  br label %cond_117_case_0
-
-7:                                                ; preds = %0
-  %8 = extractvalue { i1, %QUBIT* } %"116_01", 1
-  store %QUBIT* %8, %QUBIT** %"05", align 8
-  br label %cond_117_case_1
-
-9:                                                ; preds = %49, %67
-  %"19_029" = load i64, i64* %"19_0", align 4
-  %"19_130" = load i64, i64* %"19_1", align 4
-  %"19_231" = load %QUBIT*, %QUBIT** %"19_2", align 8
-  %"19_332" = load %QUBIT*, %QUBIT** %"19_3", align 8
-  store i64 %"19_029", i64* %"19_0", align 4
-  store i64 %"19_130", i64* %"19_1", align 4
-  store %QUBIT* %"19_231", %QUBIT** %"19_2", align 8
-  store %QUBIT* %"19_332", %QUBIT** %"19_3", align 8
-  store {} undef, {}* %"21_0", align 1
-  %"21_033" = load {}, {}* %"21_0", align 1
-  %"19_034" = load i64, i64* %"19_0", align 4
-  %"19_135" = load i64, i64* %"19_1", align 4
-  %"19_236" = load %QUBIT*, %QUBIT** %"19_2", align 8
-  %"19_337" = load %QUBIT*, %QUBIT** %"19_3", align 8
-  store {} %"21_033", {}* %"21_0", align 1
-  store i64 %"19_034", i64* %"19_0", align 4
-  store i64 %"19_135", i64* %"19_1", align 4
-  store %QUBIT* %"19_236", %QUBIT** %"19_2", align 8
-  store %QUBIT* %"19_337", %QUBIT** %"19_3", align 8
-  %"21_038" = load {}, {}* %"21_0", align 1
-  %"19_039" = load i64, i64* %"19_0", align 4
-  %"19_140" = load i64, i64* %"19_1", align 4
-  %"19_241" = load %QUBIT*, %QUBIT** %"19_2", align 8
-  %"19_342" = load %QUBIT*, %QUBIT** %"19_3", align 8
-  switch i1 false, label %10 [
-  ]
-
-10:                                               ; preds = %9
-  store i64 %"19_039", i64* %"23_0", align 4
-  store i64 %"19_140", i64* %"23_1", align 4
-  store %QUBIT* %"19_241", %QUBIT** %"23_2", align 8
-  store %QUBIT* %"19_342", %QUBIT** %"23_3", align 8
-  br label %11
-
-11:                                               ; preds = %10
-  %"23_043" = load i64, i64* %"23_0", align 4
-  %"23_144" = load i64, i64* %"23_1", align 4
-  %"23_245" = load %QUBIT*, %QUBIT** %"23_2", align 8
-  %"23_346" = load %QUBIT*, %QUBIT** %"23_3", align 8
-  store i64 %"23_043", i64* %"23_0", align 4
-  store i64 %"23_144", i64* %"23_1", align 4
-  store %QUBIT* %"23_245", %QUBIT** %"23_2", align 8
-  store %QUBIT* %"23_346", %QUBIT** %"23_3", align 8
-  %"23_047" = load i64, i64* %"23_0", align 4
-  %"23_148" = load i64, i64* %"23_1", align 4
-  %12 = insertvalue { i64, i64 } poison, i64 %"23_047", 0
-  %13 = insertvalue { i64, i64 } %12, i64 %"23_148", 1
-  store { i64, i64 } %13, { i64, i64 }* %"28_0", align 4
-  %"28_049" = load { i64, i64 }, { i64, i64 }* %"28_0", align 4
-  %14 = call { i1, { i64, i64 } } @__hugr__.__hasnext__.25({ i64, i64 } %"28_049")
-  %15 = extractvalue { i1, { i64, i64 } } %14, 0
-  %16 = extractvalue { i1, { i64, i64 } } %14, 1
-  store i1 %15, i1* %"29_0", align 1
-  store { i64, i64 } %16, { i64, i64 }* %"29_1", align 4
-  %"29_050" = load i1, i1* %"29_0", align 1
-  %"29_151" = load { i64, i64 }, { i64, i64 }* %"29_1", align 4
-  %17 = insertvalue { { i64, i64 }, i1 } poison, i1 %"29_050", 1
-  %18 = insertvalue { { i64, i64 }, i1 } %17, { i64, i64 } %"29_151", 0
-  store { { i64, i64 }, i1 } %18, { { i64, i64 }, i1 }* %"30_0", align 4
-  %"30_052" = load { { i64, i64 }, i1 }, { { i64, i64 }, i1 }* %"30_0", align 4
-  %19 = extractvalue { { i64, i64 }, i1 } %"30_052", 1
-  %20 = extractvalue { { i64, i64 }, i1 } %"30_052", 0
-  store i1 %19, i1* %"31_0", align 1
-  store { i64, i64 } %20, { i64, i64 }* %"31_1", align 4
-  %"31_153" = load { i64, i64 }, { i64, i64 }* %"31_1", align 4
-  %21 = extractvalue { i64, i64 } %"31_153", 0
-  %22 = extractvalue { i64, i64 } %"31_153", 1
-  store i64 %21, i64* %"32_0", align 4
-  store i64 %22, i64* %"32_1", align 4
-  %"31_054" = load i1, i1* %"31_0", align 1
-  %"32_055" = load i64, i64* %"32_0", align 4
-  %"32_156" = load i64, i64* %"32_1", align 4
-  %"23_257" = load %QUBIT*, %QUBIT** %"23_2", align 8
-  %"23_358" = load %QUBIT*, %QUBIT** %"23_3", align 8
-  store i1 %"31_054", i1* %"31_0", align 1
-  store i64 %"32_055", i64* %"32_0", align 4
-  store i64 %"32_156", i64* %"32_1", align 4
-  store %QUBIT* %"23_257", %QUBIT** %"23_2", align 8
-  store %QUBIT* %"23_358", %QUBIT** %"23_3", align 8
-  %"31_059" = load i1, i1* %"31_0", align 1
-  %"32_060" = load i64, i64* %"32_0", align 4
-  %"32_161" = load i64, i64* %"32_1", align 4
-  %"23_262" = load %QUBIT*, %QUBIT** %"23_2", align 8
-  %"23_363" = load %QUBIT*, %QUBIT** %"23_3", align 8
-  switch i1 %"31_059", label %23 [
-    i1 true, label %24
-  ]
-
-23:                                               ; preds = %11
-  store i64 %"32_060", i64* %"64_0", align 4
-  store i64 %"32_161", i64* %"64_1", align 4
-  store %QUBIT* %"23_262", %QUBIT** %"64_2", align 8
-  store %QUBIT* %"23_363", %QUBIT** %"64_3", align 8
-  br label %50
-
-24:                                               ; preds = %11
-  store i64 %"32_060", i64* %"50_0", align 4
-  store i64 %"32_161", i64* %"50_1", align 4
-  store %QUBIT* %"23_262", %QUBIT** %"50_2", align 8
-  store %QUBIT* %"23_363", %QUBIT** %"50_3", align 8
-  br label %37
-
-25:                                               ; preds = %51
-  %"34_064" = load i64, i64* %"34_0", align 4
-  %"34_165" = load i64, i64* %"34_1", align 4
-  %"34_266" = load %QUBIT*, %QUBIT** %"34_2", align 8
-  %"34_367" = load %QUBIT*, %QUBIT** %"34_3", align 8
-  store i64 %"34_064", i64* %"34_0", align 4
-  store i64 %"34_165", i64* %"34_1", align 4
-  store %QUBIT* %"34_266", %QUBIT** %"34_2", align 8
-  store %QUBIT* %"34_367", %QUBIT** %"34_3", align 8
-  %"34_368" = load %QUBIT*, %QUBIT** %"34_3", align 8
-  %26 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"34_368")
-  %27 = call i1 @__quantum__qis__read_result__body(%RESULT* %26)
-  %28 = select i1 %27, i1 true, i1 false
-  store i1 %28, i1* %"139_0", align 1
-  %"34_269" = load %QUBIT*, %QUBIT** %"34_2", align 8
-  %29 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"34_269")
-  %30 = call i1 @__quantum__qis__read_result__body(%RESULT* %29)
-  %31 = select i1 %30, i1 true, i1 false
-  store i1 %31, i1* %"136_0", align 1
-  store {} undef, {}* %"48_0", align 1
-  store {} undef, {}* %"47_0", align 1
-  store {} undef, {}* %"44_0", align 1
-  store {} undef, {}* %"41_0", align 1
-  %"34_070" = load i64, i64* %"34_0", align 4
-  %"34_171" = load i64, i64* %"34_1", align 4
-  %32 = insertvalue { i64, i64 } poison, i64 %"34_070", 0
-  %33 = insertvalue { i64, i64 } %32, i64 %"34_171", 1
-  store { i64, i64 } %33, { i64, i64 }* %"39_0", align 4
-  %"39_072" = load { i64, i64 }, { i64, i64 }* %"39_0", align 4
-  call void @__hugr__.__end__.36({ i64, i64 } %"39_072")
-  %"139_073" = load i1, i1* %"139_0", align 1
-  %34 = select i1 %"139_073", i1 true, i1 false
-  store i1 %34, i1* %"140_0", align 1
-  %"140_074" = load i1, i1* %"140_0", align 1
-  call void @__quantum__rt__bool_record_output(i1 %"140_074", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
-  %"136_075" = load i1, i1* %"136_0", align 1
-  %35 = select i1 %"136_075", i1 true, i1 false
-  store i1 %35, i1* %"137_0", align 1
-  %"137_076" = load i1, i1* %"137_0", align 1
-  call void @__quantum__rt__bool_record_output(i1 %"137_076", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
-  %"48_077" = load {}, {}* %"48_0", align 1
-  store {} %"48_077", {}* %"48_0", align 1
-  %"48_078" = load {}, {}* %"48_0", align 1
-  switch i1 false, label %36 [
-  ]
-
-36:                                               ; preds = %25
-  br label %52
-
-37:                                               ; preds = %24
-  %"50_079" = load i64, i64* %"50_0", align 4
-  %"50_180" = load i64, i64* %"50_1", align 4
-  %"50_281" = load %QUBIT*, %QUBIT** %"50_2", align 8
-  %"50_382" = load %QUBIT*, %QUBIT** %"50_3", align 8
-  store i64 %"50_079", i64* %"50_0", align 4
-  store i64 %"50_180", i64* %"50_1", align 4
-  store %QUBIT* %"50_281", %QUBIT** %"50_2", align 8
-  store %QUBIT* %"50_382", %QUBIT** %"50_3", align 8
-  store double 0xBFF921FB54442D18, double* %"132_0", align 8
-  store double 0x3FF921FB54442D18, double* %"130_0", align 8
-  %"50_283" = load %QUBIT*, %QUBIT** %"50_2", align 8
-  %"130_084" = load double, double* %"130_0", align 8
-  %"132_085" = load double, double* %"132_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"130_084", double %"132_085", %QUBIT* %"50_283")
-  store %QUBIT* %"50_283", %QUBIT** %"133_0", align 8
-  store double 0x400921FB54442D18, double* %"128_0", align 8
-  %"133_086" = load %QUBIT*, %QUBIT** %"133_0", align 8
-  %"128_087" = load double, double* %"128_0", align 8
-  call void @__quantum__qis__rz__body(double %"128_087", %QUBIT* %"133_086")
-  store %QUBIT* %"133_086", %QUBIT** %"134_0", align 8
-  store {} undef, {}* %"62_0", align 1
-  store {} undef, {}* %"61_0", align 1
-  %"50_088" = load i64, i64* %"50_0", align 4
-  %"50_189" = load i64, i64* %"50_1", align 4
-  %38 = insertvalue { i64, i64 } poison, i64 %"50_088", 0
-  %39 = insertvalue { i64, i64 } %38, i64 %"50_189", 1
-  store { i64, i64 } %39, { i64, i64 }* %"55_0", align 4
-  %"55_090" = load { i64, i64 }, { i64, i64 }* %"55_0", align 4
-  %40 = call { i64, { i64, i64 } } @__hugr__.__next__.52({ i64, i64 } %"55_090")
-  %41 = extractvalue { i64, { i64, i64 } } %40, 0
-  %42 = extractvalue { i64, { i64, i64 } } %40, 1
-  store i64 %41, i64* %"56_0", align 4
-  store { i64, i64 } %42, { i64, i64 }* %"56_1", align 4
-  %"56_091" = load i64, i64* %"56_0", align 4
-  %"56_192" = load { i64, i64 }, { i64, i64 }* %"56_1", align 4
-  %43 = insertvalue { { i64, i64 }, i64 } poison, i64 %"56_091", 1
-  %44 = insertvalue { { i64, i64 }, i64 } %43, { i64, i64 } %"56_192", 0
-  store { { i64, i64 }, i64 } %44, { { i64, i64 }, i64 }* %"57_0", align 4
-  %"57_093" = load { { i64, i64 }, i64 }, { { i64, i64 }, i64 }* %"57_0", align 4
-  %45 = extractvalue { { i64, i64 }, i64 } %"57_093", 1
-  %46 = extractvalue { { i64, i64 }, i64 } %"57_093", 0
-  store i64 %45, i64* %"58_0", align 4
-  store { i64, i64 } %46, { i64, i64 }* %"58_1", align 4
-  %"58_194" = load { i64, i64 }, { i64, i64 }* %"58_1", align 4
-  %47 = extractvalue { i64, i64 } %"58_194", 0
-  %48 = extractvalue { i64, i64 } %"58_194", 1
-  store i64 %47, i64* %"59_0", align 4
-  store i64 %48, i64* %"59_1", align 4
-  %"62_095" = load {}, {}* %"62_0", align 1
-  %"59_096" = load i64, i64* %"59_0", align 4
-  %"59_197" = load i64, i64* %"59_1", align 4
-  %"134_098" = load %QUBIT*, %QUBIT** %"134_0", align 8
-  %"50_399" = load %QUBIT*, %QUBIT** %"50_3", align 8
-  store {} %"62_095", {}* %"62_0", align 1
-  store i64 %"59_096", i64* %"59_0", align 4
-  store i64 %"59_197", i64* %"59_1", align 4
-  store %QUBIT* %"134_098", %QUBIT** %"134_0", align 8
-  store %QUBIT* %"50_399", %QUBIT** %"50_3", align 8
-  %"62_0100" = load {}, {}* %"62_0", align 1
-  %"59_0101" = load i64, i64* %"59_0", align 4
-  %"59_1102" = load i64, i64* %"59_1", align 4
-  %"134_0103" = load %QUBIT*, %QUBIT** %"134_0", align 8
-  %"50_3104" = load %QUBIT*, %QUBIT** %"50_3", align 8
-  switch i1 false, label %49 [
-  ]
-
-49:                                               ; preds = %37
-  store i64 %"59_0101", i64* %"19_0", align 4
-  store i64 %"59_1102", i64* %"19_1", align 4
-  store %QUBIT* %"134_0103", %QUBIT** %"19_2", align 8
-  store %QUBIT* %"50_3104", %QUBIT** %"19_3", align 8
-  br label %9
-
-50:                                               ; preds = %23
-  %"64_0105" = load i64, i64* %"64_0", align 4
-  %"64_1106" = load i64, i64* %"64_1", align 4
-  %"64_2107" = load %QUBIT*, %QUBIT** %"64_2", align 8
-  %"64_3108" = load %QUBIT*, %QUBIT** %"64_3", align 8
-  store i64 %"64_0105", i64* %"64_0", align 4
-  store i64 %"64_1106", i64* %"64_1", align 4
-  store %QUBIT* %"64_2107", %QUBIT** %"64_2", align 8
-  store %QUBIT* %"64_3108", %QUBIT** %"64_3", align 8
-  store {} undef, {}* %"66_0", align 1
-  %"66_0109" = load {}, {}* %"66_0", align 1
-  %"64_0110" = load i64, i64* %"64_0", align 4
-  %"64_1111" = load i64, i64* %"64_1", align 4
-  %"64_2112" = load %QUBIT*, %QUBIT** %"64_2", align 8
-  %"64_3113" = load %QUBIT*, %QUBIT** %"64_3", align 8
-  store {} %"66_0109", {}* %"66_0", align 1
-  store i64 %"64_0110", i64* %"64_0", align 4
-  store i64 %"64_1111", i64* %"64_1", align 4
-  store %QUBIT* %"64_2112", %QUBIT** %"64_2", align 8
-  store %QUBIT* %"64_3113", %QUBIT** %"64_3", align 8
-  %"66_0114" = load {}, {}* %"66_0", align 1
-  %"64_0115" = load i64, i64* %"64_0", align 4
-  %"64_1116" = load i64, i64* %"64_1", align 4
-  %"64_2117" = load %QUBIT*, %QUBIT** %"64_2", align 8
-  %"64_3118" = load %QUBIT*, %QUBIT** %"64_3", align 8
-  switch i1 false, label %51 [
-  ]
-
-51:                                               ; preds = %50
-  store i64 %"64_0115", i64* %"34_0", align 4
-  store i64 %"64_1116", i64* %"34_1", align 4
-  store %QUBIT* %"64_2117", %QUBIT** %"34_2", align 8
-  store %QUBIT* %"64_3118", %QUBIT** %"34_3", align 8
-  br label %25
-
-52:                                               ; preds = %36
-  ret void
-
-cond_117_case_0:                                  ; preds = %6
-  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, { i32, i8* }* %"122_0", align 8
-  %"122_03" = load { i32, i8* }, { i32, i8* }* %"122_0", align 8
-  %53 = extractvalue { i32, i8* } %"122_03", 0
-  %54 = extractvalue { i32, i8* } %"122_03", 1
-  %55 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %53, i8* %54)
-  call void @abort()
-  store %QUBIT* null, %QUBIT** %"123_0", align 8
-  %"123_04" = load %QUBIT*, %QUBIT** %"123_0", align 8
-  store %QUBIT* %"123_04", %QUBIT** %"0", align 8
+cond_117_case_1:                                  ; preds = %alloca_block
+  %5 = extractvalue { i1, %QUBIT* } %1, 1
   br label %cond_exit_117
 
-cond_117_case_1:                                  ; preds = %7
-  %"06" = load %QUBIT*, %QUBIT** %"05", align 8
-  store %QUBIT* %"06", %QUBIT** %"125_0", align 8
-  %"125_07" = load %QUBIT*, %QUBIT** %"125_0", align 8
-  store %QUBIT* %"125_07", %QUBIT** %"0", align 8
+6:                                                ; preds = %18, %cond_exit_106
+  %"19_1.0" = phi i64 [ %51, %cond_exit_106 ], [ %28, %18 ]
+  %"19_0.0" = phi i64 [ %50, %cond_exit_106 ], [ %27, %18 ]
+  %7 = insertvalue { i64, i64 } poison, i64 %"19_0.0", 0
+  %8 = insertvalue { i64, i64 } %7, i64 %"19_1.0", 1
+  %9 = call { i1, { i64, i64 } } @__hugr__.__hasnext__.25({ i64, i64 } %8)
+  %10 = extractvalue { i1, { i64, i64 } } %9, 0
+  %11 = extractvalue { i1, { i64, i64 } } %9, 1
+  %12 = insertvalue { { i64, i64 }, i1 } poison, i1 %10, 1
+  %13 = insertvalue { { i64, i64 }, i1 } %12, { i64, i64 } %11, 0
+  %14 = extractvalue { { i64, i64 }, i1 } %13, 1
+  %15 = extractvalue { { i64, i64 }, i1 } %13, 0
+  %16 = extractvalue { i64, i64 } %15, 0
+  %17 = extractvalue { i64, i64 } %15, 1
+  %cond120 = icmp eq i1 %14, true
+  br i1 %cond120, label %18, label %29
+
+18:                                               ; preds = %6
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"09.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"09.0")
+  %19 = insertvalue { i64, i64 } poison, i64 %16, 0
+  %20 = insertvalue { i64, i64 } %19, i64 %17, 1
+  %21 = call { i64, { i64, i64 } } @__hugr__.__next__.52({ i64, i64 } %20)
+  %22 = extractvalue { i64, { i64, i64 } } %21, 0
+  %23 = extractvalue { i64, { i64, i64 } } %21, 1
+  %24 = insertvalue { { i64, i64 }, i64 } poison, i64 %22, 1
+  %25 = insertvalue { { i64, i64 }, i64 } %24, { i64, i64 } %23, 0
+  %26 = extractvalue { { i64, i64 }, i64 } %25, 0
+  %27 = extractvalue { i64, i64 } %26, 0
+  %28 = extractvalue { i64, i64 } %26, 1
+  br label %6
+
+29:                                               ; preds = %6
+  %30 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
+  %31 = call i1 @__quantum__qis__read_result__body(%RESULT* %30)
+  %32 = select i1 %31, i1 true, i1 false
+  %33 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"09.0")
+  %34 = call i1 @__quantum__qis__read_result__body(%RESULT* %33)
+  %35 = select i1 %34, i1 true, i1 false
+  %36 = insertvalue { i64, i64 } poison, i64 %16, 0
+  %37 = insertvalue { i64, i64 } %36, i64 %17, 1
+  call void @__hugr__.__end__.36({ i64, i64 } %37)
+  %38 = select i1 %32, i1 true, i1 false
+  call void @__quantum__rt__bool_record_output(i1 %38, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
+  %39 = select i1 %35, i1 true, i1 false
+  call void @__quantum__rt__bool_record_output(i1 %39, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
+  ret void
+
+cond_117_case_0:                                  ; preds = %alloca_block
+  %40 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
+  %41 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
+  %42 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %40, i8* %41)
+  call void @abort()
   br label %cond_exit_117
 
 cond_exit_117:                                    ; preds = %cond_117_case_1, %cond_117_case_0
-  %"02" = load %QUBIT*, %QUBIT** %"0", align 8
-  store %QUBIT* %"02", %QUBIT** %"117_0", align 8
-  %"105_08" = load { i1, %QUBIT* }, { i1, %QUBIT* }* %"105_0", align 8
-  %56 = extractvalue { i1, %QUBIT* } %"105_08", 0
-  switch i1 %56, label %57 [
-    i1 true, label %58
-  ]
+  %"0.0" = phi %QUBIT* [ null, %cond_117_case_0 ], [ %5, %cond_117_case_1 ]
+  %43 = extractvalue { i1, %QUBIT* } %3, 0
+  %cond119 = icmp eq i1 %43, true
+  br i1 %cond119, label %cond_106_case_1, label %cond_106_case_0
 
-57:                                               ; preds = %cond_exit_117
-  br label %cond_106_case_0
-
-58:                                               ; preds = %cond_exit_117
-  %59 = extractvalue { i1, %QUBIT* } %"105_08", 1
-  store %QUBIT* %59, %QUBIT** %"013", align 8
-  br label %cond_106_case_1
-
-cond_106_case_0:                                  ; preds = %57
-  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, { i32, i8* }* %"111_0", align 8
-  %"111_011" = load { i32, i8* }, { i32, i8* }* %"111_0", align 8
-  %60 = extractvalue { i32, i8* } %"111_011", 0
-  %61 = extractvalue { i32, i8* } %"111_011", 1
-  %62 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %60, i8* %61)
-  call void @abort()
-  store %QUBIT* null, %QUBIT** %"112_0", align 8
-  %"112_012" = load %QUBIT*, %QUBIT** %"112_0", align 8
-  store %QUBIT* %"112_012", %QUBIT** %"09", align 8
+cond_106_case_1:                                  ; preds = %cond_exit_117
+  %44 = extractvalue { i1, %QUBIT* } %3, 1
   br label %cond_exit_106
 
-cond_106_case_1:                                  ; preds = %58
-  %"014" = load %QUBIT*, %QUBIT** %"013", align 8
-  store %QUBIT* %"014", %QUBIT** %"114_0", align 8
-  %"114_015" = load %QUBIT*, %QUBIT** %"114_0", align 8
-  store %QUBIT* %"114_015", %QUBIT** %"09", align 8
+cond_106_case_0:                                  ; preds = %cond_exit_117
+  %45 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 0
+  %46 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 1
+  %47 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %45, i8* %46)
+  call void @abort()
   br label %cond_exit_106
 
 cond_exit_106:                                    ; preds = %cond_106_case_1, %cond_106_case_0
-  %"010" = load %QUBIT*, %QUBIT** %"09", align 8
-  store %QUBIT* %"010", %QUBIT** %"106_0", align 8
-  store {} undef, {}* %"17_0", align 1
-  store i64 10, i64* %"14_0", align 4
-  store i64 0, i64* %"12_0", align 4
-  %"12_016" = load i64, i64* %"12_0", align 4
-  %"14_017" = load i64, i64* %"14_0", align 4
-  %63 = insertvalue { i64, i64 } poison, i64 %"12_016", 0
-  %64 = insertvalue { i64, i64 } %63, i64 %"14_017", 1
-  store { i64, i64 } %64, { i64, i64 }* %"15_0", align 4
-  %"15_018" = load { i64, i64 }, { i64, i64 }* %"15_0", align 4
-  %65 = extractvalue { i64, i64 } %"15_018", 0
-  %66 = extractvalue { i64, i64 } %"15_018", 1
-  store i64 %65, i64* %"16_0", align 4
-  store i64 %66, i64* %"16_1", align 4
-  %"17_019" = load {}, {}* %"17_0", align 1
-  %"16_020" = load i64, i64* %"16_0", align 4
-  %"16_121" = load i64, i64* %"16_1", align 4
-  %"106_022" = load %QUBIT*, %QUBIT** %"106_0", align 8
-  %"117_023" = load %QUBIT*, %QUBIT** %"117_0", align 8
-  store {} %"17_019", {}* %"17_0", align 1
-  store i64 %"16_020", i64* %"16_0", align 4
-  store i64 %"16_121", i64* %"16_1", align 4
-  store %QUBIT* %"106_022", %QUBIT** %"106_0", align 8
-  store %QUBIT* %"117_023", %QUBIT** %"117_0", align 8
-  %"17_024" = load {}, {}* %"17_0", align 1
-  %"16_025" = load i64, i64* %"16_0", align 4
-  %"16_126" = load i64, i64* %"16_1", align 4
-  %"106_027" = load %QUBIT*, %QUBIT** %"106_0", align 8
-  %"117_028" = load %QUBIT*, %QUBIT** %"117_0", align 8
-  switch i1 false, label %67 [
-  ]
-
-67:                                               ; preds = %cond_exit_106
-  store i64 %"16_025", i64* %"19_0", align 4
-  store i64 %"16_126", i64* %"19_1", align 4
-  store %QUBIT* %"106_027", %QUBIT** %"19_2", align 8
-  store %QUBIT* %"117_028", %QUBIT** %"19_3", align 8
-  br label %9
+  %"09.0" = phi %QUBIT* [ null, %cond_106_case_0 ], [ %44, %cond_106_case_1 ]
+  %48 = insertvalue { i64, i64 } poison, i64 0, 0
+  %49 = insertvalue { i64, i64 } %48, i64 10, 1
+  %50 = extractvalue { i64, i64 } %49, 0
+  %51 = extractvalue { i64, i64 } %49, 1
+  br label %6
 }
 
 declare %QUBIT* @__quantum__rt__qubit_allocate()
@@ -486,89 +118,18 @@ declare void @abort()
 
 define { i1, { i64, i64 } } @__hugr__.__hasnext__.25({ i64, i64 } %0) {
 alloca_block:
-  %"0" = alloca i1, align 1
-  %"1" = alloca { i64, i64 }, align 8
-  %"26_0" = alloca { i64, i64 }, align 8
-  %"80_0" = alloca i1, align 1
-  %"80_1" = alloca { i64, i64 }, align 8
-  %"82_0" = alloca { i64, i64 }, align 8
-  %"02" = alloca i1, align 1
-  %"13" = alloca { i64, i64 }, align 8
-  %"90_0" = alloca {}, align 8
-  %"89_0" = alloca i1, align 1
-  %"89_1" = alloca { i64, i64 }, align 8
-  %"85_0" = alloca i64, align 8
-  %"85_1" = alloca i64, align 8
-  %"87_0" = alloca { i64, i64 }, align 8
-  %"86_0" = alloca i1, align 1
-  %"88_0" = alloca { { i64, i64 }, i1 }, align 8
-  br label %entry_block
-
-entry_block:                                      ; preds = %alloca_block
-  store { i64, i64 } %0, { i64, i64 }* %"26_0", align 4
-  %"26_01" = load { i64, i64 }, { i64, i64 }* %"26_0", align 4
-  store { i64, i64 } %"26_01", { i64, i64 }* %"82_0", align 4
-  br label %1
-
-1:                                                ; preds = %entry_block
-  %"82_04" = load { i64, i64 }, { i64, i64 }* %"82_0", align 4
-  store { i64, i64 } %"82_04", { i64, i64 }* %"82_0", align 4
-  store {} undef, {}* %"90_0", align 1
-  %"82_05" = load { i64, i64 }, { i64, i64 }* %"82_0", align 4
-  %2 = extractvalue { i64, i64 } %"82_05", 0
-  %3 = extractvalue { i64, i64 } %"82_05", 1
-  store i64 %2, i64* %"85_0", align 4
-  store i64 %3, i64* %"85_1", align 4
-  %"85_06" = load i64, i64* %"85_0", align 4
-  %"85_17" = load i64, i64* %"85_1", align 4
-  %4 = insertvalue { i64, i64 } poison, i64 %"85_06", 0
-  %5 = insertvalue { i64, i64 } %4, i64 %"85_17", 1
-  store { i64, i64 } %5, { i64, i64 }* %"87_0", align 4
-  %"85_08" = load i64, i64* %"85_0", align 4
-  %"85_19" = load i64, i64* %"85_1", align 4
-  %6 = icmp slt i64 %"85_08", %"85_19"
-  %7 = select i1 %6, i1 true, i1 false
-  store i1 %7, i1* %"86_0", align 1
-  %"86_010" = load i1, i1* %"86_0", align 1
-  %"87_011" = load { i64, i64 }, { i64, i64 }* %"87_0", align 4
-  %8 = insertvalue { { i64, i64 }, i1 } poison, i1 %"86_010", 1
-  %9 = insertvalue { { i64, i64 }, i1 } %8, { i64, i64 } %"87_011", 0
-  store { { i64, i64 }, i1 } %9, { { i64, i64 }, i1 }* %"88_0", align 4
-  %"88_012" = load { { i64, i64 }, i1 }, { { i64, i64 }, i1 }* %"88_0", align 4
-  %10 = extractvalue { { i64, i64 }, i1 } %"88_012", 1
-  %11 = extractvalue { { i64, i64 }, i1 } %"88_012", 0
-  store i1 %10, i1* %"89_0", align 1
-  store { i64, i64 } %11, { i64, i64 }* %"89_1", align 4
-  %"90_013" = load {}, {}* %"90_0", align 1
-  %"89_014" = load i1, i1* %"89_0", align 1
-  %"89_115" = load { i64, i64 }, { i64, i64 }* %"89_1", align 4
-  store {} %"90_013", {}* %"90_0", align 1
-  store i1 %"89_014", i1* %"89_0", align 1
-  store { i64, i64 } %"89_115", { i64, i64 }* %"89_1", align 4
-  %"90_016" = load {}, {}* %"90_0", align 1
-  %"89_017" = load i1, i1* %"89_0", align 1
-  %"89_118" = load { i64, i64 }, { i64, i64 }* %"89_1", align 4
-  switch i1 false, label %12 [
-  ]
-
-12:                                               ; preds = %1
-  store i1 %"89_017", i1* %"02", align 1
-  store { i64, i64 } %"89_118", { i64, i64 }* %"13", align 4
-  br label %13
-
-13:                                               ; preds = %12
-  %"019" = load i1, i1* %"02", align 1
-  %"120" = load { i64, i64 }, { i64, i64 }* %"13", align 4
-  store i1 %"019", i1* %"80_0", align 1
-  store { i64, i64 } %"120", { i64, i64 }* %"80_1", align 4
-  %"80_021" = load i1, i1* %"80_0", align 1
-  %"80_122" = load { i64, i64 }, { i64, i64 }* %"80_1", align 4
-  store i1 %"80_021", i1* %"0", align 1
-  store { i64, i64 } %"80_122", { i64, i64 }* %"1", align 4
-  %"023" = load i1, i1* %"0", align 1
-  %"124" = load { i64, i64 }, { i64, i64 }* %"1", align 4
-  %mrv = insertvalue { i1, { i64, i64 } } undef, i1 %"023", 0
-  %mrv25 = insertvalue { i1, { i64, i64 } } %mrv, { i64, i64 } %"124", 1
+  %1 = extractvalue { i64, i64 } %0, 0
+  %2 = extractvalue { i64, i64 } %0, 1
+  %3 = insertvalue { i64, i64 } poison, i64 %1, 0
+  %4 = insertvalue { i64, i64 } %3, i64 %2, 1
+  %5 = icmp slt i64 %1, %2
+  %6 = select i1 %5, i1 true, i1 false
+  %7 = insertvalue { { i64, i64 }, i1 } poison, i1 %6, 1
+  %8 = insertvalue { { i64, i64 }, i1 } %7, { i64, i64 } %4, 0
+  %9 = extractvalue { { i64, i64 }, i1 } %8, 1
+  %10 = extractvalue { { i64, i64 }, i1 } %8, 0
+  %mrv = insertvalue { i1, { i64, i64 } } undef, i1 %9, 0
+  %mrv25 = insertvalue { i1, { i64, i64 } } %mrv, { i64, i64 } %10, 1
   ret { i1, { i64, i64 } } %mrv25
 }
 
@@ -578,38 +139,6 @@ declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
 define void @__hugr__.__end__.36({ i64, i64 } %0) {
 alloca_block:
-  %"37_0" = alloca { i64, i64 }, align 8
-  %"93_0" = alloca { i64, i64 }, align 8
-  %"97_0" = alloca {}, align 8
-  %"96_0" = alloca i64, align 8
-  %"96_1" = alloca i64, align 8
-  br label %entry_block
-
-entry_block:                                      ; preds = %alloca_block
-  store { i64, i64 } %0, { i64, i64 }* %"37_0", align 4
-  %"37_01" = load { i64, i64 }, { i64, i64 }* %"37_0", align 4
-  store { i64, i64 } %"37_01", { i64, i64 }* %"93_0", align 4
-  br label %1
-
-1:                                                ; preds = %entry_block
-  %"93_02" = load { i64, i64 }, { i64, i64 }* %"93_0", align 4
-  store { i64, i64 } %"93_02", { i64, i64 }* %"93_0", align 4
-  store {} undef, {}* %"97_0", align 1
-  %"93_03" = load { i64, i64 }, { i64, i64 }* %"93_0", align 4
-  %2 = extractvalue { i64, i64 } %"93_03", 0
-  %3 = extractvalue { i64, i64 } %"93_03", 1
-  store i64 %2, i64* %"96_0", align 4
-  store i64 %3, i64* %"96_1", align 4
-  %"97_04" = load {}, {}* %"97_0", align 1
-  store {} %"97_04", {}* %"97_0", align 1
-  %"97_05" = load {}, {}* %"97_0", align 1
-  switch i1 false, label %4 [
-  ]
-
-4:                                                ; preds = %1
-  br label %5
-
-5:                                                ; preds = %4
   ret void
 }
 
@@ -621,89 +150,16 @@ declare void @__quantum__qis__rz__body(double, %QUBIT*)
 
 define { i64, { i64, i64 } } @__hugr__.__next__.52({ i64, i64 } %0) {
 alloca_block:
-  %"0" = alloca i64, align 8
-  %"1" = alloca { i64, i64 }, align 8
-  %"53_0" = alloca { i64, i64 }, align 8
-  %"67_0" = alloca i64, align 8
-  %"67_1" = alloca { i64, i64 }, align 8
-  %"69_0" = alloca { i64, i64 }, align 8
-  %"02" = alloca i64, align 8
-  %"13" = alloca { i64, i64 }, align 8
-  %"79_0" = alloca {}, align 8
-  %"78_0" = alloca i64, align 8
-  %"78_1" = alloca { i64, i64 }, align 8
-  %"74_0" = alloca i64, align 8
-  %"72_0" = alloca i64, align 8
-  %"72_1" = alloca i64, align 8
-  %"75_0" = alloca i64, align 8
-  %"76_0" = alloca { i64, i64 }, align 8
-  %"77_0" = alloca { { i64, i64 }, i64 }, align 8
-  br label %entry_block
-
-entry_block:                                      ; preds = %alloca_block
-  store { i64, i64 } %0, { i64, i64 }* %"53_0", align 4
-  %"53_01" = load { i64, i64 }, { i64, i64 }* %"53_0", align 4
-  store { i64, i64 } %"53_01", { i64, i64 }* %"69_0", align 4
-  br label %1
-
-1:                                                ; preds = %entry_block
-  %"69_04" = load { i64, i64 }, { i64, i64 }* %"69_0", align 4
-  store { i64, i64 } %"69_04", { i64, i64 }* %"69_0", align 4
-  store {} undef, {}* %"79_0", align 1
-  store i64 1, i64* %"74_0", align 4
-  %"69_05" = load { i64, i64 }, { i64, i64 }* %"69_0", align 4
-  %2 = extractvalue { i64, i64 } %"69_05", 0
-  %3 = extractvalue { i64, i64 } %"69_05", 1
-  store i64 %2, i64* %"72_0", align 4
-  store i64 %3, i64* %"72_1", align 4
-  %"72_06" = load i64, i64* %"72_0", align 4
-  %"74_07" = load i64, i64* %"74_0", align 4
-  %4 = add i64 %"72_06", %"74_07"
-  store i64 %4, i64* %"75_0", align 4
-  %"75_08" = load i64, i64* %"75_0", align 4
-  %"72_19" = load i64, i64* %"72_1", align 4
-  %5 = insertvalue { i64, i64 } poison, i64 %"75_08", 0
-  %6 = insertvalue { i64, i64 } %5, i64 %"72_19", 1
-  store { i64, i64 } %6, { i64, i64 }* %"76_0", align 4
-  %"72_010" = load i64, i64* %"72_0", align 4
-  %"76_011" = load { i64, i64 }, { i64, i64 }* %"76_0", align 4
-  %7 = insertvalue { { i64, i64 }, i64 } poison, i64 %"72_010", 1
-  %8 = insertvalue { { i64, i64 }, i64 } %7, { i64, i64 } %"76_011", 0
-  store { { i64, i64 }, i64 } %8, { { i64, i64 }, i64 }* %"77_0", align 4
-  %"77_012" = load { { i64, i64 }, i64 }, { { i64, i64 }, i64 }* %"77_0", align 4
-  %9 = extractvalue { { i64, i64 }, i64 } %"77_012", 1
-  %10 = extractvalue { { i64, i64 }, i64 } %"77_012", 0
-  store i64 %9, i64* %"78_0", align 4
-  store { i64, i64 } %10, { i64, i64 }* %"78_1", align 4
-  %"79_013" = load {}, {}* %"79_0", align 1
-  %"78_014" = load i64, i64* %"78_0", align 4
-  %"78_115" = load { i64, i64 }, { i64, i64 }* %"78_1", align 4
-  store {} %"79_013", {}* %"79_0", align 1
-  store i64 %"78_014", i64* %"78_0", align 4
-  store { i64, i64 } %"78_115", { i64, i64 }* %"78_1", align 4
-  %"79_016" = load {}, {}* %"79_0", align 1
-  %"78_017" = load i64, i64* %"78_0", align 4
-  %"78_118" = load { i64, i64 }, { i64, i64 }* %"78_1", align 4
-  switch i1 false, label %11 [
-  ]
-
-11:                                               ; preds = %1
-  store i64 %"78_017", i64* %"02", align 4
-  store { i64, i64 } %"78_118", { i64, i64 }* %"13", align 4
-  br label %12
-
-12:                                               ; preds = %11
-  %"019" = load i64, i64* %"02", align 4
-  %"120" = load { i64, i64 }, { i64, i64 }* %"13", align 4
-  store i64 %"019", i64* %"67_0", align 4
-  store { i64, i64 } %"120", { i64, i64 }* %"67_1", align 4
-  %"67_021" = load i64, i64* %"67_0", align 4
-  %"67_122" = load { i64, i64 }, { i64, i64 }* %"67_1", align 4
-  store i64 %"67_021", i64* %"0", align 4
-  store { i64, i64 } %"67_122", { i64, i64 }* %"1", align 4
-  %"023" = load i64, i64* %"0", align 4
-  %"124" = load { i64, i64 }, { i64, i64 }* %"1", align 4
-  %mrv = insertvalue { i64, { i64, i64 } } undef, i64 %"023", 0
-  %mrv25 = insertvalue { i64, { i64, i64 } } %mrv, { i64, i64 } %"124", 1
+  %1 = extractvalue { i64, i64 } %0, 0
+  %2 = extractvalue { i64, i64 } %0, 1
+  %3 = add i64 %1, 1
+  %4 = insertvalue { i64, i64 } poison, i64 %3, 0
+  %5 = insertvalue { i64, i64 } %4, i64 %2, 1
+  %6 = insertvalue { { i64, i64 }, i64 } poison, i64 %1, 1
+  %7 = insertvalue { { i64, i64 }, i64 } %6, { i64, i64 } %5, 0
+  %8 = extractvalue { { i64, i64 }, i64 } %7, 1
+  %9 = extractvalue { { i64, i64 }, i64 } %7, 0
+  %mrv = insertvalue { i64, { i64, i64 } } undef, i64 %8, 0
+  %mrv25 = insertvalue { i64, { i64, i64 } } %mrv, { i64, i64 } %9, 1
   ret { i64, { i64, i64 } } %mrv25
 }

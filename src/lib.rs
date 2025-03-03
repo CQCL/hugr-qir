@@ -13,6 +13,7 @@ use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
+use inkwell::passes::PassManager;
 
 pub mod cli;
 pub mod qir;
@@ -84,6 +85,19 @@ impl CompileArgs {
         Ok(())
     }
 
+    /// Some standard LLVM optimizations
+    pub fn optimize_module(&self, module: &inkwell::module::Module) {
+        let pb = PassManager::create(());
+        pb.add_promote_memory_to_register_pass();
+        pb.add_scalar_repl_aggregates_pass();
+        pb.add_cfg_simplification_pass();
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        
+        pb.run_on(module);        
+    }    
+
+
     pub fn hugr_to_llvm<'c>(&self, hugr: &Hugr, context: &'c Context) -> Result<Module<'c>> {
         let extensions = self.codegen_extensions().into();
         let namer = Rc::new(Namer::new("__hugr__.", true));
@@ -94,7 +108,10 @@ impl CompileArgs {
 
     pub fn compile<'c>(&self, hugr: &mut Hugr, context: &'c Context) -> Result<Module<'c>> {
         self.hugr_to_hugr(hugr)?;
-        self.hugr_to_llvm(hugr, context)
+
+        let module = self.hugr_to_llvm(hugr, context)?;
+        self.optimize_module(&module);
+        return Ok(module);
     }
 }
 
