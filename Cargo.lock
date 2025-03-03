@@ -706,8 +706,7 @@ dependencies = [
 [[package]]
 name = "hugr"
 version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5af69a32d52fab819530faafc98957e043a0d02e81069ecd7ffc8397921e692a"
+source = "git+https://github.com/CQCL/hugr?branch=acl%2Finline_call#b32065b580c212a8a42b30b78daeb8c043a534c6"
 dependencies = [
  "hugr-core",
  "hugr-llvm",
@@ -717,8 +716,7 @@ dependencies = [
 [[package]]
 name = "hugr-cli"
 version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f5f946bedb73d49adf6fc58b85289c8324e07f6fda81106797cc8412ee7605cd"
+source = "git+https://github.com/CQCL/hugr?branch=acl%2Finline_call#b32065b580c212a8a42b30b78daeb8c043a534c6"
 dependencies = [
  "clap",
  "clap-verbosity-flag",
@@ -731,8 +729,7 @@ dependencies = [
 [[package]]
 name = "hugr-core"
 version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "aa2f4d4633b3b04bd47f5be96a41269fd36fa457c7a2349e0ccd7ed647b23145"
+source = "git+https://github.com/CQCL/hugr?branch=acl%2Finline_call#b32065b580c212a8a42b30b78daeb8c043a534c6"
 dependencies = [
  "bitvec",
  "bumpalo",
@@ -763,8 +760,7 @@ dependencies = [
 [[package]]
 name = "hugr-llvm"
 version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c1076035fb744eaa36f69021732a8e489549291c5f5cd97e29893d8b27de877"
+source = "git+https://github.com/CQCL/hugr?branch=acl%2Finline_call#b32065b580c212a8a42b30b78daeb8c043a534c6"
 dependencies = [
  "anyhow",
  "delegate",
@@ -787,8 +783,7 @@ dependencies = [
 [[package]]
 name = "hugr-passes"
 version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "238242ce58202732212e138bca2745d72588ec88b08a3d2b53b3dceead929dbd"
+source = "git+https://github.com/CQCL/hugr?branch=acl%2Finline_call#b32065b580c212a8a42b30b78daeb8c043a534c6"
 dependencies = [
  "ascent",
  "hugr-core",
@@ -815,6 +810,7 @@ dependencies = [
  "insta",
  "itertools 0.14.0",
  "lazy_static",
+ "petgraph 0.7.1",
  "pyo3",
  "rstest",
  "serde",

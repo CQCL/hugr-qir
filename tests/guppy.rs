@@ -1,7 +1,4 @@
-use std::{
-    path::Path,
-    process::{self, Command, Stdio},
-};
+use std::{env, path::Path, process::{self, Command, Stdio}};
 
 use hugr::{package::Package, std_extensions::STD_REG, Hugr};
 use hugr_llvm::inkwell;
@@ -15,13 +12,15 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         status,
         stdout,
         stderr,
-    } = Command::new("python")
+    } = Command::new(".devenv/state/venv/bin/python")
         .arg(path.as_ref())
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
         .stderr(Stdio::piped())
         .output()
         .unwrap();
+    eprintln!("{}", std::str::from_utf8(&stdout).unwrap());
+    eprintln!("{}", std::str::from_utf8(&stderr).unwrap());
     assert!(status.success());
     let hugr = Package::from_json_reader(stdout.as_slice(), &STD_REG)
         .unwrap()
@@ -58,7 +57,21 @@ fn guppy_examples(
     #[files("**/*.py")]
     file: impl AsRef<Path>,
 ) {
-    let file = file.as_ref();
+    let file2 = file.as_ref();
+    let mut settings = insta::Settings::clone_current();
+    settings.set_snapshot_suffix(file2.file_stem().unwrap().to_str().unwrap());
+    settings.bind(|| {
+        let (mut hugr, stderr) = capture_guppy(file);
+        assert_snapshot!("llvmir", compile(&mut hugr));
+        assert_snapshot!("stderr", stderr);
+    });
+}
+
+#[test]
+fn planq() {
+    //let file = std::path::PathBuf::from("/Users/travis.thompson/Develop/CQCL/hugr-qir/guppy_examples/planqc_1.py");
+    let file = std::path::PathBuf::from("guppy_examples/planqc_1.py");
+    let file: &Path = file.as_ref();
     let mut settings = insta::Settings::clone_current();
     settings.set_snapshot_suffix(file.file_stem().unwrap().to_str().unwrap());
     settings.bind(|| {

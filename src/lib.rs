@@ -8,11 +8,12 @@ use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
 use hugr::llvm::{inkwell, CodegenExtsBuilder};
-use hugr::Hugr;
+use hugr::{Hugr, HugrView};
 use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
+use crate::inline::inline;
 
 pub mod cli;
 pub mod qir;
@@ -75,6 +76,9 @@ impl CompileArgs {
             }
             pass.run(hugr)?;
         }
+        
+        let all_calls: Vec<_> = hugr.nodes().filter(|n| hugr.get_optype(*n).is_call()).collect();
+        inline(hugr,  all_calls)?;
 
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();
@@ -100,3 +104,4 @@ impl CompileArgs {
 
 #[cfg(test)]
 pub(crate) mod test;
+mod inline;
