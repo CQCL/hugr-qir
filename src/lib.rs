@@ -8,7 +8,8 @@ use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
 use hugr::llvm::{inkwell, CodegenExtsBuilder};
-use hugr::Hugr;
+use hugr::{Hugr};
+use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
@@ -89,16 +90,32 @@ impl CompileArgs {
         let namer = Rc::new(Namer::new("__hugr__.", true));
         let module = context.create_module(self.module_name().as_ref());
         let emit = EmitHugr::new(context, module, namer, extensions);
-        Ok(emit.emit_module(hugr.fat_root().unwrap())?.finish())
+        let module = emit.emit_module(hugr.fat_root().unwrap())?.finish(); 
+        add_module_metadata(&module)?;
+        Ok(module)
     }
 
     pub fn compile<'c>(&self, hugr: &mut Hugr, context: &'c Context) -> Result<Module<'c>> {
         self.hugr_to_hugr(hugr)?;
         let module = self.hugr_to_llvm(hugr, context)?;
-        self.optimize_module(&module);
         let _ = module.verify();
         return Ok(module);
     }}
+
+    pub fn add_module_metadata(module: &Module) ->  Result<()> {
+        let attributes = [
+            module.get_context().create_string_attribute("entry_point", ""),
+            module.get_context().create_string_attribute("output_labeling_schema", ""),
+            module.get_context().create_string_attribute("qir_profiles", "custom"),
+            module.get_context().create_string_attribute("required_num_qubits", "unemplemented"),
+            module.get_context().create_string_attribute("required_num_results", "unemplemented"),
+        ];
+        let fn_value = module.get_first_function().unwrap();
+        for attribute in attributes {
+            fn_value.add_attribute(AttributeLoc::Function, attribute);
+        }
+        Ok(())
+    }
 
 #[cfg(test)]
 pub(crate) mod test;

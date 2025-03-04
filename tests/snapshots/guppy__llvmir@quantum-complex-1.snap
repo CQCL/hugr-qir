@@ -21,7 +21,7 @@ source_filename = "hugr-qir"
 @5 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @6 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
-define void @__hugr__.main.1() {
+define void @__hugr__.main.1() #0 {
 alloca_block:
   %"54_0" = alloca {}, align 8
   %"69_0" = alloca { i1, %QUBIT* }, align 8
@@ -457,3 +457,5 @@ declare %RESULT* @__quantum__qis__m__body(%QUBIT*)
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
 declare void @__quantum__rt__bool_record_output(i1, i8*)
+
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="unemplemented" "required_num_results"="unemplemented" }

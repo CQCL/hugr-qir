@@ -14,7 +14,7 @@ source_filename = "hugr-qir"
 @prelude.panic_template.1 = private unnamed_addr constant [34 x i8] c"Program panicked (signal %i): %s\0A\00", align 1
 @2 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
-define void @__hugr__.main.1() {
+define void @__hugr__.main.1() #0 {
 alloca_block:
   %"17_0" = alloca %QUBIT*, align 8
   %"23_0" = alloca %QUBIT*, align 8
@@ -298,3 +298,5 @@ declare %RESULT* @__quantum__qis__m__body(%QUBIT*)
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
 declare void @__quantum__rt__bool_record_output(i1, i8*)
+
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="unemplemented" "required_num_results"="unemplemented" }
