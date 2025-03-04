@@ -94,9 +94,11 @@ impl CompileArgs {
 
     pub fn compile<'c>(&self, hugr: &mut Hugr, context: &'c Context) -> Result<Module<'c>> {
         self.hugr_to_hugr(hugr)?;
-        self.hugr_to_llvm(hugr, context)
-    }
-}
+        let module = self.hugr_to_llvm(hugr, context)?;
+        self.optimize_module(&module);
+        let _ = module.verify();
+        return Ok(module);
+    }}
 
 #[cfg(test)]
 pub(crate) mod test;
