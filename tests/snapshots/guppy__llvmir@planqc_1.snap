@@ -14,7 +14,7 @@ source_filename = "hugr-qir"
 @prelude.panic_template.1 = private unnamed_addr constant [34 x i8] c"Program panicked (signal %i): %s\0A\00", align 1
 @2 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 
-define %QUBIT* @__hugr__.rx.1(%QUBIT* %0, double %1) #0 {
+define %QUBIT* @__hugr__.rx.1(%QUBIT* %0, double %1) {
 alloca_block:
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %0)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %0)
@@ -47,7 +47,7 @@ declare i32 @printf(i8*, ...)
 
 declare void @abort()
 
-define void @__hugr__.main.20() {
+define void @__hugr__.main.20() #0 {
 alloca_block:
   %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
   %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1

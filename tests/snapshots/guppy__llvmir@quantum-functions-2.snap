@@ -15,7 +15,7 @@ source_filename = "hugr-qir"
 @2 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @3 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
-define %QUBIT* @__hugr__.fun_func.1(%QUBIT* %0) #0 {
+define %QUBIT* @__hugr__.fun_func.1(%QUBIT* %0) {
 alloca_block:
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %0)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %0)
@@ -35,7 +35,7 @@ alloca_block:
   ret { %QUBIT*, %QUBIT* } %mrv21
 }
 
-define void @__hugr__.main.25() {
+define void @__hugr__.main.25() #0 {
 alloca_block:
   %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
   %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
