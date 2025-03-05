@@ -23,421 +23,120 @@ source_filename = "hugr-qir"
 
 define void @__hugr__.main.1() #0 {
 alloca_block:
-  %"54_0" = alloca {}, align 8
-  %"69_0" = alloca { i1, %QUBIT* }, align 8
-  %"58_0" = alloca { i1, %QUBIT* }, align 8
-  %"153_0" = alloca double, align 8
-  %"148_0" = alloca double, align 8
-  %"145_0" = alloca double, align 8
-  %"140_0" = alloca double, align 8
-  %"137_0" = alloca double, align 8
-  %"126_0" = alloca double, align 8
-  %"124_0" = alloca double, align 8
-  %"122_0" = alloca double, align 8
-  %"112_0" = alloca double, align 8
-  %"110_0" = alloca double, align 8
-  %"108_0" = alloca double, align 8
-  %"105_0" = alloca double, align 8
-  %"102_0" = alloca double, align 8
-  %"100_0" = alloca double, align 8
-  %"97_0" = alloca double, align 8
-  %"95_0" = alloca double, align 8
-  %"92_0" = alloca double, align 8
-  %"89_0" = alloca double, align 8
-  %"85_0" = alloca double, align 8
-  %"83_0" = alloca double, align 8
-  %"81_0" = alloca double, align 8
-  %"70_0" = alloca %QUBIT*, align 8
-  %"0" = alloca %QUBIT*, align 8
-  %"75_0" = alloca { i32, i8* }, align 8
-  %"76_0" = alloca %QUBIT*, align 8
-  %"05" = alloca %QUBIT*, align 8
-  %"78_0" = alloca %QUBIT*, align 8
-  %"113_0" = alloca %QUBIT*, align 8
-  %"59_0" = alloca %QUBIT*, align 8
-  %"012" = alloca %QUBIT*, align 8
-  %"64_0" = alloca { i32, i8* }, align 8
-  %"65_0" = alloca %QUBIT*, align 8
-  %"016" = alloca %QUBIT*, align 8
-  %"67_0" = alloca %QUBIT*, align 8
-  %"86_0" = alloca %QUBIT*, align 8
-  %"87_0" = alloca %QUBIT*, align 8
-  %"90_0" = alloca %QUBIT*, align 8
-  %"93_0" = alloca %QUBIT*, align 8
-  %"98_0" = alloca %QUBIT*, align 8
-  %"103_0" = alloca %QUBIT*, align 8
-  %"106_0" = alloca %QUBIT*, align 8
-  %"114_0" = alloca %QUBIT*, align 8
-  %"114_1" = alloca %QUBIT*, align 8
-  %"117_0" = alloca %QUBIT*, align 8
-  %"119_0" = alloca %QUBIT*, align 8
-  %"115_0" = alloca %QUBIT*, align 8
-  %"127_0" = alloca %QUBIT*, align 8
-  %"129_0" = alloca %QUBIT*, align 8
-  %"129_1" = alloca %QUBIT*, align 8
-  %"131_0" = alloca %QUBIT*, align 8
-  %"159_0" = alloca i1, align 1
-  %"130_0" = alloca %QUBIT*, align 8
-  %"133_0" = alloca %QUBIT*, align 8
-  %"53_0" = alloca {}, align 8
-  %"50_0" = alloca {}, align 8
-  %"47_0" = alloca {}, align 8
-  %"42_0" = alloca double, align 8
-  %"43_0" = alloca double, align 8
-  %"44_0" = alloca double, align 8
-  %"45_0" = alloca double, align 8
-  %"151_0" = alloca double, align 8
-  %"154_0" = alloca double, align 8
-  %"40_0" = alloca {}, align 8
-  %"35_0" = alloca double, align 8
-  %"36_0" = alloca double, align 8
-  %"37_0" = alloca double, align 8
-  %"38_0" = alloca double, align 8
-  %"143_0" = alloca double, align 8
-  %"146_0" = alloca double, align 8
-  %"33_0" = alloca {}, align 8
-  %"28_0" = alloca double, align 8
-  %"29_0" = alloca double, align 8
-  %"30_0" = alloca double, align 8
-  %"31_0" = alloca double, align 8
-  %"135_0" = alloca double, align 8
-  %"138_0" = alloca double, align 8
-  %"141_0" = alloca %QUBIT*, align 8
-  %"149_0" = alloca %QUBIT*, align 8
-  %"155_0" = alloca %QUBIT*, align 8
-  %"157_0" = alloca i1, align 1
-  %"26_0" = alloca {}, align 8
-  %"24_0" = alloca {}, align 8
-  %"22_0" = alloca {}, align 8
-  %"20_0" = alloca {}, align 8
-  %"18_0" = alloca {}, align 8
-  %"16_0" = alloca {}, align 8
-  %"14_0" = alloca {}, align 8
-  %"12_0" = alloca {}, align 8
-  %"160_0" = alloca i1, align 1
-  %"158_0" = alloca i1, align 1
-  br label %entry_block
+  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
+  %2 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %3 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %2, 1
+  %4 = extractvalue { i1, %QUBIT* } %1, 0
+  %cond = icmp eq i1 %4, true
+  br i1 %cond, label %cond_70_case_1, label %cond_70_case_0
 
-entry_block:                                      ; preds = %alloca_block
-  br label %0
-
-0:                                                ; preds = %entry_block
-  %1 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %2 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %1, 1
-  store { i1, %QUBIT* } %2, { i1, %QUBIT* }* %"69_0", align 8
-  %3 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %4 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %3, 1
-  store { i1, %QUBIT* } %4, { i1, %QUBIT* }* %"58_0", align 8
-  store double 0x400921FB54442D18, double* %"153_0", align 8
-  store double 0x3FF921FB54442D18, double* %"148_0", align 8
-  store double 0x400921FB54442D18, double* %"145_0", align 8
-  store double 0.000000e+00, double* %"140_0", align 8
-  store double 0x400921FB54442D18, double* %"137_0", align 8
-  store double 0xBFF921FB54442D18, double* %"126_0", align 8
-  store double 0x3FF921FB54442D18, double* %"124_0", align 8
-  store double 0x400921FB54442D18, double* %"122_0", align 8
-  store double 0xBFF921FB54442D18, double* %"112_0", align 8
-  store double 0x3FF921FB54442D18, double* %"110_0", align 8
-  store double 0x400921FB54442D18, double* %"108_0", align 8
-  store double 0x400921FB54442D18, double* %"105_0", align 8
-  store double 0x3FF921FB54442D18, double* %"102_0", align 8
-  store double 0x400921FB54442D18, double* %"100_0", align 8
-  store double 0.000000e+00, double* %"97_0", align 8
-  store double 0x400921FB54442D18, double* %"95_0", align 8
-  store double 0x3FE921FB54442D18, double* %"92_0", align 8
-  store double 0x3FF921FB54442D18, double* %"89_0", align 8
-  store double 0xBFF921FB54442D18, double* %"85_0", align 8
-  store double 0x3FF921FB54442D18, double* %"83_0", align 8
-  store double 0x400921FB54442D18, double* %"81_0", align 8
-  %"69_01" = load { i1, %QUBIT* }, { i1, %QUBIT* }* %"69_0", align 8
-  %5 = extractvalue { i1, %QUBIT* } %"69_01", 0
-  switch i1 %5, label %6 [
-    i1 true, label %7
-  ]
-
-6:                                                ; preds = %0
-  br label %cond_70_case_0
-
-7:                                                ; preds = %0
-  %8 = extractvalue { i1, %QUBIT* } %"69_01", 1
-  store %QUBIT* %8, %QUBIT** %"05", align 8
-  br label %cond_70_case_1
-
-9:                                                ; preds = %58
-  ret void
-
-cond_70_case_0:                                   ; preds = %6
-  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, { i32, i8* }* %"75_0", align 8
-  %"75_03" = load { i32, i8* }, { i32, i8* }* %"75_0", align 8
-  %10 = extractvalue { i32, i8* } %"75_03", 0
-  %11 = extractvalue { i32, i8* } %"75_03", 1
-  %12 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %10, i8* %11)
-  call void @abort()
-  store %QUBIT* null, %QUBIT** %"76_0", align 8
-  %"76_04" = load %QUBIT*, %QUBIT** %"76_0", align 8
-  store %QUBIT* %"76_04", %QUBIT** %"0", align 8
+cond_70_case_1:                                   ; preds = %alloca_block
+  %5 = extractvalue { i1, %QUBIT* } %1, 1
   br label %cond_exit_70
 
-cond_70_case_1:                                   ; preds = %7
-  %"06" = load %QUBIT*, %QUBIT** %"05", align 8
-  store %QUBIT* %"06", %QUBIT** %"78_0", align 8
-  %"78_07" = load %QUBIT*, %QUBIT** %"78_0", align 8
-  store %QUBIT* %"78_07", %QUBIT** %"0", align 8
+cond_70_case_0:                                   ; preds = %alloca_block
+  %6 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
+  %7 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
+  %8 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %6, i8* %7)
+  call void @abort()
   br label %cond_exit_70
 
 cond_exit_70:                                     ; preds = %cond_70_case_1, %cond_70_case_0
-  %"02" = load %QUBIT*, %QUBIT** %"0", align 8
-  store %QUBIT* %"02", %QUBIT** %"70_0", align 8
-  %"70_08" = load %QUBIT*, %QUBIT** %"70_0", align 8
-  %"112_09" = load double, double* %"112_0", align 8
-  %"110_010" = load double, double* %"110_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"112_09", double %"110_010", %QUBIT* %"70_08")
-  store %QUBIT* %"70_08", %QUBIT** %"113_0", align 8
-  %"58_011" = load { i1, %QUBIT* }, { i1, %QUBIT* }* %"58_0", align 8
-  %13 = extractvalue { i1, %QUBIT* } %"58_011", 0
-  switch i1 %13, label %14 [
-    i1 true, label %15
-  ]
+  %"0.0" = phi %QUBIT* [ null, %cond_70_case_0 ], [ %5, %cond_70_case_1 ]
+  call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"0.0")
+  %9 = extractvalue { i1, %QUBIT* } %3, 0
+  %cond91 = icmp eq i1 %9, true
+  br i1 %cond91, label %cond_59_case_1, label %cond_59_case_0
 
-14:                                               ; preds = %cond_exit_70
-  br label %cond_59_case_0
-
-15:                                               ; preds = %cond_exit_70
-  %16 = extractvalue { i1, %QUBIT* } %"58_011", 1
-  store %QUBIT* %16, %QUBIT** %"016", align 8
-  br label %cond_59_case_1
-
-cond_59_case_0:                                   ; preds = %14
-  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, { i32, i8* }* %"64_0", align 8
-  %"64_014" = load { i32, i8* }, { i32, i8* }* %"64_0", align 8
-  %17 = extractvalue { i32, i8* } %"64_014", 0
-  %18 = extractvalue { i32, i8* } %"64_014", 1
-  %19 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %17, i8* %18)
-  call void @abort()
-  store %QUBIT* null, %QUBIT** %"65_0", align 8
-  %"65_015" = load %QUBIT*, %QUBIT** %"65_0", align 8
-  store %QUBIT* %"65_015", %QUBIT** %"012", align 8
+cond_59_case_1:                                   ; preds = %cond_exit_70
+  %10 = extractvalue { i1, %QUBIT* } %3, 1
   br label %cond_exit_59
 
-cond_59_case_1:                                   ; preds = %15
-  %"017" = load %QUBIT*, %QUBIT** %"016", align 8
-  store %QUBIT* %"017", %QUBIT** %"67_0", align 8
-  %"67_018" = load %QUBIT*, %QUBIT** %"67_0", align 8
-  store %QUBIT* %"67_018", %QUBIT** %"012", align 8
+cond_59_case_0:                                   ; preds = %cond_exit_70
+  %11 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 0
+  %12 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 1
+  %13 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %11, i8* %12)
+  call void @abort()
   br label %cond_exit_59
 
 cond_exit_59:                                     ; preds = %cond_59_case_1, %cond_59_case_0
-  %"013" = load %QUBIT*, %QUBIT** %"012", align 8
-  store %QUBIT* %"013", %QUBIT** %"59_0", align 8
-  %"59_019" = load %QUBIT*, %QUBIT** %"59_0", align 8
-  %"83_020" = load double, double* %"83_0", align 8
-  %"85_021" = load double, double* %"85_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"83_020", double %"85_021", %QUBIT* %"59_019")
-  store %QUBIT* %"59_019", %QUBIT** %"86_0", align 8
-  %"86_022" = load %QUBIT*, %QUBIT** %"86_0", align 8
-  %"81_023" = load double, double* %"81_0", align 8
-  call void @__quantum__qis__rz__body(double %"81_023", %QUBIT* %"86_022")
-  store %QUBIT* %"86_022", %QUBIT** %"87_0", align 8
-  %"87_024" = load %QUBIT*, %QUBIT** %"87_0", align 8
-  %"89_025" = load double, double* %"89_0", align 8
-  call void @__quantum__qis__rz__body(double %"89_025", %QUBIT* %"87_024")
-  store %QUBIT* %"87_024", %QUBIT** %"90_0", align 8
-  %"90_026" = load %QUBIT*, %QUBIT** %"90_0", align 8
-  %"92_027" = load double, double* %"92_0", align 8
-  call void @__quantum__qis__rz__body(double %"92_027", %QUBIT* %"90_026")
-  store %QUBIT* %"90_026", %QUBIT** %"93_0", align 8
-  %"93_028" = load %QUBIT*, %QUBIT** %"93_0", align 8
-  %"95_029" = load double, double* %"95_0", align 8
-  %"97_030" = load double, double* %"97_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"95_029", double %"97_030", %QUBIT* %"93_028")
-  store %QUBIT* %"93_028", %QUBIT** %"98_0", align 8
-  %"98_031" = load %QUBIT*, %QUBIT** %"98_0", align 8
-  %"100_032" = load double, double* %"100_0", align 8
-  %"102_033" = load double, double* %"102_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"100_032", double %"102_033", %QUBIT* %"98_031")
-  store %QUBIT* %"98_031", %QUBIT** %"103_0", align 8
-  %"103_034" = load %QUBIT*, %QUBIT** %"103_0", align 8
-  %"105_035" = load double, double* %"105_0", align 8
-  call void @__quantum__qis__rz__body(double %"105_035", %QUBIT* %"103_034")
-  store %QUBIT* %"103_034", %QUBIT** %"106_0", align 8
-  %"106_036" = load %QUBIT*, %QUBIT** %"106_0", align 8
-  %"113_037" = load %QUBIT*, %QUBIT** %"113_0", align 8
-  call void @__quantum__qis__zzmax__body(%QUBIT* %"106_036", %QUBIT* %"113_037")
-  store %QUBIT* %"106_036", %QUBIT** %"114_0", align 8
-  store %QUBIT* %"113_037", %QUBIT** %"114_1", align 8
-  %"114_138" = load %QUBIT*, %QUBIT** %"114_1", align 8
-  %"110_039" = load double, double* %"110_0", align 8
-  %"108_040" = load double, double* %"108_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"110_039", double %"108_040", %QUBIT* %"114_138")
-  store %QUBIT* %"114_138", %QUBIT** %"117_0", align 8
-  %"117_041" = load %QUBIT*, %QUBIT** %"117_0", align 8
-  %"112_042" = load double, double* %"112_0", align 8
-  call void @__quantum__qis__rz__body(double %"112_042", %QUBIT* %"117_041")
-  store %QUBIT* %"117_041", %QUBIT** %"119_0", align 8
-  %"114_043" = load %QUBIT*, %QUBIT** %"114_0", align 8
-  %"112_044" = load double, double* %"112_0", align 8
-  call void @__quantum__qis__rz__body(double %"112_044", %QUBIT* %"114_043")
-  store %QUBIT* %"114_043", %QUBIT** %"115_0", align 8
-  %"115_045" = load %QUBIT*, %QUBIT** %"115_0", align 8
-  %"122_046" = load double, double* %"122_0", align 8
-  %"122_047" = load double, double* %"122_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"122_046", double %"122_047", %QUBIT* %"115_045")
-  store %QUBIT* %"115_045", %QUBIT** %"127_0", align 8
-  %"127_048" = load %QUBIT*, %QUBIT** %"127_0", align 8
-  %"119_049" = load %QUBIT*, %QUBIT** %"119_0", align 8
-  call void @__quantum__qis__zzmax__body(%QUBIT* %"127_048", %QUBIT* %"119_049")
-  store %QUBIT* %"127_048", %QUBIT** %"129_0", align 8
-  store %QUBIT* %"119_049", %QUBIT** %"129_1", align 8
-  %"129_150" = load %QUBIT*, %QUBIT** %"129_1", align 8
-  %"124_051" = load double, double* %"124_0", align 8
-  call void @__quantum__qis__rz__body(double %"124_051", %QUBIT* %"129_150")
-  store %QUBIT* %"129_150", %QUBIT** %"131_0", align 8
-  %"131_052" = load %QUBIT*, %QUBIT** %"131_0", align 8
-  %20 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"131_052")
-  %21 = call i1 @__quantum__qis__read_result__body(%RESULT* %20)
-  %22 = select i1 %21, i1 true, i1 false
-  store i1 %22, i1* %"159_0", align 1
-  %"129_053" = load %QUBIT*, %QUBIT** %"129_0", align 8
-  %"122_054" = load double, double* %"122_0", align 8
-  %"124_055" = load double, double* %"124_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"122_054", double %"124_055", %QUBIT* %"129_053")
-  store %QUBIT* %"129_053", %QUBIT** %"130_0", align 8
-  %"130_056" = load %QUBIT*, %QUBIT** %"130_0", align 8
-  %"126_057" = load double, double* %"126_0", align 8
-  call void @__quantum__qis__rz__body(double %"126_057", %QUBIT* %"130_056")
-  store %QUBIT* %"130_056", %QUBIT** %"133_0", align 8
-  store {} undef, {}* %"54_0", align 1
-  store {} undef, {}* %"53_0", align 1
-  store {} undef, {}* %"50_0", align 1
-  store {} undef, {}* %"47_0", align 1
-  store double 1.500000e+00, double* %"42_0", align 8
-  %"42_058" = load double, double* %"42_0", align 8
-  store double %"42_058", double* %"43_0", align 8
-  %"43_059" = load double, double* %"43_0", align 8
-  store double %"43_059", double* %"44_0", align 8
-  %"44_060" = load double, double* %"44_0", align 8
-  %23 = fcmp oeq double %"44_060", 0x7FF0000000000000
-  %24 = fcmp oeq double %"44_060", 0xFFF0000000000000
-  %25 = fcmp uno double %"44_060", 0.000000e+00
-  %26 = or i1 %23, %24
-  %27 = or i1 %26, %25
-  %28 = xor i1 %27, true
-  br i1 %28, label %31, label %29
+  %"012.0" = phi %QUBIT* [ null, %cond_59_case_0 ], [ %10, %cond_59_case_1 ]
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__rz__body(double 0x3FE921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* %"012.0")
+  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__zzmax__body(%QUBIT* %"012.0", %QUBIT* %"0.0")
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %QUBIT* %"0.0")
+  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"0.0")
+  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x400921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__zzmax__body(%QUBIT* %"012.0", %QUBIT* %"0.0")
+  call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %QUBIT* %"0.0")
+  %14 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
+  %15 = call i1 @__quantum__qis__read_result__body(%RESULT* %14)
+  %16 = select i1 %15, i1 true, i1 false
+  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"012.0")
+  %17 = fcmp oeq double 1.500000e+00, 0x7FF0000000000000
+  %18 = fcmp oeq double 1.500000e+00, 0xFFF0000000000000
+  %19 = fcmp uno double 1.500000e+00, 0.000000e+00
+  %20 = or i1 %17, %18
+  %21 = or i1 %20, %19
+  %22 = xor i1 %21, true
+  br i1 %22, label %25, label %23
 
-29:                                               ; preds = %cond_exit_59
-  %30 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.2, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @2, i32 0, i32 0))
+23:                                               ; preds = %cond_exit_59
+  %24 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.2, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @2, i32 0, i32 0))
   call void @abort()
   unreachable
 
-31:                                               ; preds = %cond_exit_59
-  store double %"44_060", double* %"45_0", align 8
-  %"45_061" = load double, double* %"45_0", align 8
-  store double %"45_061", double* %"151_0", align 8
-  %"151_062" = load double, double* %"151_0", align 8
-  %"153_063" = load double, double* %"153_0", align 8
-  %32 = fmul double %"151_062", %"153_063"
-  store double %32, double* %"154_0", align 8
-  store {} undef, {}* %"40_0", align 1
-  store double 1.500000e+00, double* %"35_0", align 8
-  %"35_064" = load double, double* %"35_0", align 8
-  store double %"35_064", double* %"36_0", align 8
-  %"36_065" = load double, double* %"36_0", align 8
-  store double %"36_065", double* %"37_0", align 8
-  %"37_066" = load double, double* %"37_0", align 8
-  %33 = fcmp oeq double %"37_066", 0x7FF0000000000000
-  %34 = fcmp oeq double %"37_066", 0xFFF0000000000000
-  %35 = fcmp uno double %"37_066", 0.000000e+00
-  %36 = or i1 %33, %34
-  %37 = or i1 %36, %35
-  %38 = xor i1 %37, true
-  br i1 %38, label %41, label %39
+25:                                               ; preds = %cond_exit_59
+  %26 = fmul double 1.500000e+00, 0x400921FB54442D18
+  %27 = fcmp oeq double 1.500000e+00, 0x7FF0000000000000
+  %28 = fcmp oeq double 1.500000e+00, 0xFFF0000000000000
+  %29 = fcmp uno double 1.500000e+00, 0.000000e+00
+  %30 = or i1 %27, %28
+  %31 = or i1 %30, %29
+  %32 = xor i1 %31, true
+  br i1 %32, label %35, label %33
 
-39:                                               ; preds = %31
-  %40 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.3, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @3, i32 0, i32 0))
+33:                                               ; preds = %25
+  %34 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.3, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @3, i32 0, i32 0))
   call void @abort()
   unreachable
 
-41:                                               ; preds = %31
-  store double %"37_066", double* %"38_0", align 8
-  %"38_067" = load double, double* %"38_0", align 8
-  store double %"38_067", double* %"143_0", align 8
-  %"143_068" = load double, double* %"143_0", align 8
-  %"145_069" = load double, double* %"145_0", align 8
-  %42 = fmul double %"143_068", %"145_069"
-  store double %42, double* %"146_0", align 8
-  store {} undef, {}* %"33_0", align 1
-  store double 1.500000e+00, double* %"28_0", align 8
-  %"28_070" = load double, double* %"28_0", align 8
-  store double %"28_070", double* %"29_0", align 8
-  %"29_071" = load double, double* %"29_0", align 8
-  store double %"29_071", double* %"30_0", align 8
-  %"30_072" = load double, double* %"30_0", align 8
-  %43 = fcmp oeq double %"30_072", 0x7FF0000000000000
-  %44 = fcmp oeq double %"30_072", 0xFFF0000000000000
-  %45 = fcmp uno double %"30_072", 0.000000e+00
-  %46 = or i1 %43, %44
-  %47 = or i1 %46, %45
-  %48 = xor i1 %47, true
-  br i1 %48, label %51, label %49
+35:                                               ; preds = %25
+  %36 = fmul double 1.500000e+00, 0x400921FB54442D18
+  %37 = fcmp oeq double 1.500000e+00, 0x7FF0000000000000
+  %38 = fcmp oeq double 1.500000e+00, 0xFFF0000000000000
+  %39 = fcmp uno double 1.500000e+00, 0.000000e+00
+  %40 = or i1 %37, %38
+  %41 = or i1 %40, %39
+  %42 = xor i1 %41, true
+  br i1 %42, label %45, label %43
 
-49:                                               ; preds = %41
-  %50 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.4, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @4, i32 0, i32 0))
+43:                                               ; preds = %35
+  %44 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.4, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @4, i32 0, i32 0))
   call void @abort()
   unreachable
 
-51:                                               ; preds = %41
-  store double %"30_072", double* %"31_0", align 8
-  %"31_073" = load double, double* %"31_0", align 8
-  store double %"31_073", double* %"135_0", align 8
-  %"135_074" = load double, double* %"135_0", align 8
-  %"137_075" = load double, double* %"137_0", align 8
-  %52 = fmul double %"135_074", %"137_075"
-  store double %52, double* %"138_0", align 8
-  %"133_076" = load %QUBIT*, %QUBIT** %"133_0", align 8
-  %"138_077" = load double, double* %"138_0", align 8
-  %"140_078" = load double, double* %"140_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"138_077", double %"140_078", %QUBIT* %"133_076")
-  store %QUBIT* %"133_076", %QUBIT** %"141_0", align 8
-  %"141_079" = load %QUBIT*, %QUBIT** %"141_0", align 8
-  %"146_080" = load double, double* %"146_0", align 8
-  %"148_081" = load double, double* %"148_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"146_080", double %"148_081", %QUBIT* %"141_079")
-  store %QUBIT* %"141_079", %QUBIT** %"149_0", align 8
-  %"149_082" = load %QUBIT*, %QUBIT** %"149_0", align 8
-  %"154_083" = load double, double* %"154_0", align 8
-  call void @__quantum__qis__rz__body(double %"154_083", %QUBIT* %"149_082")
-  store %QUBIT* %"149_082", %QUBIT** %"155_0", align 8
-  %"155_084" = load %QUBIT*, %QUBIT** %"155_0", align 8
-  %53 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"155_084")
-  %54 = call i1 @__quantum__qis__read_result__body(%RESULT* %53)
-  %55 = select i1 %54, i1 true, i1 false
-  store i1 %55, i1* %"157_0", align 1
-  store {} undef, {}* %"26_0", align 1
-  store {} undef, {}* %"24_0", align 1
-  store {} undef, {}* %"22_0", align 1
-  store {} undef, {}* %"20_0", align 1
-  store {} undef, {}* %"18_0", align 1
-  store {} undef, {}* %"16_0", align 1
-  store {} undef, {}* %"14_0", align 1
-  store {} undef, {}* %"12_0", align 1
-  %"159_085" = load i1, i1* %"159_0", align 1
-  %56 = select i1 %"159_085", i1 true, i1 false
-  store i1 %56, i1* %"160_0", align 1
-  %"160_086" = load i1, i1* %"160_0", align 1
-  call void @__quantum__rt__bool_record_output(i1 %"160_086", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @5, i32 0, i32 0))
-  %"157_087" = load i1, i1* %"157_0", align 1
-  %57 = select i1 %"157_087", i1 true, i1 false
-  store i1 %57, i1* %"158_0", align 1
-  %"158_088" = load i1, i1* %"158_0", align 1
-  call void @__quantum__rt__bool_record_output(i1 %"158_088", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @6, i32 0, i32 0))
-  %"54_089" = load {}, {}* %"54_0", align 1
-  store {} %"54_089", {}* %"54_0", align 1
-  %"54_090" = load {}, {}* %"54_0", align 1
-  switch i1 false, label %58 [
-  ]
-
-58:                                               ; preds = %51
-  br label %9
+45:                                               ; preds = %35
+  %46 = fmul double 1.500000e+00, 0x400921FB54442D18
+  call void @__quantum__qis__phasedx__body(double %46, double 0.000000e+00, %QUBIT* %"012.0")
+  call void @__quantum__qis__phasedx__body(double %36, double 0x3FF921FB54442D18, %QUBIT* %"012.0")
+  call void @__quantum__qis__rz__body(double %26, %QUBIT* %"012.0")
+  %47 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"012.0")
+  %48 = call i1 @__quantum__qis__read_result__body(%RESULT* %47)
+  %49 = select i1 %48, i1 true, i1 false
+  %50 = select i1 %16, i1 true, i1 false
+  call void @__quantum__rt__bool_record_output(i1 %50, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @5, i32 0, i32 0))
+  %51 = select i1 %49, i1 true, i1 false
+  call void @__quantum__rt__bool_record_output(i1 %51, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @6, i32 0, i32 0))
+  ret void
 }
 
 declare %QUBIT* @__quantum__rt__qubit_allocate()
