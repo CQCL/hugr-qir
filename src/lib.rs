@@ -114,7 +114,7 @@ impl CompileArgs {
         self.hugr_to_hugr(hugr)?;
 
         let module = self.hugr_to_llvm(hugr, context)?;
-        let _ = self.optimize_module(&module);
+        self.optimize_module(&module)?;
         return Ok(module);
     }
 }
