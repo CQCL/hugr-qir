@@ -107,8 +107,9 @@ impl CompileArgs {
             module.get_context().create_string_attribute("entry_point", ""),
             module.get_context().create_string_attribute("output_labeling_schema", ""),
             module.get_context().create_string_attribute("qir_profiles", "custom"),
-            module.get_context().create_string_attribute("required_num_qubits", "unemplemented"),
-            module.get_context().create_string_attribute("required_num_results", "unemplemented"),
+            module.get_context().create_string_attribute("required_num_qubits", "20"),
+            module.get_context().create_string_attribute("required_num_results", "20"),
+            // see https://github.com/CQCL/hugr-qir/issues/27
         ];
         let fn_value = module.get_first_function().unwrap();
         for attribute in attributes {
