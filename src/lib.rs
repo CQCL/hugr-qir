@@ -14,6 +14,7 @@ use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 use inkwell::passes::PassManager;
+use anyhow::anyhow;
 
 pub mod cli;
 pub mod qir;
@@ -86,7 +87,7 @@ impl CompileArgs {
     }
 
     /// Some standard LLVM optimizations
-    pub fn optimize_module(&self, module: &inkwell::module::Module) {
+    pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()>{
         let pb = PassManager::create(());
         pb.add_promote_memory_to_register_pass();
         pb.add_scalar_repl_aggregates_pass();
@@ -94,8 +95,11 @@ impl CompileArgs {
         pb.add_aggressive_inst_combiner_pass();
         pb.add_aggressive_dce_pass();
         
-        pb.run_on(module);        
-    }    
+        pb.run_on(module);
+
+        let _ = module.verify().map_err(|msg| anyhow!("Failed to optmise module: {msg}\n, {}", module.to_string()))?;
+        Ok(())
+    }
 
 
     pub fn hugr_to_llvm<'c>(&self, hugr: &Hugr, context: &'c Context) -> Result<Module<'c>> {
@@ -110,8 +114,7 @@ impl CompileArgs {
         self.hugr_to_hugr(hugr)?;
 
         let module = self.hugr_to_llvm(hugr, context)?;
-        self.optimize_module(&module);
-        let _ = module.verify();
+        let _ = self.optimize_module(&module);
         return Ok(module);
     }
 }
