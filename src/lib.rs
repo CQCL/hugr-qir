@@ -154,7 +154,7 @@ impl CompileArgs {
         let entry_func_name = find_entry_point(&namer, hugr).unwrap();
         let fn_value = module.get_function(&("__hugr__.".to_owned() + &entry_func_name));
         if fn_value == None {
-            return Err(anyhow!("main?? {} function not found in HUGR", entry_func_name));
+            return Err(anyhow!("expected main function: \"{}\" not found in HUGR", entry_func_name));
         }
         for attribute in attributes {
             fn_value.unwrap().add_attribute(AttributeLoc::Function, attribute);
