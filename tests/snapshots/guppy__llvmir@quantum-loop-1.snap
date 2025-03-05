@@ -708,4 +708,4 @@ entry_block:                                      ; preds = %alloca_block
   ret { i64, { i64, i64 } } %mrv25
 }
 
-attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="unemplemented" "required_num_results"="unemplemented" }
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="20" "required_num_results"="20" }
