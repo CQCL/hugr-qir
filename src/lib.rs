@@ -97,7 +97,7 @@ impl CompileArgs {
         
         pb.run_on(module);
 
-        let _ = module.verify().map_err(|msg| anyhow!("Failed to optmise module: {msg}\n, {}", module.to_string()))?;
+        module.verify().map_err(|msg| anyhow!("Failed to optmise module: {msg}\n, {}", module.to_string()))?;
         Ok(())
     }
 
