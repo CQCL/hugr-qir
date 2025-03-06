@@ -35,7 +35,7 @@ alloca_block:
   ret { %QUBIT*, %QUBIT* } %mrv21
 }
 
-define void @__hugr__.main.25() {
+define void @__hugr__.main.25() #0 {
 alloca_block:
   %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
   %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
@@ -102,3 +102,5 @@ declare %RESULT* @__quantum__qis__m__body(%QUBIT*)
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
 declare void @__quantum__rt__bool_record_output(i1, i8*)
+
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="20" "required_num_results"="20" }
