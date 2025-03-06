@@ -108,9 +108,9 @@ impl CompileArgs {
         let extensions = self.codegen_extensions().into();
         let namer = Rc::new(Namer::new("__hugr__.", true));
         let module = context.create_module(self.module_name().as_ref());
-        let emit = EmitHugr::new(context, module, namer, extensions);
+        let emit = EmitHugr::new(context, module, namer.clone(), extensions);
         let module = emit.emit_module(hugr.fat_root().unwrap())?.finish(); 
-        add_module_metadata(hugr, &module)?;
+        add_module_metadata(&namer, hugr, &module)?;
         Ok(module)
     }
 
@@ -141,7 +141,7 @@ impl CompileArgs {
         Ok(namer.name_func("main", entry_point_node))
     }
 
-    pub fn add_module_metadata(hugr: &impl HugrView, module: &Module) ->  Result<()> {
+    pub fn add_module_metadata(namer: &Namer, hugr: &impl HugrView, module: &Module) ->  Result<()> {
         let attributes = [
             module.get_context().create_string_attribute("entry_point", ""),
             module.get_context().create_string_attribute("output_labeling_schema", ""),
@@ -150,9 +150,8 @@ impl CompileArgs {
             module.get_context().create_string_attribute("required_num_results", "20"),
             // see https://github.com/CQCL/hugr-qir/issues/27
         ];
-        let namer = Namer::new("", true);
         let entry_func_name = find_entry_point(&namer, hugr).unwrap();
-        let fn_value = module.get_function(&("__hugr__.".to_owned() + &entry_func_name));
+        let fn_value = module.get_function(&entry_func_name);
         if fn_value == None {
             return Err(anyhow!("expected main function: \"{}\" not found in HUGR", entry_func_name));
         }
