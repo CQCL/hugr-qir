@@ -9,16 +9,16 @@ use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
 use hugr::llvm::{inkwell, CodegenExtsBuilder};
-use hugr::{Hugr};
+use hugr::{Hugr, Node};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
+use crate::inline::inline;
 use inkwell::passes::PassManager;
 use anyhow::anyhow;
 use hugr::HugrView;
-use crate::inline::inline;
 
 pub mod cli;
 pub mod qir;
@@ -95,21 +95,7 @@ impl CompileArgs {
     }
 
     pub fn remove_dead_functions(&self, hugr: &mut Hugr) -> Result<()> {
-        let entry_point_node = {
-            let mains: Vec<_> = hugr
-                .nodes()
-                .filter(|&n| {
-                    hugr.get_optype(n)
-                        .as_func_defn()
-                        .is_some_and(|f| f.name == "main")
-                })
-                .collect();
-            match mains.as_slice() {
-                [] => Err(anyhow!("main function not found in HUGR"))?,
-                [x] => *x,
-                xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
-            }
-        };
+        let entry_point_node =  find_hugr_entry_point(hugr)?;
         let mut dead_func_pass = RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
         if self.validate {
             dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
@@ -119,7 +105,7 @@ impl CompileArgs {
     }
 
     /// Some standard LLVM optimizations
-    pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()>{
+    pub fn optimize_module(&self, module: &Module) -> Result<()>{
         let pb = PassManager::create(());
         pb.add_promote_memory_to_register_pass();
         pb.add_scalar_repl_aggregates_pass();
@@ -148,26 +134,29 @@ impl CompileArgs {
         self.hugr_to_hugr(hugr)?;
         let module = self.hugr_to_llvm(hugr, context)?;
         self.optimize_module(&module)?;
-        return Ok(module);
+        Ok(module)
     }}
 
-
-    pub fn find_entry_point(namer: &Namer, hugr: &impl HugrView) -> Result<String> {
-        let entry_point_node = {
-            let mains: Vec<_> = hugr
-                .nodes()
-                .filter(|&n| {
-                    hugr.get_optype(n)
-                        .as_func_defn()
-                        .is_some_and(|f| f.name == "main")
-                })
-                .collect();
-            match mains.as_slice() {
-                [] => Err(anyhow!("main function not found in HUGR"))?,
-                [x] => *x,
-                xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
-            }
-        };
+pub fn find_hugr_entry_point(hugr: &impl HugrView) -> Result<Node> {
+    let entry_point_node = {
+        let mains: Vec<_> = hugr
+            .nodes()
+            .filter(|&n| {
+                hugr.get_optype(n)
+                    .as_func_defn()
+                    .is_some_and(|f| f.name == "main")
+            })
+            .collect();
+        match mains.as_slice() {
+            [] => Err(anyhow!("main function not found in HUGR"))?,
+            [x] => *x,
+            xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
+        }
+    };
+    Ok(entry_point_node)
+}
+    pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView) -> Result<String> {
+        let entry_point_node = find_hugr_entry_point(hugr)?; 
         Ok(namer.name_func("main", entry_point_node))
     }
 
@@ -180,7 +169,7 @@ impl CompileArgs {
             module.get_context().create_string_attribute("required_num_results", "20"),
             // see https://github.com/CQCL/hugr-qir/issues/27
         ];
-        let entry_func_name = find_entry_point(&namer, hugr).unwrap();
+        let entry_func_name = find_entry_point_name(&namer, hugr)?;
         let fn_value = module.get_function(&entry_func_name);
         if fn_value == None {
             return Err(anyhow!("expected main function: \"{}\" not found in HUGR", entry_func_name));
