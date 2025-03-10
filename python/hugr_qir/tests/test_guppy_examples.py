@@ -28,18 +28,19 @@ def cli_on_guppy(guppy_file: Path, tmp_path: Path, *args: str) -> None:
 
 
 def get_guppy_files() -> list[Path]:
-    filenames = []
     guppy_dir = Path(GUPPY_EXAMPLES_DIR)
-    for filename in guppy_dir.glob('*.py'):
-        filenames.append(filename)
-    return filenames
+    return list(guppy_dir.glob("*.py"))
 
 guppy_files = get_guppy_files()
 
-@pytest.mark.parametrize("file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files])
-def test_guppy_files(tmp_path: Path, file) -> None:
+@pytest.mark.parametrize(
+    "guppy_file",
+    guppy_files,
+    ids=[str(file_path.stem) for file_path in guppy_files]
+)
+def test_guppy_files(tmp_path: Path, guppy_file: Path) -> None:
     out_file = tmp_path / "out.ll"
-    cli_on_guppy(file, tmp_path, "-o", str(out_file))
+    cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file))
     with Path.open(out_file) as f:
         qir = f.read()
     qircheck(qir)
