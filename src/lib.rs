@@ -1,9 +1,10 @@
 use std::fs::OpenOptions;
 use std::rc::Rc;
 
-use anyhow::Result;
+use anyhow::{anyhow, Result};
 use clap_verbosity_flag::log::Level;
 use hugr::algorithms::validation::ValidationLevel;
+use hugr::algorithms::RemoveDeadFuncsPass;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
@@ -79,12 +80,37 @@ impl CompileArgs {
         
         let all_calls: Vec<_> = hugr.nodes().filter(|n| hugr.get_optype(*n).is_call()).collect();
         inline(hugr,  all_calls)?;
+        self.remove_dead_functions(hugr)?;
 
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();
             open_options.truncate(true);
             serde_json::to_writer_pretty(open_options.open(path)?, hugr)?;
         }
+        Ok(())
+    }
+
+    pub fn remove_dead_functions(&self, hugr: &mut Hugr) -> Result<()> {
+        let entry_point_node = {
+            let mains: Vec<_> = hugr
+                .nodes()
+                .filter(|&n| {
+                    hugr.get_optype(n)
+                        .as_func_defn()
+                        .is_some_and(|f| f.name == "main")
+                })
+                .collect();
+            match mains.as_slice() {
+                [] => Err(anyhow!("main function not found in HUGR"))?,
+                [x] => *x,
+                xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
+            }
+        };
+        let mut dead_func_pass = RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
+        if self.validate {
+            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
+        }
+        dead_func_pass.run(hugr)?;
         Ok(())
     }
 
