@@ -66,17 +66,3 @@ fn guppy_examples(
         assert_snapshot!("stderr", stderr);
     });
 }
-
-#[test]
-fn planq() {
-    //let file = std::path::PathBuf::from("/Users/travis.thompson/Develop/CQCL/hugr-qir/guppy_examples/planqc_1.py");
-    let file = std::path::PathBuf::from("guppy_examples/planqc_1.py");
-    let file: &Path = file.as_ref();
-    let mut settings = insta::Settings::clone_current();
-    settings.set_snapshot_suffix(file.file_stem().unwrap().to_str().unwrap());
-    settings.bind(|| {
-        let (mut hugr, stderr) = capture_guppy(file);
-        assert_snapshot!("llvmir", compile(&mut hugr));
-        assert_snapshot!("stderr", stderr);
-    });
-}
