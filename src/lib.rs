@@ -4,16 +4,18 @@ use std::rc::Rc;
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
 use hugr::algorithms::validation::ValidationLevel;
+use hugr::algorithms::RemoveDeadFuncsPass;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
 use hugr::llvm::{inkwell, CodegenExtsBuilder};
-use hugr::{Hugr};
+use hugr::{Hugr, Node};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
+use crate::inline::inline;
 use inkwell::passes::PassManager;
 use anyhow::anyhow;
 use hugr::HugrView;
@@ -80,6 +82,10 @@ impl CompileArgs {
             pass.run(hugr)?;
         }
 
+        let all_calls: Vec<_> = hugr.nodes().filter(|n| hugr.get_optype(*n).is_call()).collect();
+        inline(hugr,  all_calls)?;
+        self.remove_dead_functions(hugr)?;
+
         if let Some(path) = &self.save_hugr {
             let mut open_options = OpenOptions::new();
             open_options.truncate(true);
@@ -88,15 +94,25 @@ impl CompileArgs {
         Ok(())
     }
 
+    pub fn remove_dead_functions(&self, hugr: &mut Hugr) -> Result<()> {
+        let entry_point_node =  find_hugr_entry_point(hugr)?;
+        let mut dead_func_pass = RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
+        if self.validate {
+            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
+        }
+        dead_func_pass.run(hugr)?;
+        Ok(())
+    }
+
     /// Some standard LLVM optimizations
-    pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()>{
+    pub fn optimize_module(&self, module: &Module) -> Result<()>{
         let pb = PassManager::create(());
         pb.add_promote_memory_to_register_pass();
         pb.add_scalar_repl_aggregates_pass();
         pb.add_cfg_simplification_pass();
         pb.add_aggressive_inst_combiner_pass();
         pb.add_aggressive_dce_pass();
-        
+
         pb.run_on(module);
 
         module.verify().map_err(|msg| anyhow!("Failed to optmise module: {msg}\n, {}", module.to_string()))?;
@@ -109,7 +125,7 @@ impl CompileArgs {
         let namer = Rc::new(Namer::new("__hugr__.", true));
         let module = context.create_module(self.module_name().as_ref());
         let emit = EmitHugr::new(context, module, namer.clone(), extensions);
-        let module = emit.emit_module(hugr.fat_root().unwrap())?.finish(); 
+        let module = emit.emit_module(hugr.fat_root().unwrap())?.finish();
         add_module_metadata(&namer, hugr, &module)?;
         Ok(module)
     }
@@ -118,26 +134,29 @@ impl CompileArgs {
         self.hugr_to_hugr(hugr)?;
         let module = self.hugr_to_llvm(hugr, context)?;
         self.optimize_module(&module)?;
-        return Ok(module);
+        Ok(module)
     }}
 
-
-    pub fn find_entry_point(namer: &Namer, hugr: &impl HugrView) -> Result<String> {
-        let entry_point_node = {
-            let mains: Vec<_> = hugr
-                .nodes()
-                .filter(|&n| {
-                    hugr.get_optype(n)
-                        .as_func_defn()
-                        .is_some_and(|f| f.name == "main")
-                })
-                .collect();
-            match mains.as_slice() {
-                [] => Err(anyhow!("main function not found in HUGR"))?,
-                [x] => *x,
-                xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
-            }
-        };
+pub fn find_hugr_entry_point(hugr: &impl HugrView) -> Result<Node> {
+    let entry_point_node = {
+        let mains: Vec<_> = hugr
+            .nodes()
+            .filter(|&n| {
+                hugr.get_optype(n)
+                    .as_func_defn()
+                    .is_some_and(|f| f.name == "main")
+            })
+            .collect();
+        match mains.as_slice() {
+            [] => Err(anyhow!("main function not found in HUGR"))?,
+            [x] => *x,
+            xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
+        }
+    };
+    Ok(entry_point_node)
+}
+    pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView) -> Result<String> {
+        let entry_point_node = find_hugr_entry_point(hugr)?; 
         Ok(namer.name_func("main", entry_point_node))
     }
 
@@ -150,7 +169,7 @@ impl CompileArgs {
             module.get_context().create_string_attribute("required_num_results", "20"),
             // see https://github.com/CQCL/hugr-qir/issues/27
         ];
-        let entry_func_name = find_entry_point(&namer, hugr).unwrap();
+        let entry_func_name = find_entry_point_name(&namer, hugr)?;
         let fn_value = module.get_function(&entry_func_name);
         if fn_value == None {
             return Err(anyhow!("expected main function: \"{}\" not found in HUGR", entry_func_name));
@@ -163,3 +182,4 @@ impl CompileArgs {
 
 #[cfg(test)]
 pub(crate) mod test;
+mod inline;
