@@ -1,0 +1,5 @@
+---
+source: tests/guppy.rs
+expression: stderr
+---
+
