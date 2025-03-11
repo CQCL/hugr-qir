@@ -19,8 +19,6 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         .stderr(Stdio::piped())
         .output()
         .unwrap();
-    eprintln!("{}", std::str::from_utf8(&stdout).unwrap());
-    eprintln!("{}", std::str::from_utf8(&stderr).unwrap());
     assert!(status.success());
     let hugr = Package::from_json_reader(stdout.as_slice(), &STD_REG)
         .unwrap()
@@ -57,9 +55,9 @@ fn guppy_examples(
     #[files("**/*.py")]
     file: impl AsRef<Path>,
 ) {
-    let file2 = file.as_ref();
+    let file = file.as_ref();
     let mut settings = insta::Settings::clone_current();
-    settings.set_snapshot_suffix(file2.file_stem().unwrap().to_str().unwrap());
+    settings.set_snapshot_suffix(file.file_stem().unwrap().to_str().unwrap());
     settings.bind(|| {
         let (mut hugr, stderr) = capture_guppy(file);
         assert_snapshot!("llvmir", compile(&mut hugr));
