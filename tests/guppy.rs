@@ -1,7 +1,4 @@
-use std::{
-    path::Path,
-    process::{self, Command, Stdio},
-};
+use std::{env, path::Path, process::{self, Command, Stdio}};
 
 use hugr::{package::Package, std_extensions::STD_REG, Hugr};
 use hugr_llvm::inkwell;
@@ -15,7 +12,7 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         status,
         stdout,
         stderr,
-    } = Command::new("python")
+    } = Command::new(".devenv/state/venv/bin/python")
         .arg(path.as_ref())
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
