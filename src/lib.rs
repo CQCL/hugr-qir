@@ -17,8 +17,6 @@ use rotation::RotationCodegenExtension;
 use inkwell::passes::PassManager;
 use anyhow::anyhow;
 use hugr::HugrView;
-use crate::inkwell::module::FlagBehavior;
-use crate::inkwell::values::AnyValueEnum::MetadataValue;
 
 pub mod cli;
 pub mod qir;
@@ -184,7 +182,7 @@ impl CompileArgs {
         let val_3_1 = module.get_context().metadata_string("dynamic_result_management");
         let val_3_2 = bool_type.const_int(0, false);
 
-        let md_node_0 = module.get_context().metadata_node(&[val_0_0.into(), val_0_1.into(), val_0_2.into() ]);
+        let md_node_0 = module.get_context().metadata_node(&[val_0_0.into(), val_0_1.into(), val_0_2.into()]);
         let md_node_1 = module.get_context().metadata_node(&[val_1_0.into(), val_1_1.into(), val_1_2.into()]);
         let md_node_2 = module.get_context().metadata_node(&[val_2_0.into(), val_2_1.into(), val_2_2.into()]);
         let md_node_3 = module.get_context().metadata_node(&[val_3_0.into(), val_3_1.into(), val_3_2.into()]);
