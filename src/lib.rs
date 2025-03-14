@@ -17,6 +17,8 @@ use rotation::RotationCodegenExtension;
 use inkwell::passes::PassManager;
 use anyhow::anyhow;
 use hugr::HugrView;
+use crate::inkwell::module::FlagBehavior;
+use crate::inkwell::values::AnyValueEnum::MetadataValue;
 
 pub mod cli;
 pub mod qir;
@@ -158,6 +160,40 @@ impl CompileArgs {
         for attribute in attributes {
             fn_value.unwrap().add_attribute(AttributeLoc::Function, attribute);
         }
+
+        let int_type = module.get_context().i32_type();
+        let bool_type = module.get_context().bool_type();
+
+        // !0 = !{i32 1, !"qir_major_version", i32 1}
+        let val_0_0 = int_type.const_int(1, false);
+        let val_0_1 = module.get_context().metadata_string("qir_major_version");
+        let val_0_2 = int_type.const_int(1, false);
+
+        // !1 = !{i32 7, !"qir_minor_version", i32 0}
+        let val_1_0 = int_type.const_int(7, false);
+        let val_1_1 = module.get_context().metadata_string("qir_minor_version");
+        let val_1_2 = int_type.const_int(0, false);
+
+        // !2 = !{i32 1, !"dynamic_qubit_management", i1 false}
+        let val_2_0 = int_type.const_int(1, false);
+        let val_2_1 = module.get_context().metadata_string("dynamic_qubit_management");
+        let val_2_2 = bool_type.const_int(0, false);
+
+        // !3 = !{i32 1, !"dynamic_result_management", i1 false}
+        let val_3_0 = int_type.const_int(1, false);
+        let val_3_1 = module.get_context().metadata_string("dynamic_result_management");
+        let val_3_2 = bool_type.const_int(0, false);
+
+        let md_node_0 = module.get_context().metadata_node(&[val_0_0.into(), val_0_1.into(), val_0_2.into() ]);
+        let md_node_1 = module.get_context().metadata_node(&[val_1_0.into(), val_1_1.into(), val_1_2.into()]);
+        let md_node_2 = module.get_context().metadata_node(&[val_2_0.into(), val_2_1.into(), val_2_2.into()]);
+        let md_node_3 = module.get_context().metadata_node(&[val_3_0.into(), val_3_1.into(), val_3_2.into()]);
+
+        module.add_global_metadata("llvm.module.flags", &md_node_0).unwrap();
+        module.add_global_metadata("llvm.module.flags", &md_node_1).unwrap();
+        module.add_global_metadata("llvm.module.flags", &md_node_2).unwrap();
+        module.add_global_metadata("llvm.module.flags", &md_node_3).unwrap();
+
         Ok(())
     }
 
