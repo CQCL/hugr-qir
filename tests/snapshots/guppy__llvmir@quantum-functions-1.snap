@@ -44,8 +44,9 @@ cond_58_case_0:                                   ; preds = %alloca_block
   br label %cond_exit_58
 
 cond_exit_58:                                     ; preds = %cond_58_case_1, %cond_58_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_58_case_0 ], [ %0, %cond_58_case_1 ]
-  %6 = extractvalue { i1, %QUBIT* } %3, 0
+  %"0.0.reg2mem33.0" = phi %QUBIT* [ %0, %cond_58_case_1 ], [ null, %cond_58_case_0 ]
+  %.reload.fca.1.insert = insertvalue { i1, %QUBIT* } %3, %QUBIT* %2, 1
+  %6 = extractvalue { i1, %QUBIT* } %.reload.fca.1.insert, 0
   br i1 %6, label %cond_47_case_1, label %cond_47_case_0
 
 cond_47_case_1:                                   ; preds = %cond_exit_58
@@ -57,11 +58,11 @@ cond_47_case_0:                                   ; preds = %cond_exit_58
   br label %cond_exit_47
 
 cond_exit_47:                                     ; preds = %cond_47_case_1, %cond_47_case_0
-  %"09.0" = phi %QUBIT* [ null, %cond_47_case_0 ], [ %2, %cond_47_case_1 ]
-  %8 = call %QUBIT* @__hugr__.fun_func.1(%QUBIT* %"0.0")
+  %"09.0.reg2mem.0" = phi %QUBIT* [ %2, %cond_47_case_1 ], [ null, %cond_47_case_0 ]
+  %8 = call %QUBIT* @__hugr__.fun_func.1(%QUBIT* %"0.0.reg2mem33.0")
   %9 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %8)
   %10 = call i1 @__quantum__qis__read_result__body(%RESULT* %9)
-  %11 = call %QUBIT* @__hugr__.fun_func.1(%QUBIT* %"09.0")
+  %11 = call %QUBIT* @__hugr__.fun_func.1(%QUBIT* %"09.0.reg2mem.0")
   %12 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %11)
   %13 = call i1 @__quantum__qis__read_result__body(%RESULT* %12)
   call void @__quantum__rt__bool_record_output(i1 %10, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))

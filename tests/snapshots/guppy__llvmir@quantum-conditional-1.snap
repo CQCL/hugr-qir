@@ -26,8 +26,8 @@ alloca_block:
 cond_49_case_1:                                   ; preds = %alloca_block
   br label %cond_exit_49
 
-5:                                                ; preds = %cond_exit_38, %13
-  %6 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
+5:                                                ; preds = %cond_exit_38._crit_edge, %13
+  %6 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0.reg2mem71.0")
   %7 = call i1 @__quantum__qis__read_result__body(%RESULT* %6)
   call void @__quantum__rt__bool_record_output(i1 %7, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
   ret void
@@ -38,9 +38,10 @@ cond_49_case_0:                                   ; preds = %alloca_block
   br label %cond_exit_49
 
 cond_exit_49:                                     ; preds = %cond_49_case_1, %cond_49_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_49_case_0 ], [ %0, %cond_49_case_1 ]
-  call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"0.0")
-  %9 = extractvalue { i1, %QUBIT* } %3, 0
+  %"0.0.reg2mem71.0" = phi %QUBIT* [ %0, %cond_49_case_1 ], [ null, %cond_49_case_0 ]
+  call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"0.0.reg2mem71.0")
+  %.reload.fca.1.insert = insertvalue { i1, %QUBIT* } %3, %QUBIT* %2, 1
+  %9 = extractvalue { i1, %QUBIT* } %.reload.fca.1.insert, 0
   br i1 %9, label %cond_38_case_1, label %cond_38_case_0
 
 cond_38_case_1:                                   ; preds = %cond_exit_49
@@ -52,19 +53,22 @@ cond_38_case_0:                                   ; preds = %cond_exit_49
   br label %cond_exit_38
 
 cond_exit_38:                                     ; preds = %cond_38_case_1, %cond_38_case_0
-  %"012.0" = phi %QUBIT* [ null, %cond_38_case_0 ], [ %2, %cond_38_case_1 ]
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"012.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"012.0")
-  call void @__quantum__qis__zzmax__body(%QUBIT* %"012.0", %QUBIT* %"0.0")
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %QUBIT* %"0.0")
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"0.0")
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"012.0")
-  %11 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"012.0")
+  %"012.0.reg2mem.0" = phi %QUBIT* [ %2, %cond_38_case_1 ], [ null, %cond_38_case_0 ]
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"012.0.reg2mem.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"012.0.reg2mem.0")
+  call void @__quantum__qis__zzmax__body(%QUBIT* %"012.0.reg2mem.0", %QUBIT* %"0.0.reg2mem71.0")
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %QUBIT* %"0.0.reg2mem71.0")
+  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"0.0.reg2mem71.0")
+  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"012.0.reg2mem.0")
+  %11 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"012.0.reg2mem.0")
   %12 = call i1 @__quantum__qis__read_result__body(%RESULT* %11)
-  br i1 %12, label %13, label %5
+  br i1 %12, label %13, label %cond_exit_38._crit_edge
+
+cond_exit_38._crit_edge:                          ; preds = %cond_exit_38
+  br label %5
 
 13:                                               ; preds = %cond_exit_38
-  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* %"0.0")
+  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* %"0.0.reg2mem71.0")
   br label %5
 }
 

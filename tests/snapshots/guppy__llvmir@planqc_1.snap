@@ -63,8 +63,8 @@ cond_65_case_0:                                   ; preds = %alloca_block
   br label %cond_exit_65
 
 cond_exit_65:                                     ; preds = %cond_65_case_1, %cond_65_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_65_case_0 ], [ %0, %cond_65_case_1 ]
-  %4 = call %QUBIT* @__hugr__.rx.1(%QUBIT* %"0.0", double 1.500000e+00)
+  %"0.0.reg2mem.0" = phi %QUBIT* [ %0, %cond_65_case_1 ], [ null, %cond_65_case_0 ]
+  %4 = call %QUBIT* @__hugr__.rx.1(%QUBIT* %"0.0.reg2mem.0", double 1.500000e+00)
   %5 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %4)
   %6 = call i1 @__quantum__qis__read_result__body(%RESULT* %5)
   call void @__quantum__rt__bool_record_output(i1 %6, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))

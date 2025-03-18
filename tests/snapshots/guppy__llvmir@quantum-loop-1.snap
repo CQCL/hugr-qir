@@ -28,18 +28,18 @@ cond_117_case_1:                                  ; preds = %alloca_block
   br label %cond_exit_117
 
 5:                                                ; preds = %11, %cond_exit_106
-  %"19_1.0" = phi i64 [ 10, %cond_exit_106 ], [ %15, %11 ]
-  %"19_0.0" = phi i64 [ 0, %cond_exit_106 ], [ %14, %11 ]
-  %6 = insertvalue { i64, i64 } poison, i64 %"19_0.0", 0
-  %7 = insertvalue { i64, i64 } %6, i64 %"19_1.0", 1
+  %"19_0.0.reg2mem.0" = phi i64 [ 0, %cond_exit_106 ], [ %14, %11 ]
+  %"19_1.0.reg2mem.0" = phi i64 [ 10, %cond_exit_106 ], [ %15, %11 ]
+  %6 = insertvalue { i64, i64 } poison, i64 %"19_0.0.reg2mem.0", 0
+  %7 = insertvalue { i64, i64 } %6, i64 %"19_1.0.reg2mem.0", 1
   %8 = call { i1, { i64, i64 } } @__hugr__.__hasnext__.25({ i64, i64 } %7)
   %9 = extractvalue { i1, { i64, i64 } } %8, 0
   %10 = extractvalue { i1, { i64, i64 } } %8, 1
   br i1 %9, label %11, label %16
 
 11:                                               ; preds = %5
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"09.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"09.0")
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"09.0.reg2mem136.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"09.0.reg2mem136.0")
   %12 = call { i64, { i64, i64 } } @__hugr__.__next__.52({ i64, i64 } %10)
   %13 = extractvalue { i64, { i64, i64 } } %12, 1
   %14 = extractvalue { i64, i64 } %13, 0
@@ -47,9 +47,9 @@ cond_117_case_1:                                  ; preds = %alloca_block
   br label %5
 
 16:                                               ; preds = %5
-  %17 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
+  %17 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0.reg2mem138.0")
   %18 = call i1 @__quantum__qis__read_result__body(%RESULT* %17)
-  %19 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"09.0")
+  %19 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"09.0.reg2mem136.0")
   %20 = call i1 @__quantum__qis__read_result__body(%RESULT* %19)
   call void @__hugr__.__end__.36({ i64, i64 } %10)
   call void @__quantum__rt__bool_record_output(i1 %18, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
@@ -62,8 +62,9 @@ cond_117_case_0:                                  ; preds = %alloca_block
   br label %cond_exit_117
 
 cond_exit_117:                                    ; preds = %cond_117_case_1, %cond_117_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_117_case_0 ], [ %0, %cond_117_case_1 ]
-  %22 = extractvalue { i1, %QUBIT* } %3, 0
+  %"0.0.reg2mem138.0" = phi %QUBIT* [ %0, %cond_117_case_1 ], [ null, %cond_117_case_0 ]
+  %.reload129.fca.1.insert = insertvalue { i1, %QUBIT* } %3, %QUBIT* %2, 1
+  %22 = extractvalue { i1, %QUBIT* } %.reload129.fca.1.insert, 0
   br i1 %22, label %cond_106_case_1, label %cond_106_case_0
 
 cond_106_case_1:                                  ; preds = %cond_exit_117
@@ -75,7 +76,7 @@ cond_106_case_0:                                  ; preds = %cond_exit_117
   br label %cond_exit_106
 
 cond_exit_106:                                    ; preds = %cond_106_case_1, %cond_106_case_0
-  %"09.0" = phi %QUBIT* [ null, %cond_106_case_0 ], [ %2, %cond_106_case_1 ]
+  %"09.0.reg2mem136.0" = phi %QUBIT* [ %2, %cond_106_case_1 ], [ null, %cond_106_case_0 ]
   br label %5
 }
 
