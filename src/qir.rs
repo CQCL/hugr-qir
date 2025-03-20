@@ -4,7 +4,7 @@ pub mod result_ext;
 pub mod tket2_ext;
 
 use anyhow::{bail, ensure, Result};
-use hugr::llvm as hugr_llvm;
+use hugr::{llvm as hugr_llvm, Node};
 use hugr::{
     extension::prelude::qb_t,
     llvm::{extension::PreludeCodegen, CodegenExtension, CodegenExtsBuilder},
@@ -47,7 +47,7 @@ fn result_type(ctx: &Context) -> impl BasicType<'_> {
 /// Emits a call to a qir gate fuction.
 /// This function takes some number of angles as doubles, followed by some
 /// number of qubits as QUBIT pointers.
-fn emit_qis_gate<'c, H: HugrView>(
+fn emit_qis_gate<'c, H: HugrView<Node=Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     func: impl AsRef<str>,
     angles: impl AsRef<[BasicValueEnum<'c>]>,
@@ -82,7 +82,7 @@ fn emit_qis_gate<'c, H: HugrView>(
 
 /// A helper to emit a qir gate function as [emit_qis_gate], and then finish a
 /// [RowPromise] with the qubit inputs.
-fn emit_qis_gate_finish<'c, H: HugrView>(
+fn emit_qis_gate_finish<'c, H: HugrView<Node=Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     func: impl AsRef<str>,
     angles: impl AsRef<[BasicValueEnum<'c>]>,
@@ -95,7 +95,7 @@ fn emit_qis_gate_finish<'c, H: HugrView>(
 
 /// A helper to emit a qir measure function and return the result as a RESULT
 /// pointer.
-fn emit_qis_measure_to_result<'c, H: HugrView>(
+fn emit_qis_measure_to_result<'c, H: HugrView<Node=Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     qb: BasicValueEnum<'c>,
 ) -> Result<BasicValueEnum<'c>> {
@@ -115,7 +115,7 @@ fn emit_qis_measure_to_result<'c, H: HugrView>(
 }
 
 /// A helper to convert a RESULT pointer to a (representation of) a hugr bool.
-fn emit_qis_read_result<'c, H: HugrView>(
+fn emit_qis_read_result<'c, H: HugrView<Node=Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     result: BasicValueEnum<'c>,
 ) -> Result<BasicValueEnum<'c>> {
@@ -141,7 +141,7 @@ fn emit_qis_read_result<'c, H: HugrView>(
 }
 
 /// A helper to emit a qir __quantum__rt__qubit_release call.
-fn emit_qis_qfree<'c, H: HugrView>(
+fn emit_qis_qfree<'c, H: HugrView<Node=Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     qb: BasicValueEnum<'c>,
 ) -> Result<()> {
@@ -154,7 +154,7 @@ fn emit_qis_qfree<'c, H: HugrView>(
 
 /// A helper to emit a qir __quantum__rt__qubit_allocate call.
 /// Returns a qir QUBIT pointer.
-fn emit_qis_qalloc<'c, H: HugrView>(
+fn emit_qis_qalloc<'c, H: HugrView<Node=Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
 ) -> Result<BasicValueEnum<'c>> {
     let qb_ty = context.llvm_type(&qb_t())?;
@@ -175,7 +175,7 @@ fn emit_qis_qalloc<'c, H: HugrView>(
 pub struct QirCodegenExtension;
 
 impl CodegenExtension for QirCodegenExtension {
-    fn add_extension<'a, H: HugrView + 'a>(
+    fn add_extension<'a, H: HugrView<Node=Node> + 'a>(
         self,
         builder: CodegenExtsBuilder<'a, H>,
     ) -> CodegenExtsBuilder<'a, H>

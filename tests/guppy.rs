@@ -20,6 +20,7 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         .output()
         .unwrap();
     assert!(status.success());
+    #[allow(deprecated)]
     let hugr = Package::from_json_reader(stdout.as_slice(), &STD_REG)
         .unwrap()
         .modules

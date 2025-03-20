@@ -18,21 +18,21 @@ alloca_block:
   %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
   %2 = extractvalue { i1, %QUBIT* } %1, 0
   %cond = icmp eq i1 %2, true
-  br i1 %cond, label %cond_20_case_1, label %cond_20_case_0
+  br i1 %cond, label %cond_57_case_1, label %cond_57_case_0
 
-cond_20_case_1:                                   ; preds = %alloca_block
+cond_57_case_1:                                   ; preds = %alloca_block
   %3 = extractvalue { i1, %QUBIT* } %1, 1
-  br label %cond_exit_20
+  br label %cond_exit_57
 
-cond_20_case_0:                                   ; preds = %alloca_block
+cond_57_case_0:                                   ; preds = %alloca_block
   %4 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
   %5 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
   %6 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %4, i8* %5)
   call void @abort()
-  br label %cond_exit_20
+  br label %cond_exit_57
 
-cond_exit_20:                                     ; preds = %cond_20_case_1, %cond_20_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_20_case_0 ], [ %3, %cond_20_case_1 ]
+cond_exit_57:                                     ; preds = %cond_57_case_1, %cond_57_case_0
+  %"0.0" = phi %QUBIT* [ null, %cond_57_case_0 ], [ %3, %cond_57_case_1 ]
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"0.0")
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"0.0")
   %7 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")

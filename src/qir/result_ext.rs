@@ -1,9 +1,5 @@
 use anyhow::{anyhow, bail, Result};
-use hugr::{
-    extension::{prelude::ConstString, simple_op::MakeExtensionOp as _},
-    ops::ExtensionOp,
-    HugrView,
-};
+use hugr::{extension::{prelude::ConstString, simple_op::MakeExtensionOp as _}, ops::ExtensionOp, HugrView, Node};
 use hugr_llvm::{
     emit::{emit_value, EmitFuncContext, EmitOpArgs},
     inkwell::types::BasicType as _,
@@ -14,7 +10,7 @@ use tket2_hseries::extension::result::{ResultOp, ResultOpDef};
 
 use super::QirCodegenExtension;
 impl QirCodegenExtension {
-    pub fn emit_result_op<'c, H: HugrView>(
+    pub fn emit_result_op<'c, H: HugrView<Node=Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,

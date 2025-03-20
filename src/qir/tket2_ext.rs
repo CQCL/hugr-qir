@@ -1,5 +1,5 @@
 use anyhow::{bail, Result};
-use hugr::{ops::ExtensionOp, HugrView};
+use hugr::{ops::ExtensionOp, HugrView, Node};
 use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 
 use crate::qir::{
@@ -10,7 +10,7 @@ use crate::qir::{
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
-    pub fn emit_tk2op<'c, H: HugrView>(
+    pub fn emit_tk2op<'c, H: HugrView<Node=Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,

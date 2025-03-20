@@ -137,7 +137,7 @@ impl CompileArgs {
         Ok(module)
     }}
 
-pub fn find_hugr_entry_point(hugr: &impl HugrView) -> Result<Node> {
+pub fn find_hugr_entry_point(hugr: &impl HugrView<Node=Node>) -> Result<Node> {
     let entry_point_node = {
         let mains: Vec<_> = hugr
             .nodes()
@@ -155,12 +155,12 @@ pub fn find_hugr_entry_point(hugr: &impl HugrView) -> Result<Node> {
     };
     Ok(entry_point_node)
 }
-    pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView) -> Result<String> {
+    pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView<Node=Node>) -> Result<String> {
         let entry_point_node = find_hugr_entry_point(hugr)?; 
         Ok(namer.name_func("main", entry_point_node))
     }
 
-    pub fn add_module_metadata(namer: &Namer, hugr: &impl HugrView, module: &Module) ->  Result<()> {
+    pub fn add_module_metadata(namer: &Namer, hugr: &impl HugrView<Node=Node>, module: &Module) ->  Result<()> {
         let attributes = [
             module.get_context().create_string_attribute("entry_point", ""),
             module.get_context().create_string_attribute("output_labeling_schema", ""),

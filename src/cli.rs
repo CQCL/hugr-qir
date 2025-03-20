@@ -5,7 +5,7 @@ use clap::Parser;
 use clap_verbosity_flag::log::Level;
 use delegate::delegate;
 use hugr::llvm::inkwell;
-use hugr_cli::HugrArgs;
+use hugr_cli::validate::ValArgs;
 use itertools::Itertools;
 
 use crate::CompileArgs;
@@ -16,7 +16,7 @@ use crate::CompileArgs;
 pub struct Cli {
     #[command(flatten)]
     /// common arguments for injesting HUGRs
-    pub hugr_args: HugrArgs,
+    pub hugr_args: ValArgs,
 
     #[clap(
         value_parser,
@@ -61,7 +61,7 @@ impl Cli {
     ) -> Result<inkwell::module::Module<'c>> {
         let mut hugr = self
             .hugr_args
-            .validate()?
+            .run()?
             .into_iter()
             .exactly_one()
             .map_err(|e| {
@@ -110,7 +110,7 @@ impl Cli {
         CompileArgs {
             debug: self.debug,
             save_hugr: self.save_hugr.clone(),
-            verbosity: self.hugr_args.verbose.log_level(),
+            verbosity: self.hugr_args.other_args.verbose.log_level(),
             validate: self.validate,
             qsystem_pass: self.qsystem_pass,
         }

@@ -1,9 +1,5 @@
 use anyhow::Result;
-use hugr::{
-    extension::prelude::{option_type, qb_t},
-    ops::ExtensionOp,
-    HugrView,
-};
+use hugr::{extension::prelude::{option_type, qb_t}, ops::ExtensionOp, HugrView, Node};
 use hugr_llvm::{
     emit::{EmitFuncContext, EmitOpArgs},
     sum::LLVMSumValue,
@@ -19,7 +15,7 @@ use crate::qir::{
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
-    pub fn emit_qsystem_op<'c, H: HugrView>(
+    pub fn emit_qsystem_op<'c, H: HugrView<Node=Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,

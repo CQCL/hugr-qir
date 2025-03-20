@@ -17,79 +17,79 @@ source_filename = "hugr-qir"
 
 define void @__hugr__.main.1() #0 {
 alloca_block:
-  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
-  %2 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %3 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %2, 1
-  %4 = extractvalue { i1, %QUBIT* } %1, 0
-  %cond = icmp eq i1 %4, true
-  br i1 %cond, label %cond_117_case_1, label %cond_117_case_0
+  %0 = insertvalue { i64, i64 } poison, i64 0, 0
+  %1 = insertvalue { i64, i64 } %0, i64 10, 1
+  %2 = extractvalue { i64, i64 } %1, 0
+  %3 = extractvalue { i64, i64 } %1, 1
+  %4 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %5 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %4, 1
+  %6 = extractvalue { i1, %QUBIT* } %5, 0
+  %cond = icmp eq i1 %6, true
+  br i1 %cond, label %cond_187_case_1, label %cond_187_case_0
 
-cond_117_case_1:                                  ; preds = %alloca_block
-  %5 = extractvalue { i1, %QUBIT* } %1, 1
-  br label %cond_exit_117
+cond_187_case_1:                                  ; preds = %alloca_block
+  %7 = extractvalue { i1, %QUBIT* } %5, 1
+  br label %cond_exit_187
 
-6:                                                ; preds = %46, %cond_exit_106
-  %"19_1.0" = phi i64 [ %36, %cond_exit_106 ], [ %62, %46 ]
-  %"19_0.0" = phi i64 [ %35, %cond_exit_106 ], [ %61, %46 ]
-  %7 = insertvalue { i64, i64 } poison, i64 %"19_0.0", 0
-  %8 = insertvalue { i64, i64 } %7, i64 %"19_1.0", 1
-  %9 = extractvalue { i64, i64 } %8, 0
-  %10 = extractvalue { i64, i64 } %8, 1
-  %11 = insertvalue { i64, i64 } poison, i64 %9, 0
-  %12 = insertvalue { i64, i64 } %11, i64 %10, 1
-  %13 = icmp slt i64 %9, %10
-  %14 = select i1 %13, i1 true, i1 false
-  %15 = insertvalue { { i64, i64 }, i1 } poison, i1 %14, 1
-  %16 = insertvalue { { i64, i64 }, i1 } %15, { i64, i64 } %12, 0
-  %17 = extractvalue { { i64, i64 }, i1 } %16, 1
-  %18 = extractvalue { { i64, i64 }, i1 } %16, 0
-  %19 = insertvalue { { i64, i64 }, i1 } poison, i1 %17, 1
-  %20 = insertvalue { { i64, i64 }, i1 } %19, { i64, i64 } %18, 0
-  %21 = extractvalue { { i64, i64 }, i1 } %20, 1
-  %22 = extractvalue { { i64, i64 }, i1 } %20, 0
-  %23 = extractvalue { i64, i64 } %22, 0
-  %24 = extractvalue { i64, i64 } %22, 1
-  %cond168 = icmp eq i1 %21, true
-  br i1 %cond168, label %46, label %37
+8:                                                ; preds = %46, %cond_exit_200
+  %"19_1.0" = phi i64 [ %3, %cond_exit_200 ], [ %62, %46 ]
+  %"19_0.0" = phi i64 [ %2, %cond_exit_200 ], [ %61, %46 ]
+  %9 = insertvalue { i64, i64 } poison, i64 %"19_0.0", 0
+  %10 = insertvalue { i64, i64 } %9, i64 %"19_1.0", 1
+  %11 = extractvalue { i64, i64 } %10, 0
+  %12 = extractvalue { i64, i64 } %10, 1
+  %13 = insertvalue { i64, i64 } poison, i64 %11, 0
+  %14 = insertvalue { i64, i64 } %13, i64 %12, 1
+  %15 = icmp slt i64 %11, %12
+  %16 = select i1 %15, i1 true, i1 false
+  %17 = insertvalue { { i64, i64 }, i1 } poison, i1 %16, 1
+  %18 = insertvalue { { i64, i64 }, i1 } %17, { i64, i64 } %14, 0
+  %19 = extractvalue { { i64, i64 }, i1 } %18, 1
+  %20 = extractvalue { { i64, i64 }, i1 } %18, 0
+  %21 = insertvalue { { i64, i64 }, i1 } poison, i1 %19, 1
+  %22 = insertvalue { { i64, i64 }, i1 } %21, { i64, i64 } %20, 0
+  %23 = extractvalue { { i64, i64 }, i1 } %22, 1
+  %24 = extractvalue { { i64, i64 }, i1 } %22, 0
+  %25 = extractvalue { i64, i64 } %24, 0
+  %26 = extractvalue { i64, i64 } %24, 1
+  %cond172 = icmp eq i1 %23, true
+  br i1 %cond172, label %46, label %37
 
-cond_117_case_0:                                  ; preds = %alloca_block
-  %25 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
-  %26 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
-  %27 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %25, i8* %26)
+cond_187_case_0:                                  ; preds = %alloca_block
+  %27 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
+  %28 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
+  %29 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %27, i8* %28)
   call void @abort()
-  br label %cond_exit_117
+  br label %cond_exit_187
 
-cond_exit_117:                                    ; preds = %cond_117_case_1, %cond_117_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_117_case_0 ], [ %5, %cond_117_case_1 ]
-  %28 = extractvalue { i1, %QUBIT* } %3, 0
-  %cond167 = icmp eq i1 %28, true
-  br i1 %cond167, label %cond_106_case_1, label %cond_106_case_0
+cond_exit_187:                                    ; preds = %cond_187_case_1, %cond_187_case_0
+  %"0.0" = phi %QUBIT* [ null, %cond_187_case_0 ], [ %7, %cond_187_case_1 ]
+  %30 = call %QUBIT* @__quantum__rt__qubit_allocate()
+  %31 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %30, 1
+  %32 = extractvalue { i1, %QUBIT* } %31, 0
+  %cond171 = icmp eq i1 %32, true
+  br i1 %cond171, label %cond_200_case_1, label %cond_200_case_0
 
-cond_106_case_1:                                  ; preds = %cond_exit_117
-  %29 = extractvalue { i1, %QUBIT* } %3, 1
-  br label %cond_exit_106
+cond_200_case_1:                                  ; preds = %cond_exit_187
+  %33 = extractvalue { i1, %QUBIT* } %31, 1
+  br label %cond_exit_200
 
-cond_106_case_0:                                  ; preds = %cond_exit_117
-  %30 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 0
-  %31 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 1
-  %32 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %30, i8* %31)
+cond_200_case_0:                                  ; preds = %cond_exit_187
+  %34 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 0
+  %35 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 1
+  %36 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %34, i8* %35)
   call void @abort()
-  br label %cond_exit_106
+  br label %cond_exit_200
 
-cond_exit_106:                                    ; preds = %cond_106_case_1, %cond_106_case_0
-  %"09.0" = phi %QUBIT* [ null, %cond_106_case_0 ], [ %29, %cond_106_case_1 ]
-  %33 = insertvalue { i64, i64 } poison, i64 0, 0
-  %34 = insertvalue { i64, i64 } %33, i64 10, 1
-  %35 = extractvalue { i64, i64 } %34, 0
-  %36 = extractvalue { i64, i64 } %34, 1
-  br label %6
+cond_exit_200:                                    ; preds = %cond_200_case_0, %cond_200_case_1
+  %"013.0" = phi %QUBIT* [ null, %cond_200_case_0 ], [ %33, %cond_200_case_1 ]
+  br label %8
 
-37:                                               ; preds = %6
+37:                                               ; preds = %8
   %38 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
   %39 = call i1 @__quantum__qis__read_result__body(%RESULT* %38)
   %40 = select i1 %39, i1 true, i1 false
-  %41 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"09.0")
+  %41 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"013.0")
   %42 = call i1 @__quantum__qis__read_result__body(%RESULT* %41)
   %43 = select i1 %42, i1 true, i1 false
   %44 = select i1 %40, i1 true, i1 false
@@ -98,11 +98,11 @@ cond_exit_106:                                    ; preds = %cond_106_case_1, %c
   call void @__quantum__rt__bool_record_output(i1 %45, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
   ret void
 
-46:                                               ; preds = %6
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"09.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"09.0")
-  %47 = insertvalue { i64, i64 } poison, i64 %23, 0
-  %48 = insertvalue { i64, i64 } %47, i64 %24, 1
+46:                                               ; preds = %8
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"013.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"013.0")
+  %47 = insertvalue { i64, i64 } poison, i64 %25, 0
+  %48 = insertvalue { i64, i64 } %47, i64 %26, 1
   %49 = extractvalue { i64, i64 } %48, 0
   %50 = extractvalue { i64, i64 } %48, 1
   %51 = add i64 %49, 1
@@ -117,7 +117,7 @@ cond_exit_106:                                    ; preds = %cond_106_case_1, %c
   %60 = extractvalue { { i64, i64 }, i64 } %59, 0
   %61 = extractvalue { i64, i64 } %60, 0
   %62 = extractvalue { i64, i64 } %60, 1
-  br label %6
+  br label %8
 }
 
 declare %QUBIT* @__quantum__rt__qubit_allocate()
