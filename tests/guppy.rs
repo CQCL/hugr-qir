@@ -1,4 +1,5 @@
 use std::{
+    env,
     path::Path,
     process::{self, Command, Stdio},
 };
@@ -15,7 +16,7 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         status,
         stdout,
         stderr,
-    } = Command::new("python")
+    } = Command::new(".devenv/state/venv/bin/python")
         .arg(path.as_ref())
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
@@ -23,6 +24,7 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         .output()
         .unwrap();
     assert!(status.success());
+    #[allow(deprecated)]
     let hugr = Package::from_json_reader(stdout.as_slice(), &STD_REG)
         .unwrap()
         .modules

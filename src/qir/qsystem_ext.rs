@@ -2,7 +2,7 @@ use anyhow::Result;
 use hugr::{
     extension::prelude::{option_type, qb_t},
     ops::ExtensionOp,
-    HugrView,
+    HugrView, Node,
 };
 use hugr_llvm::{
     emit::{EmitFuncContext, EmitOpArgs},
@@ -19,7 +19,7 @@ use crate::qir::{
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
-    pub fn emit_qsystem_op<'c, H: HugrView>(
+    pub fn emit_qsystem_op<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,
@@ -50,8 +50,7 @@ impl QirCodegenExtension {
                 let i1 = context.iw_context().bool_type();
                 let result_i1 = context.builder().build_int_truncate(result_i32, i1, "")?;
                 // futures are i1s, so this is fine
-                args.outputs
-                    .finish(context.builder(), [result_i1.into()])
+                args.outputs.finish(context.builder(), [result_i1.into()])
             }
             QSystemOp::MeasureReset => {
                 let qb = args.inputs[0];
