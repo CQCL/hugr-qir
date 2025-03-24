@@ -10,7 +10,7 @@ use crate::qir::{
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
-    pub fn emit_tk2op<'c, H: HugrView<Node=Node>>(
+    pub fn emit_tk2op<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,

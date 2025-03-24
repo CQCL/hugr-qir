@@ -67,7 +67,7 @@ impl<PCG: PreludeCodegen> RotationCodegenExtension<PCG> {
 
     /// returns (float, bool) where the float is the number of halfturns, or
     /// poison. If the bool is true then the float is not poison.
-    fn emit_from_halfturns<'c, H: HugrView<Node=Node>>(
+    fn emit_from_halfturns<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         half_turns: FloatValue<'c>,
@@ -108,7 +108,7 @@ impl<PCG: PreludeCodegen> RotationCodegenExtension<PCG> {
         Ok((half_turns, half_turns_ok))
     }
 
-    fn emit_rotation_op<'c, H: HugrView<Node=Node>>(
+    fn emit_rotation_op<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,
@@ -187,7 +187,7 @@ impl<PCG: PreludeCodegen> RotationCodegenExtension<PCG> {
 }
 
 impl<PCG: PreludeCodegen> CodegenExtension for RotationCodegenExtension<PCG> {
-    fn add_extension<'a, H: HugrView<Node=Node> + 'a>(
+    fn add_extension<'a, H: HugrView<Node = Node> + 'a>(
         self,
         builder: CodegenExtsBuilder<'a, H>,
     ) -> CodegenExtsBuilder<'a, H>
@@ -346,10 +346,10 @@ mod test {
 
     impl TryHash for NonFiniteConst64 {}
 
-    fn add_nonfinite_const_extensions<'a, H: HugrView<Node=Node> + 'a>(
+    fn add_nonfinite_const_extensions<'a, H: HugrView<Node = Node> + 'a>(
         cem: CodegenExtsBuilder<'a, H>,
     ) -> CodegenExtsBuilder<'a, H> {
-        fn emit_nonfinite_const<'c, H: HugrView<Node=Node>>(
+        fn emit_nonfinite_const<'c, H: HugrView<Node = Node>>(
             context: &mut EmitFuncContext<'c, '_, H>,
             konst: &NonFiniteConst64,
         ) -> Result<BasicValueEnum<'c>> {

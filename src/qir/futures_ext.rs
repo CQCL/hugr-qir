@@ -1,5 +1,10 @@
 use anyhow::{bail, ensure, Result};
-use hugr::{extension::prelude::bool_t, ops::{ExtensionOp, Value}, types::CustomType, HugrView, Node};
+use hugr::{
+    extension::prelude::bool_t,
+    ops::{ExtensionOp, Value},
+    types::CustomType,
+    HugrView, Node,
+};
 use hugr_llvm::{
     emit::{emit_value, EmitFuncContext, EmitOpArgs},
     inkwell::types::BasicTypeEnum,
@@ -24,7 +29,7 @@ impl QirCodegenExtension {
         Ok(session.iw_context().bool_type().into())
     }
 
-    pub fn emit_futures_op<'c, H: HugrView<Node=Node>>(
+    pub fn emit_futures_op<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,

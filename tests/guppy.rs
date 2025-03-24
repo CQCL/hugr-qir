@@ -1,4 +1,8 @@
-use std::{env, path::Path, process::{self, Command, Stdio}};
+use std::{
+    env,
+    path::Path,
+    process::{self, Command, Stdio},
+};
 
 use hugr::{package::Package, std_extensions::STD_REG, Hugr};
 use hugr_llvm::inkwell;
