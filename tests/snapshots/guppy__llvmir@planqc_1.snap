@@ -16,50 +16,33 @@ source_filename = "hugr-qir"
 
 define void @__hugr__.main.20() #0 {
 alloca_block:
-  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
-  %2 = extractvalue { i1, %QUBIT* } %1, 0
-  %cond = icmp eq i1 %2, true
-  br i1 %cond, label %cond_150_case_1, label %cond_150_case_0
+  br i1 true, label %cond_150_case_1, label %cond_150_case_0
 
 cond_150_case_1:                                  ; preds = %alloca_block
-  %3 = extractvalue { i1, %QUBIT* } %1, 1
   br label %cond_exit_150
 
 cond_150_case_0:                                  ; preds = %alloca_block
-  %4 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
-  %5 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
-  %6 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %4, i8* %5)
+  %0 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0))
   call void @abort()
   br label %cond_exit_150
 
 cond_exit_150:                                    ; preds = %cond_150_case_0, %cond_150_case_1
-  %"0.0" = phi %QUBIT* [ null, %cond_150_case_0 ], [ %3, %cond_150_case_1 ]
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"0.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"0.0")
-  %7 = fcmp oeq double 1.500000e+00, 0x7FF0000000000000
-  %8 = fcmp oeq double 1.500000e+00, 0xFFF0000000000000
-  %9 = fcmp uno double 1.500000e+00, 0.000000e+00
-  %10 = or i1 %7, %8
-  %11 = or i1 %10, %9
-  %12 = xor i1 %11, true
-  br i1 %12, label %15, label %13
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
+  br i1 true, label %3, label %1
 
-13:                                               ; preds = %cond_exit_150
-  %14 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @1, i32 0, i32 0))
+1:                                                ; preds = %cond_exit_150
+  %2 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @1, i32 0, i32 0))
   call void @abort()
   unreachable
 
-15:                                               ; preds = %cond_exit_150
-  %16 = fmul double 1.500000e+00, 0x400921FB54442D18
-  call void @__quantum__qis__rz__body(double %16, %QUBIT* %"0.0")
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"0.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"0.0")
-  %17 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
-  %18 = call i1 @__quantum__qis__read_result__body(%RESULT* %17)
-  %19 = select i1 %18, i1 true, i1 false
-  %20 = select i1 %19, i1 true, i1 false
-  call void @__quantum__rt__bool_record_output(i1 %20, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
+3:                                                ; preds = %cond_exit_150
+  call void @__quantum__qis__rz__body(double 0x4012D97C7F3321D2, %QUBIT* null)
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
+  %4 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
+  %5 = call i1 @__quantum__qis__read_result__body(%RESULT* %4)
+  call void @__quantum__rt__bool_record_output(i1 %5, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
   ret void
 }
 
