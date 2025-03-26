@@ -35,6 +35,22 @@ impl PreludeCodegen for QirPreludeCodegen {
             .unwrap_or_else(|| iw_ctx.opaque_struct_type("QUBIT"))
             .ptr_type(Default::default())
     }
+
+    fn emit_panic<H: HugrView<Node = Node>>(
+        &self,
+        _ctx: &mut EmitFuncContext<H>,
+        _err: BasicValueEnum,
+    ) -> Result<()> {
+        Ok(()) // we don't want to convert panic, just do nothing
+    }
+
+    fn emit_print<H: HugrView<Node = Node>>(
+        &self,
+        _ctx: &mut EmitFuncContext<H>,
+        _text: inkwell::values::BasicValueEnum,
+    ) -> Result<()> {
+        Ok(()) // we don't want to convert print, just do nothing
+    }
 }
 
 /// Returns the qir "RESULT" type.

@@ -9,55 +9,26 @@ source_filename = "hugr-qir"
 %RESULT = type opaque
 
 @0 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
-@prelude.panic_template = private unnamed_addr constant [34 x i8] c"Program panicked (signal %i): %s\0A\00", align 1
 @1 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
-@prelude.panic_template.1 = private unnamed_addr constant [34 x i8] c"Program panicked (signal %i): %s\0A\00", align 1
 @2 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @3 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
 define void @__hugr__.main.25() #0 {
 alloca_block:
-  br i1 true, label %cond_182_case_1, label %cond_182_case_0
-
-cond_182_case_1:                                  ; preds = %alloca_block
-  br label %cond_exit_182
-
-cond_182_case_0:                                  ; preds = %alloca_block
-  %0 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0))
-  call void @abort()
-  br label %cond_exit_182
-
-cond_exit_182:                                    ; preds = %cond_182_case_1, %cond_182_case_0
-  br i1 true, label %cond_195_case_1, label %cond_195_case_0
-
-cond_195_case_1:                                  ; preds = %cond_exit_182
-  br label %cond_exit_195
-
-cond_195_case_0:                                  ; preds = %cond_exit_182
-  %1 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0))
-  call void @abort()
-  br label %cond_exit_195
-
-cond_exit_195:                                    ; preds = %cond_195_case_1, %cond_195_case_0
-  %"010.0.reg2mem.0" = phi %QUBIT* [ inttoptr (i64 1 to %QUBIT*), %cond_195_case_1 ], [ null, %cond_195_case_0 ]
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"010.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"010.0.reg2mem.0")
-  %2 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %0 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
+  %1 = call i1 @__quantum__qis__read_result__body(%RESULT* %0)
+  %2 = call %RESULT* @__quantum__qis__m__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
   %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
-  %4 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"010.0.reg2mem.0")
-  %5 = call i1 @__quantum__qis__read_result__body(%RESULT* %4)
-  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
-  call void @__quantum__rt__bool_record_output(i1 %5, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
   ret void
 }
 
 declare %QUBIT* @__quantum__rt__qubit_allocate()
-
-declare i32 @printf(i8*, ...)
-
-declare void @abort()
 
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
 
