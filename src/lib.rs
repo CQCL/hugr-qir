@@ -177,12 +177,20 @@ pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView<Node = Node>) -
 
 pub fn replace_qubit_allocate(module: &Module) -> Result<()> {
     let first_func = module.get_first_function().unwrap();
-    let blockvec = first_func.get_basic_blocks();
 
     let mut qubit_counter: u64 = 0;
 
+    let mut count_func: u64 = 0;
+    for func in module.get_functions() {
+        if func.get_basic_blocks().len() > 0 {
+            count_func += 1;
+        }
+    }
+
+    debug_assert!(count_func == 1);
+
     for block in first_func.get_basic_blocks() {
-        for ins in  block.get_instructions() {
+        for ins in block.get_instructions() {
             let Ok(call) = CallSiteValue::try_from(ins) else {
                 continue;
             };
