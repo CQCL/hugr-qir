@@ -1,0 +1,19 @@
+# Filters used by [dorny/path-filters](https://github.com/dorny/paths-filter)
+# to detect changes in each subproject, and only run the corresponding jobs.
+
+# Dependencies and common workspace configuration.
+rust-config: &rust-config
+  - "Cargo.lock"
+  - "Cargo.toml"
+  - ".github/workflows/ci-rs.yml"
+
+rust: &rust
+  - *rust-config
+  - "src/**"
+
+python:
+  - *rust
+  - "python/**"
+  - "pyproject.toml"
+  - "uv.lock"
+  - ".github/workflows/ci-py.yml"
