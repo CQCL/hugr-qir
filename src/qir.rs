@@ -119,7 +119,7 @@ fn emit_qis_measure_to_result<'c, H: HugrView<Node = Node>>(
     let iw_ctx = context.iw_context();
     let res_t = result_type(iw_ctx);
     let measure_t = res_t.fn_type(&[qb.get_type().into()], false);
-    let measure_func = context.get_extern_func("__quantum__qis__m__body", measure_t)?;
+    let measure_func = context.get_extern_func("__quantum__qis__mz__body", measure_t)?;
     let Some(result) = context
         .builder()
         .build_call(measure_func, &[qb.into()], "")?
