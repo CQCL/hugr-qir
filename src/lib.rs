@@ -143,7 +143,7 @@ impl CompileArgs {
         pb.add_aggressive_inst_combiner_pass();
         pb.add_aggressive_dce_pass();
         pb.add_instruction_simplify_pass();
-        // pb.add_global_dce(); TODO
+        pb.add_global_dce_pass();
         pb.run_on(module);
 
         module
