@@ -37,19 +37,10 @@ impl PreludeCodegen for QirPreludeCodegen {
             .ptr_type(Default::default())
     }
 
-    /*fn emit_panic<H: HugrView<Node = Node>>(
-        &self,
-        _ctx: &mut EmitFuncContext<H>,
-        _err: BasicValueEnum,
-    ) -> Result<()> {
-        Ok(()) // we don't want to convert panic, just do nothing
-
-    }*/
-
     fn emit_panic<H: HugrView<Node = Node>>(
         &self,
         ctx: &mut EmitFuncContext<H>,
-        err: BasicValueEnum,
+        _err: BasicValueEnum,
     ) -> Result<()> {
         emit_libc_abort(ctx)
     }
