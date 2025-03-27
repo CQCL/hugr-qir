@@ -1,6 +1,8 @@
 use std::fs::OpenOptions;
 use std::rc::Rc;
 
+use crate::inkwell::values::CallSiteValue;
+use crate::inkwell::values::PointerValue;
 use crate::inline::inline;
 use anyhow::anyhow;
 use anyhow::Result;
@@ -109,14 +111,19 @@ impl CompileArgs {
     }
 
     /// Some standard LLVM optimizations
-    pub fn optimize_module(&self, module: &Module) -> Result<()> {
+    pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()> {
         let pb = PassManager::create(());
         pb.add_promote_memory_to_register_pass();
-        pb.add_scalar_repl_aggregates_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
         pb.add_cfg_simplification_pass();
         pb.add_aggressive_inst_combiner_pass();
         pb.add_aggressive_dce_pass();
-
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_instruction_simplify_pass();
+        pb.add_demote_memory_to_register_pass();
+        pb.add_scalar_repl_aggregates_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_instruction_simplify_pass();
         pb.run_on(module);
 
         module
@@ -132,6 +139,8 @@ impl CompileArgs {
         let emit = EmitHugr::new(context, module, namer.clone(), extensions);
         let module = emit.emit_module(hugr.fat_root().unwrap())?.finish();
         add_module_metadata(&namer, hugr, &module)?;
+        replace_qubit_allocate(&module)?;
+
         Ok(module)
     }
 
@@ -166,6 +175,54 @@ pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView<Node = Node>) -
     Ok(namer.name_func("main", entry_point_node))
 }
 
+pub fn replace_qubit_allocate(module: &Module) -> Result<()> {
+    let first_func = module.get_first_function().unwrap();
+
+    let mut qubit_counter: u64 = 0;
+
+    debug_assert_eq!(
+        1,
+        module
+            .get_functions()
+            .filter(|f| f.get_first_basic_block().is_some())
+            .count()
+    );
+
+    for block in first_func.get_basic_blocks() {
+        for ins in block.get_instructions() {
+            let Ok(call) = CallSiteValue::try_from(ins) else {
+                continue;
+            };
+            let func = call.get_called_fn_value();
+
+            let global = func.as_global_value();
+
+            if global.get_name().to_bytes() == "__quantum__rt__qubit_allocate".as_bytes() {
+                let ptr = PointerValue::try_from(ins).unwrap();
+
+                let ptr_width = ptr
+                    .get_type()
+                    .size_of()
+                    .get_zero_extended_constant()
+                    .unwrap_or(64);
+
+                let ptr_int_type = module.get_context().custom_width_int_type(ptr_width as u32);
+
+                let r = ptr_int_type
+                    .const_int(qubit_counter, false)
+                    .const_to_pointer(ptr.get_type());
+
+                qubit_counter += 1;
+
+                ptr.replace_all_uses_with(r);
+
+                ins.erase_from_basic_block();
+            }
+        }
+    }
+
+    Ok(())
+}
 pub fn add_module_metadata(
     namer: &Namer,
     hugr: &impl HugrView<Node = Node>,

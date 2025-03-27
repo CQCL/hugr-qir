@@ -17,58 +17,39 @@ source_filename = "hugr-qir"
 
 define void @__hugr__.main.25() #0 {
 alloca_block:
-  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %1 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %0, 1
-  %2 = extractvalue { i1, %QUBIT* } %1, 0
-  %cond = icmp eq i1 %2, true
-  br i1 %cond, label %cond_182_case_1, label %cond_182_case_0
+  br i1 true, label %cond_182_case_1, label %cond_182_case_0
 
 cond_182_case_1:                                  ; preds = %alloca_block
-  %3 = extractvalue { i1, %QUBIT* } %1, 1
   br label %cond_exit_182
 
 cond_182_case_0:                                  ; preds = %alloca_block
-  %4 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 0
-  %5 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0) }, 1
-  %6 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 %4, i8* %5)
+  %0 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0))
   call void @abort()
   br label %cond_exit_182
 
 cond_exit_182:                                    ; preds = %cond_182_case_1, %cond_182_case_0
-  %"0.0" = phi %QUBIT* [ null, %cond_182_case_0 ], [ %3, %cond_182_case_1 ]
-  %7 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  %8 = insertvalue { i1, %QUBIT* } { i1 true, %QUBIT* poison }, %QUBIT* %7, 1
-  %9 = extractvalue { i1, %QUBIT* } %8, 0
-  %cond77 = icmp eq i1 %9, true
-  br i1 %cond77, label %cond_195_case_1, label %cond_195_case_0
+  br i1 true, label %cond_195_case_1, label %cond_195_case_0
 
 cond_195_case_1:                                  ; preds = %cond_exit_182
-  %10 = extractvalue { i1, %QUBIT* } %8, 1
   br label %cond_exit_195
 
 cond_195_case_0:                                  ; preds = %cond_exit_182
-  %11 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 0
-  %12 = extractvalue { i32, i8* } { i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0) }, 1
-  %13 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 %11, i8* %12)
+  %1 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0))
   call void @abort()
   br label %cond_exit_195
 
 cond_exit_195:                                    ; preds = %cond_195_case_1, %cond_195_case_0
-  %"010.0" = phi %QUBIT* [ null, %cond_195_case_0 ], [ %10, %cond_195_case_1 ]
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"0.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"0.0")
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"010.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"010.0")
-  %14 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"0.0")
-  %15 = call i1 @__quantum__qis__read_result__body(%RESULT* %14)
-  %16 = select i1 %15, i1 true, i1 false
-  %17 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"010.0")
-  %18 = call i1 @__quantum__qis__read_result__body(%RESULT* %17)
-  %19 = select i1 %18, i1 true, i1 false
-  %20 = select i1 %16, i1 true, i1 false
-  call void @__quantum__rt__bool_record_output(i1 %20, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
-  %21 = select i1 %19, i1 true, i1 false
-  call void @__quantum__rt__bool_record_output(i1 %21, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
+  %"010.0.reg2mem.0" = phi %QUBIT* [ inttoptr (i64 1 to %QUBIT*), %cond_195_case_1 ], [ null, %cond_195_case_0 ]
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"010.0.reg2mem.0")
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"010.0.reg2mem.0")
+  %2 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
+  %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
+  %4 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"010.0.reg2mem.0")
+  %5 = call i1 @__quantum__qis__read_result__body(%RESULT* %4)
+  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %5, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
   ret void
 }
 
