@@ -15,7 +15,14 @@ source_filename = "hugr-qir"
 @4 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
 @5 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @6 = private unnamed_addr constant [2 x i8] c"0\00", align 1
-@__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+
+define void @__hugr__.main.1() #0 {
+alloca_block:
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x3FE921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* null)
@@ -34,74 +41,14 @@ source_filename = "hugr-qir"
   call void @__quantum__qis__phasedx__body(double 0x4012D97C7F3321D2, double 0x3FF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x4012D97C7F3321D2, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   %2 = call %RESULT* @__quantum__qis__m__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %3 = c@abort()
-  unreachable
+  %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
+  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @5, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @6, i32 0, i32 0))
+  ret void
+}
 
-2:                                                ; preds = %alloca_block
-  br i1 true, label %5, label %3
+declare void @abort()
 
-3:                                                ; preds = %2
-  %4 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @1, i32 0, i32 0))
-  call void @abort()
-  unreachable
-
-5:                                                ; preds = %2
-  br i1 true, label %8, label %6
-
-6:                                                ; preds = %5
-  %7 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.2, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([47 x i8], [47 x i8]* @2, i32 0, i32 0))
-  call void @abort()
-  unreachable
-
-8:                                                ; preds = %5
-  br i1 true, label %cond_278_case_1, label %cond_278_case_0
-
-cond_278_case_1:                                  ; preds = %8
-  br label %cond_exit_278
-
-cond_278_case_0:                                  ; preds = %8
-  %9 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.3, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @3, i32 0, i32 0))
-  call void @abort()
-  br label %cond_exit_278
-
-cond_exit_278:                                    ; preds = %cond_278_case_1, %cond_278_case_0
-  br i1 true, label %cond_291_case_1, label %cond_291_case_0
-
-cond_291_case_1:                                  ; preds = %cond_exit_278
-  br label %cond_exit_291
-
-cond_291_case_0:                                  ; preds = %cond_exit_278
-  %10 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.4, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @4, i32 0, i32 0))
-  call void @abort()
-  br label %cond_exit_291
-
-cond_exit_291:                                    ; preds = %cond_291_case_1, %cond_291_case_0
-  %"019.0.reg2mem.0" = phi %QUBIT* [ inttoptr (i64 1 to %QUBIT*), %cond_291_case_1 ], [ null, %cond_291_case_0 ]
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0x3FE921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__zzmax__body(%QUBIT* %"019.0.reg2mem.0", %QUBIT* null)
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x400921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__zzmax__body(%QUBIT* %"019.0.reg2mem.0", %QUBIT* null)
-  call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  %11 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
-  %12 = call i1 @__quantum__qis__read_result__body(%RESULT* %11)
-  call void @__quantum__qis__phasedx__body(double 0x4012D97C7F3321D2, double 0.000000e+00, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__phasedx__body(double 0x4012D97C7F3321D2, double 0x3FF921FB54442D18, %QUBIT* %"019.0.reg2mem.0")
-  call void @__quantum__qis__rz__body(double 0x4012D97C7F3321D2, %QUBIT* %"019.0.reg2mem.0")
-  %13 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"019.0.reg2mem.0")
-  %14 = call i1 @__quantum__qis__read_result__body(%RESULT* %13)
-  cal
 declare %QUBIT* @__quantum__rt__qubit_allocate()
 
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)

@@ -12,7 +12,12 @@ source_filename = "hugr-qir"
 @1 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
 @2 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @3 = private unnamed_addr constant [2 x i8] c"0\00", align 1
-                                       ; preds = %7, %alloca_block
+
+define void @__hugr__.main.1() #0 {
+alloca_block:
+  br label %0
+
+0:                                                ; preds = %7, %alloca_block
   %"19_0.0.reg2mem178.0.reg2mem182.0" = phi i64 [ 0, %alloca_block ], [ %8, %7 ]
   %1 = icmp slt i64 %"19_0.0.reg2mem178.0.reg2mem182.0", 10
   br i1 %1, label %7, label %2
@@ -27,45 +32,11 @@ source_filename = "hugr-qir"
   ret void
 
 7:                                                ; preds = %0
-  call v%cond_exit_187
-
-0:                                                ; preds = %9, %cond_exit_200
-  %"19_0.0.reg2mem178.0" = phi i64 [ 0, %cond_exit_200 ], [ %10, %9 ]
-  %1 = icmp slt i64 %"19_0.0.reg2mem178.0", 10
-  br i1 %1, label %9, label %4
-
-cond_187_case_0:                                  ; preds = %alloca_block
-  %2 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @0, i32 0, i32 0))
-  call void @abort()
-  br label %cond_exit_187
-
-cond_exit_187:                                    ; preds = %cond_187_case_1, %cond_187_case_0
-  br i1 true, label %cond_200_case_1, label %cond_200_case_0
-
-cond_200_case_1:                                  ; preds = %cond_exit_187
-  br label %cond_exit_200
-
-cond_200_case_0:                                  ; preds = %cond_exit_187
-  %3 = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([34 x i8], [34 x i8]* @prelude.panic_template.1, i32 0, i32 0), i32 1, i8* getelementptr inbounds ([37 x i8], [37 x i8]* @1, i32 0, i32 0))
-  call void @abort()
-  br label %cond_exit_200
-
-cond_exit_200:                                    ; preds = %cond_200_case_0, %cond_200_case_1
-  %"013.0.reg2mem176.0" = phi %QUBIT* [ inttoptr (i64 1 to %QUBIT*), %cond_200_case_1 ], [ null, %cond_200_case_0 ]
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %8 = add i64 %"19_0.0.reg2mem178.0.reg2mem182.0", 1
   br label %0
-
-4:                                                ; preds = %0
-  %5 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
-  %6 = call i1 @__quantum__qis__read_result__body(%RESULT* %5)
-  %7 = call %RESULT* @__quantum__qis__m__body(%QUBIT* %"013.0.reg2mem176.0")
-  %8 = call i1 @__quantum__qis__read_result__body(%RESULT* %7)
-  call void @__quantum__rt__bool_record_output(i1 %6, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
-  call void @__quantum__rt__bool_record_output(i1 %8, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
-  ret void
-
-9:                                                ; preds = %0
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* %"013.0.reg2mem176.0")
-  call v
+}
 
 declare %QUBIT* @__quantum__rt__qubit_allocate()
 
