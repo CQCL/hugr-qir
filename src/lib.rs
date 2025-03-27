@@ -113,6 +113,25 @@ impl CompileArgs {
     /// Some standard LLVM optimizations
     pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()> {
         let pb = PassManager::create(());
+        // the selection and the order of the passes are just found
+        // by trying until the result was good.
+        // find details about them at:
+        // https://docs.rs/llvm-plugin-inkwell/latest/llvm_plugin_inkwell/passes/struct.PassManager.html
+        pb.add_promote_memory_to_register_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_cfg_simplification_pass(); // it seams to be good to have this pass multiple times
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_instruction_simplify_pass(); // it seams to be good to have this pass multiple times
+        pb.add_demote_memory_to_register_pass();
+        pb.add_scalar_repl_aggregates_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_instruction_simplify_pass();
+        pb.add_cfg_simplification_pass();
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        pb.add_instruction_simplify_pass();
         pb.add_promote_memory_to_register_pass();
         pb.add_scalar_repl_aggregates_pass_ssa();
         pb.add_cfg_simplification_pass();
@@ -124,6 +143,11 @@ impl CompileArgs {
         pb.add_scalar_repl_aggregates_pass();
         pb.add_scalar_repl_aggregates_pass_ssa();
         pb.add_instruction_simplify_pass();
+        pb.add_cfg_simplification_pass();
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        pb.add_instruction_simplify_pass();
+        pb.add_global_dce_pass(); // it seams to be good to run this (again) at the end
         pb.run_on(module);
 
         module
