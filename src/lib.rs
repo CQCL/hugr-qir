@@ -200,14 +200,13 @@ pub fn replace_qubit_allocate(module: &Module) -> Result<()> {
 
     let mut qubit_counter: u64 = 0;
 
-    let mut count_func: u64 = 0;
-    for func in module.get_functions() {
-        if func.get_basic_blocks().len() > 0 {
-            count_func += 1;
-        }
-    }
-
-    debug_assert!(count_func == 1);
+    debug_assert_eq!(
+        1,
+        module
+            .get_functions()
+            .filter(|f| f.get_first_basic_block().is_some())
+            .count()
+    );
 
     for block in first_func.get_basic_blocks() {
         for ins in block.get_instructions() {
