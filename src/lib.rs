@@ -124,6 +124,26 @@ impl CompileArgs {
         pb.add_scalar_repl_aggregates_pass();
         pb.add_scalar_repl_aggregates_pass_ssa();
         pb.add_instruction_simplify_pass();
+        pb.add_cfg_simplification_pass();
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        pb.add_instruction_simplify_pass();
+        pb.add_promote_memory_to_register_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_cfg_simplification_pass();
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_instruction_simplify_pass();
+        pb.add_demote_memory_to_register_pass();
+        pb.add_scalar_repl_aggregates_pass();
+        pb.add_scalar_repl_aggregates_pass_ssa();
+        pb.add_instruction_simplify_pass();
+        pb.add_cfg_simplification_pass();
+        pb.add_aggressive_inst_combiner_pass();
+        pb.add_aggressive_dce_pass();
+        pb.add_instruction_simplify_pass();
+        pb.add_global_dce_pass();
         pb.run_on(module);
 
         module

@@ -11,6 +11,7 @@ use hugr::{
     HugrView,
 };
 use hugr::{llvm as hugr_llvm, Node};
+use hugr_llvm::emit::libc::emit_libc_abort;
 use hugr_llvm::emit::RowPromise;
 use hugr_llvm::inkwell;
 use hugr_llvm::inkwell::values::BasicValueEnum;
@@ -34,6 +35,22 @@ impl PreludeCodegen for QirPreludeCodegen {
             .get_struct_type("QUBIT")
             .unwrap_or_else(|| iw_ctx.opaque_struct_type("QUBIT"))
             .ptr_type(Default::default())
+    }
+
+    fn emit_panic<H: HugrView<Node = Node>>(
+        &self,
+        ctx: &mut EmitFuncContext<H>,
+        _err: BasicValueEnum,
+    ) -> Result<()> {
+        emit_libc_abort(ctx)
+    }
+
+    fn emit_print<H: HugrView<Node = Node>>(
+        &self,
+        _ctx: &mut EmitFuncContext<H>,
+        _text: inkwell::values::BasicValueEnum,
+    ) -> Result<()> {
+        Ok(()) // we don't want to convert print, just do nothing
     }
 }
 
