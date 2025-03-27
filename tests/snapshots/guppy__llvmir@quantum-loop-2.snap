@@ -8,11 +8,8 @@ source_filename = "hugr-qir"
 %RESULT = type opaque
 %QUBIT = type opaque
 
-@0 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
-@1 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
-@2 = private unnamed_addr constant [2 x i8] c"1\00", align 1
-@3 = private unnamed_addr constant [2 x i8] c"0\00", align 1
-@4 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
+@0 = private unnamed_addr constant [2 x i8] c"1\00", align 1
+@1 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
 define void @__hugr__.main.1() #0 {
 alloca_block:
@@ -31,8 +28,8 @@ cond_exit_177._crit_edge:                         ; preds = %cond_exit_177, %10
   %4 = call i1 @__quantum__qis__read_result__body(%RESULT* %3)
   %5 = call %RESULT* @__quantum__qis__m__body(%QUBIT* inttoptr (i64 2 to %QUBIT*))
   %6 = call i1 @__quantum__qis__read_result__body(%RESULT* %5)
-  call void @__quantum__rt__bool_record_output(i1 %4, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
-  call void @__quantum__rt__bool_record_output(i1 %6, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @3, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %4, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %6, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
   ret void
 
 cond_exit_177:                                    ; preds = %0
@@ -48,10 +45,6 @@ cond_exit_177:                                    ; preds = %0
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 2 to %QUBIT*))
   br label %cond_exit_177._crit_edge
 }
-
-declare %QUBIT* @__quantum__rt__qubit_allocate()
-
-declare void @abort()
 
 declare %RESULT* @__quantum__qis__m__body(%QUBIT*)
 

@@ -8,9 +8,7 @@ source_filename = "hugr-qir"
 %QUBIT = type opaque
 %RESULT = type opaque
 
-@0 = private unnamed_addr constant [37 x i8] c"Expected variant 1 but got variant 0\00", align 1
-@1 = private unnamed_addr constant [47 x i8] c"tket2.rotation.from_halfturns_unchecked failed\00", align 1
-@2 = private unnamed_addr constant [2 x i8] c"1\00", align 1
+@0 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 
 define void @__hugr__.main.20() #0 {
 alloca_block:
@@ -21,13 +19,9 @@ alloca_block:
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
   %0 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
   %1 = call i1 @__quantum__qis__read_result__body(%RESULT* %0)
-  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
   ret void
 }
-
-declare %QUBIT* @__quantum__rt__qubit_allocate()
-
-declare void @abort()
 
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
 
