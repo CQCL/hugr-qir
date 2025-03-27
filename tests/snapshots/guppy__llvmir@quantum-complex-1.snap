@@ -47,6 +47,8 @@ alloca_block:
   ret void
 }
 
+declare void @abort()
+
 declare %QUBIT* @__quantum__rt__qubit_allocate()
 
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
@@ -61,11 +63,7 @@ declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
 declare void @__quantum__rt__bool_record_output(i1, i8*)
 
-; Function Attrs: inaccessiblememonly nofree nosync nounwind willreturn
-declare void @llvm.assume(i1 noundef) #1
-
 attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="20" "required_num_results"="20" }
-attributes #1 = { inaccessiblememonly nofree nosync nounwind willreturn }
 
 !llvm.module.flags = !{!0, !1, !2, !3}
 

@@ -23,9 +23,9 @@ alloca_block:
   call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %QUBIT* null)
   %0 = call %RESULT* @__quantum__qis__m__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
   %1 = call i1 @__quantum__qis__read_result__body(%RESULT* %0)
-  br i1 %1, label %4, label %alloca_block._crit_edge
+  br i1 %1, label %4, label %cond_exit_138._crit_edge
 
-alloca_block._crit_edge:                          ; preds = %alloca_block, %4
+cond_exit_138._crit_edge:                         ; preds = %alloca_block, %4
   %2 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
   %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
   call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @2, i32 0, i32 0))
@@ -33,10 +33,12 @@ alloca_block._crit_edge:                          ; preds = %alloca_block, %4
 
 4:                                                ; preds = %alloca_block
   call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %QUBIT* null)
-  br label %alloca_block._crit_edge
+  br label %cond_exit_138._crit_edge
 }
 
 declare %QUBIT* @__quantum__rt__qubit_allocate()
+
+declare void @abort()
 
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
 
