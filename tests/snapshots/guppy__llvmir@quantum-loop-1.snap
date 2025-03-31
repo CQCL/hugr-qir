@@ -21,9 +21,9 @@ alloca_block:
   br i1 %1, label %7, label %2
 
 2:                                                ; preds = %0
-  %3 = call %RESULT* @__quantum__qis__m__body(%QUBIT* null)
+  %3 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
   %4 = call i1 @__quantum__qis__read_result__body(%RESULT* %3)
-  %5 = call %RESULT* @__quantum__qis__m__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %5 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
   %6 = call i1 @__quantum__qis__read_result__body(%RESULT* %5)
   call void @__quantum__rt__bool_record_output(i1 %4, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
   call void @__quantum__rt__bool_record_output(i1 %6, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
@@ -36,7 +36,7 @@ alloca_block:
   br label %0
 }
 
-declare %RESULT* @__quantum__qis__m__body(%QUBIT*)
+declare %RESULT* @__quantum__qis__mz__body(%QUBIT*)
 
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
