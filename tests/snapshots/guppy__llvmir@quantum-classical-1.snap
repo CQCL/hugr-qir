@@ -35,7 +35,7 @@ declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
 declare void @__quantum__rt__bool_record_output(i1, i8*)
 
-attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="20" "required_num_results"="20" }
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="2" "required_num_results"="2" }
 
 !llvm.module.flags = !{!0, !1, !2, !3}
 

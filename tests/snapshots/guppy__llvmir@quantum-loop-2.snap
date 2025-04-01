@@ -56,7 +56,7 @@ declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
 
 declare void @__quantum__qis__rz__body(double, %QUBIT*)
 
-attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="20" "required_num_results"="20" }
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="3" "required_num_results"="3" }
 
 !llvm.module.flags = !{!0, !1, !2, !3}
 
