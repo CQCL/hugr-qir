@@ -1,6 +1,7 @@
 import subprocess
 import sys
 from pathlib import Path
+from typing import IO
 
 import pytest
 from quantinuum_qircheck import qircheck
@@ -10,7 +11,7 @@ from hugr_qir._hugr_qir import cli
 GUPPY_EXAMPLES_DIR = Path(__file__).parent / "../../../guppy_examples/"
 
 
-def guppy_to_hugr_json_file(guppy_file: Path, outfd: bytes) -> None:
+def guppy_to_hugr_json_file(guppy_file: Path, outfd: IO) -> None:
     subprocess.run(  # noqa: S603
         [sys.executable, guppy_file],
         check=True,

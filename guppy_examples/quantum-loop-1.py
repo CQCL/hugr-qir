@@ -1,3 +1,5 @@
+from typing import no_type_check
+
 from guppylang import guppy, quantum, qubit
 from guppylang.std.angles import angles
 from guppylang.std.builtins import result
@@ -8,6 +10,7 @@ guppy.load(angles)
 
 
 @guppy
+@no_type_check
 def main() -> None:
     q0 = qubit()
     q1 = qubit()

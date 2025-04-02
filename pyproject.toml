@@ -18,15 +18,20 @@ dev = [
 ]
 
 [build-system]
-requires = ["maturin>=1.1,<2.0"]
+requires = ["maturin>=1.4,<2.0"]
 build-backend = "maturin"
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
 module-name = "hugr_qir._hugr_qir"
-python-source = "python"
+python-source = "python/"
 python-packages = ["hugr_qir"]
 bindings = "pyo3"
+
+[tool.pyright]
+# Rust bindings have typing stubs but no python source code.
+reportMissingModuleSource = "none"
+
 
 [tool.uv.sources]
 quantinuum-qircheck = { git = "https://github.com/CQCL/quantinuum-qircheck.git", branch = "main" }

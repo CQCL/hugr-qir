@@ -1,3 +1,5 @@
+from typing import no_type_check
+
 from guppylang import guppy, quantum, qubit
 from guppylang.std.angles import angle, angles
 from guppylang.std.builtins import result
@@ -8,6 +10,7 @@ guppy.load(angles)
 
 
 @guppy
+@no_type_check
 def rx(q: qubit, x: angle) -> None:
     # Implement Rx via Rz rotation
     h(q)
@@ -16,6 +19,7 @@ def rx(q: qubit, x: angle) -> None:
 
 
 @guppy
+@no_type_check
 def main() -> None:
     q = qubit()
     rx(q, angle(1.5))
