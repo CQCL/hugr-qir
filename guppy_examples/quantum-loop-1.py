@@ -19,7 +19,6 @@ def main() -> None:
     for _ in range(10):
         h(q0)
 
-
     result("0", measure(q0))
     result("1", measure(q1))
 

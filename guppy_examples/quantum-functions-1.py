@@ -10,11 +10,11 @@ guppy.load(quantum)
 guppy.load(angles)
 
 
-
 @guppy
 @no_type_check
 def fun_func(q: qubit) -> None:
     h(q)
+
 
 @guppy
 @no_type_check

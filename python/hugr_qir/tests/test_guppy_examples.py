@@ -32,12 +32,12 @@ def get_guppy_files() -> list[Path]:
     guppy_dir = Path(GUPPY_EXAMPLES_DIR)
     return list(guppy_dir.glob("*.py"))
 
+
 guppy_files = get_guppy_files()
 
+
 @pytest.mark.parametrize(
-    "guppy_file",
-    guppy_files,
-    ids=[str(file_path.stem) for file_path in guppy_files]
+    "guppy_file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files]
 )
 def test_guppy_files(tmp_path: Path, guppy_file: Path) -> None:
     out_file = tmp_path / "out.ll"

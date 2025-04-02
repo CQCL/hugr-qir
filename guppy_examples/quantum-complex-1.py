@@ -24,7 +24,7 @@ def main() -> None:
     y(q0)
     z(q0)
 
-    cx( q0, q1)
+    cx(q0, q1)
     cz(q0, q1)
 
     rx(q0, angle(1.5))

@@ -25,5 +25,6 @@ def main() -> None:
 
     result("0", b2)
 
+
 if __name__ == "__main__":
     sys.stdout.buffer.write(guppy.get_module().compile().package.to_bytes())

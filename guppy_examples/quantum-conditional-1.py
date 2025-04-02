@@ -17,7 +17,7 @@ def main() -> None:
     q1 = qubit()
 
     h(q0)
-    cx( q0, q1)
+    cx(q0, q1)
 
     b0 = measure(q0)
 
