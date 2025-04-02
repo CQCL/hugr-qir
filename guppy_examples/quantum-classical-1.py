@@ -1,3 +1,4 @@
+import sys
 from typing import no_type_check
 
 from guppylang import guppy, quantum, qubit
@@ -25,4 +26,4 @@ def main() -> None:
     result("0", b2)
 
 if __name__ == "__main__":
-    print(guppy.get_module().compile().package.to_json())
+    sys.stdout.buffer.write(guppy.get_module().compile().package.to_bytes())

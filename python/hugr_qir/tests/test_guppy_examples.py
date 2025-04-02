@@ -11,7 +11,7 @@ from hugr_qir._hugr_qir import cli
 GUPPY_EXAMPLES_DIR = Path(__file__).parent / "../../../guppy_examples/"
 
 
-def guppy_to_hugr_json_file(guppy_file: Path, outfd: IO) -> None:
+def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
     subprocess.run(  # noqa: S603
         [sys.executable, guppy_file],
         check=True,
@@ -22,10 +22,10 @@ def guppy_to_hugr_json_file(guppy_file: Path, outfd: IO) -> None:
 
 def cli_on_guppy(guppy_file: Path, tmp_path: Path, *args: str) -> None:
     guppy_file = Path(guppy_file)
-    json_file = tmp_path / Path(f"{guppy_file.name}.json")
-    with Path.open(json_file, "w") as f:
-        guppy_to_hugr_json_file(guppy_file, f)
-    cli(str(json_file), *[str(arg) for arg in args])
+    hugr_file = tmp_path / Path(f"{guppy_file.name}.hugr")
+    with Path.open(hugr_file, "w") as f:
+        guppy_to_hugr_file(guppy_file, f)
+    cli(str(hugr_file), *[str(arg) for arg in args])
 
 
 def get_guppy_files() -> list[Path]:
