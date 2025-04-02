@@ -15,6 +15,7 @@ dev = [
     "pytest>=8.3.4",
     "quantinuum-qircheck",
     "ruff>=0.9.0",
+    "mypy >=1.9.0,<2",
 ]
 
 [build-system]
