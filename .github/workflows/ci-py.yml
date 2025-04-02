@@ -16,7 +16,7 @@ env:
   HUGR_QIR_BIN_DIR: ${{ github.workspace }}/target/debug
   HUGR_QIR_BIN: ${{ github.workspace }}/target/debug/hugr-qir
   # Pinned version for the uv package manager
-  UV_VERSION: "0.4.20"
+  UV_VERSION: "0.6.11"
   UV_FROZEN: 1
   LLVM_VERSION: "14.0"
 
