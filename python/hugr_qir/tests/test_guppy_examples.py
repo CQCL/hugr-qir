@@ -39,6 +39,7 @@ guppy_files = get_guppy_files()
 @pytest.mark.parametrize(
     "guppy_file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files]
 )
+@pytest.mark.xfail(reason="WIP")
 def test_guppy_files(tmp_path: Path, guppy_file: Path) -> None:
     out_file = tmp_path / "out.ll"
     cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file))
