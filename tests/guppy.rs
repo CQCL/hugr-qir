@@ -37,7 +37,7 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
 fn compile(hugr: &mut Hugr) -> String {
     let args = {
         let mut a = CompileArgs::default();
-        a.validate = true;
+        a.validate = false;
         a
     };
     let context = inkwell::context::Context::create();

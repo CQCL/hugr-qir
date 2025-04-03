@@ -60,7 +60,7 @@ impl CompileArgs {
 
         CodegenExtsBuilder::default()
             .add_prelude_extensions(pcg.clone())
-            .add_int_extensions()
+            .add_default_int_extensions()
             .add_float_extensions()
             .add_conversion_extensions()
             .add_logic_extensions()
