@@ -16,7 +16,7 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         status,
         stdout,
         stderr,
-    } = Command::new(".devenv/state/venv/bin/python")
+    } = Command::new("python")
         .arg(path.as_ref())
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
