@@ -7,7 +7,8 @@ use std::{
 use hugr::{package::Package, std_extensions::STD_REG, Hugr};
 use hugr_llvm::inkwell;
 use hugr_qir::CompileArgs;
-use insta::assert_snapshot;
+use std::io::Write;
+use insta::{assert_snapshot, elog};
 use itertools::Itertools as _;
 use rstest::rstest;
 
@@ -23,6 +24,8 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         .stderr(Stdio::piped())
         .output()
         .unwrap();
+    let stderr = String::from_utf8(stderr).unwrap();
+    elog!("stderr: {stderr}");
     assert!(status.success());
     let hugr = Package::load(stdout.as_slice(), Some(&STD_REG))
         .unwrap()
@@ -30,7 +33,6 @@ fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
         .into_iter()
         .exactly_one()
         .unwrap();
-    let stderr = String::from_utf8(stderr).unwrap();
     (hugr, stderr)
 }
 
@@ -53,6 +55,7 @@ fn compile(hugr: &mut Hugr) -> String {
 // If we get problems with new test cases not being run in dev environments we might consider
 // adding a `build.rs` as in:
 // <https://docs.rs/rstest/latest/rstest/attr.rstest.html#files-path-as-input-arguments>
+#[cfg(feature = "py")]
 #[rstest]
 fn guppy_examples(
     #[base_dir = "guppy_examples"]

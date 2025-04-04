@@ -132,6 +132,9 @@ jobs:
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: ${{ env.LLVM_VERSION }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - name: Build with no features
         run: cargo test --verbose  --no-default-features --no-run
       - name: Tests with no features
