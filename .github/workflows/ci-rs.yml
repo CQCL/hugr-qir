@@ -19,11 +19,10 @@ env:
   CI: true # insta snapshots behave differently on ci
   SCCACHE_GHA_ENABLED: "true"
   RUSTC_WRAPPER: "sccache"
-  HUGR_TEST_SCHEMA: "1"
+  uUGR_QIR_TEST_SCHEMA: "1"
   # different strings for install action and feature name
   # adapted from https://github.com/TheDan64/inkwell/blob/master/.github/workflows/test.yml
   LLVM_VERSION: "14.0"
-  LLVM_FEATURE_NAME: "14-0"
 
 
 jobs:
@@ -104,7 +103,7 @@ jobs:
       - name: Install cargo-codspeed
         run: cargo binstall cargo-codspeed --force
       - name: Override criterion with the CodSpeed harness
-        run: cargo add --dev codspeed-criterion-compat --rename criterion --package hugr
+        run: cargo add --dev codspeed-criterion-compat --rename criterion --package hugr-qir
       - name: Build benchmarks
         run: cargo codspeed build --profile bench --features extension_inference,declarative,model_unstable,llvm,llvm-test
       - name: Run benchmarks
@@ -169,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: hugr_qir_binary
-          path: target/debug/hugr
+          path: target/debug/hugr-qir
 
   # Run tests on other toolchains
   tests-other:

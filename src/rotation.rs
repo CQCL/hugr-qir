@@ -18,7 +18,7 @@ use tket2::hugr::HugrView;
 const ROTATION_TYPE_ID: TypeName = TypeName::new_inline("rotation");
 /// A codegen extension for the `tket2.rotation` extension.
 ///
-/// We lower [rotation_custom_type] to an `f64`, representing a number of half-turns.
+/// We lower [rotation_type] to an `f64`, representing a number of half-turns.
 ///
 /// A `RotationCodegenExtension` carries a `PCG`, which should impl
 /// [PreludeCodegen]. This is used to [PreludeCodegen::emit_panic] when lowering panicking ops.

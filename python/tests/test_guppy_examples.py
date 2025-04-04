@@ -4,9 +4,8 @@ from pathlib import Path
 from typing import IO
 
 import pytest
-from quantinuum_qircheck import qircheck
-
 from hugr_qir._hugr_qir import cli
+from quantinuum_qircheck import qircheck
 
 GUPPY_EXAMPLES_DIR = Path(__file__).parent / "../../guppy_examples/"
 
