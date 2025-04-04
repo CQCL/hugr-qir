@@ -8,7 +8,7 @@ from quantinuum_qircheck import qircheck
 
 from hugr_qir._hugr_qir import cli
 
-GUPPY_EXAMPLES_DIR = Path(__file__).parent / "../../../guppy_examples/"
+GUPPY_EXAMPLES_DIR = Path(__file__).parent / "../../guppy_examples/"
 
 
 def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
