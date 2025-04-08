@@ -1,20 +1,13 @@
----
-source: tests/guppy.rs
-expression: compile(&mut hugr)
----
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
 
 %QUBIT = type opaque
 %RESULT = type opaque
 
-@0 = private unnamed_addr constant [2 x i8] c"1\00", align 1
+@0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
-define void @__hugr__.main.20() #0 {
+define void @__hugr__.main.1() #0 {
 alloca_block:
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__rz__body(double 0x4012D97C7F3321D2, %QUBIT* null)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
   %0 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)

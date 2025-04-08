@@ -1,7 +1,3 @@
----
-source: tests/guppy.rs
-expression: compile(&mut hugr)
----
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
 
