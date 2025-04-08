@@ -107,7 +107,8 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
-      - run: pip install -r guppy_examples/requirements.txt
+      - name: Install guppy example dependencies
+        run: pip install -r guppy_examples/requirements.txt
       - name: Build with no features
         run: cargo test --verbose  --no-default-features --no-run
       - name: Tests with no features
@@ -133,7 +134,8 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
-      - run: pip install -r guppy_examples/requirements.txt
+      - name: Install guppy example dependencies
+        run: pip install -r guppy_examples/requirements.txt
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
@@ -175,6 +177,8 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
+      - name: Install guppy example dependencies
+        run: pip install -r guppy_examples/requirements.txt
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
@@ -210,6 +214,8 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
+      - name: Install guppy example dependencies
+        run: pip install -r guppy_examples/requirements.txt
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
       - name: Run tests with coverage instrumentation
