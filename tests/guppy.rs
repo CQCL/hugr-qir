@@ -7,10 +7,10 @@ use std::{
 use hugr::{package::Package, std_extensions::STD_REG, Hugr};
 use hugr_llvm::inkwell;
 use hugr_qir::CompileArgs;
-use std::io::Write;
 use insta::{assert_snapshot, elog};
 use itertools::Itertools as _;
 use rstest::rstest;
+use std::io::Write;
 
 fn capture_guppy(path: impl AsRef<Path>) -> (Hugr, String) {
     let process::Output {
@@ -55,7 +55,6 @@ fn compile(hugr: &mut Hugr) -> String {
 // If we get problems with new test cases not being run in dev environments we might consider
 // adding a `build.rs` as in:
 // <https://docs.rs/rstest/latest/rstest/attr.rstest.html#files-path-as-input-arguments>
-#[cfg(feature = "py")]
 #[rstest]
 fn guppy_examples(
     #[base_dir = "guppy_examples"]

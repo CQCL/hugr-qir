@@ -19,10 +19,10 @@ env:
   CI: true # insta snapshots behave differently on ci
   SCCACHE_GHA_ENABLED: "true"
   RUSTC_WRAPPER: "sccache"
-  uUGR_QIR_TEST_SCHEMA: "1"
   # different strings for install action and feature name
   # adapted from https://github.com/TheDan64/inkwell/blob/master/.github/workflows/test.yml
   LLVM_VERSION: "14.0"
+  PYTHON_VERSION: "3.13"
 
 
 jobs:
@@ -83,35 +83,6 @@ jobs:
         env:
           RUSTDOCFLAGS: "-Dwarnings"
 
-  benches:
-    name: Continuous benchmarking 🏋️
-    needs: changes
-    if: ${{ needs.changes.outputs.rust == 'true' && github.event_name != 'merge_group' }}
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
-    steps:
-      - uses: actions/checkout@v4
-      - uses: mozilla-actions/sccache-action@v0.0.9
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
-        with:
-          version: ${{ env.LLVM_VERSION }}
-      - uses: cargo-bins/cargo-binstall@main
-      - name: Install cargo-codspeed
-        run: cargo binstall cargo-codspeed --force
-      - name: Override criterion with the CodSpeed harness
-        run: cargo add --dev codspeed-criterion-compat --rename criterion --package hugr-qir
-      - name: Build benchmarks
-        run: cargo codspeed build --profile bench
-      - name: Run benchmarks
-        uses: CodSpeedHQ/action@v3
-        with:
-          token: ${{ secrets.CODSPEED_TOKEN }}
-          run: "cargo codspeed run"
-
   # Run tests on Rust stable
   tests-stable-no-features:
     needs: changes
@@ -134,7 +105,9 @@ jobs:
           version: ${{ env.LLVM_VERSION }}
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -r guppy_examples/requirements.txt
       - name: Build with no features
         run: cargo test --verbose  --no-default-features --no-run
       - name: Tests with no features
@@ -156,7 +129,11 @@ jobs:
           toolchain: "stable"
       - name: Configure default rust toolchain
         run: rustup override set ${{steps.toolchain.outputs.name}}
-
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+      - run: pip install -r guppy_examples/requirements.txt
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
@@ -194,6 +171,10 @@ jobs:
           toolchain: ${{ matrix.rust }}
       - name: Configure default rust toolchain
         run: rustup override set ${{steps.toolchain.outputs.name}}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
@@ -225,6 +206,10 @@ jobs:
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: ${{ env.LLVM_VERSION }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
       - name: Install cargo-llvm-cov
         uses: taiki-e/install-action@cargo-llvm-cov
       - name: Run tests with coverage instrumentation
