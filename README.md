@@ -27,7 +27,6 @@ TODO
 
 This project is licensed under Apache License, Version 2.0 ([LICENSE][] or http://www.apache.org/licenses/LICENSE-2.0).
 
-[build_status]: https://github.com/CQCL/hugr/actions/workflows/ci-py.yml/badge.svg?branch=main
-[codecov]: https://img.shields.io/codecov/c/gh/CQCL/hugr?logo=codecov
-[LICENSE]: https://github.com/CQCL/hugr/blob/main/LICENCE
-[CHANGELOG]: https://github.com/CQCL/hugr/blob/main/hugr-py/CHANGELOG.md
+[build_status]: https://github.com/CQCL/hugr-qir/actions/workflows/ci-py.yml/badge.svg?branch=main
+[codecov]: https://img.shields.io/codecov/c/gh/CQCL/hugr-qir?logo=codecov
+[LICENSE]: https://github.com/CQCL/hugr-qir/blob/main/LICENCE
