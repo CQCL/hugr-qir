@@ -118,16 +118,29 @@ fn emit_qis_measure_to_result<'c, H: HugrView<Node = Node>>(
 ) -> Result<BasicValueEnum<'c>> {
     let iw_ctx = context.iw_context();
     let res_t = result_type(iw_ctx);
-    let measure_t = res_t.fn_type(&[qb.get_type().into()], false);
-    let measure_func = context.get_extern_func("__quantum__qis__mz__body", measure_t)?;
+    let conv_t = res_t.fn_type(&[qb.get_type().into()], false);
+    let conv_func = context.get_extern_func("__QIR__CONV_QUBIT_TO_RESULT", conv_t)?;
+
     let Some(result) = context
         .builder()
-        .build_call(measure_func, &[qb.into()], "")?
+        .build_call(conv_func, &[qb.into()], "")?
         .try_as_basic_value()
         .left()
     else {
         bail!("expected a result from measure")
     };
+
+    let measure_t = iw_ctx
+        .void_type()
+        .fn_type(&[qb.get_type().into(), result.get_type().into()], false);
+    let measure_func = context.get_extern_func("__quantum__qis__mz__body", measure_t)?;
+
+    context
+        .builder()
+        .build_call(measure_func, &[qb.into(), result.into()], "")?
+        .try_as_basic_value()
+        .left();
+
     Ok(result)
 }
 
