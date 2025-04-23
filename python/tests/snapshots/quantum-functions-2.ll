@@ -1,7 +1,3 @@
----
-source: tests/guppy.rs
-expression: compile(&mut hugr)
----
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
 
@@ -17,9 +13,9 @@ alloca_block:
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %0 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
+  %0 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
   %1 = call i1 @__quantum__qis__read_result__body(%RESULT* %0)
-  %2 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %2 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
   %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
   call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
   call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))

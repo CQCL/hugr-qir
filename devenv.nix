@@ -48,7 +48,7 @@ in {
       # Patch ruff to make it runnable
       "venv:patchelf" = {
         exec = "${lib.getExe pkgs.patchelf} --set-interpreter ${pkgs.stdenv.cc.bintools.dynamicLinker} $VIRTUAL_ENV/bin/ruff";
-        after = [ "devenv:python:virtualenv" ]; # Runs after this
+        after = [ "devenv:python:uv" ]; # Runs after this
         before = [ "devenv:enterShell" ]; # Runs before this
       };
     };

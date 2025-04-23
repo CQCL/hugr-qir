@@ -63,3 +63,4 @@ convention = "google"
 
 [lint.per-file-ignores]
 "guppy_examples/*" = ["INP"]
+"python/tests/test_guppy_examples.py" = ["PGH003"]

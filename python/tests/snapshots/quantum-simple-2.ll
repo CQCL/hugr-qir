@@ -1,7 +1,3 @@
----
-source: tests/guppy.rs
-expression: compile(&mut hugr)
----
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
 
@@ -13,38 +9,28 @@ source_filename = "hugr-qir"
 
 define void @__hugr__.main.1() #0 {
 alloca_block:
-  br label %0
-
-0:                                                ; preds = %7, %alloca_block
-  %"19_0.0.reg2mem178.0.reg2mem182.0" = phi i64 [ 0, %alloca_block ], [ %8, %7 ]
-  %1 = icmp slt i64 %"19_0.0.reg2mem178.0.reg2mem182.0", 10
-  br i1 %1, label %7, label %2
-
-2:                                                ; preds = %0
-  %3 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
-  %4 = call i1 @__quantum__qis__read_result__body(%RESULT* %3)
-  %5 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %6 = call i1 @__quantum__qis__read_result__body(%RESULT* %5)
-  call void @__quantum__rt__bool_record_output(i1 %4, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
-  call void @__quantum__rt__bool_record_output(i1 %6, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
-  ret void
-
-7:                                                ; preds = %0
+  %0 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
+  %1 = call i1 @__quantum__qis__read_result__body(%RESULT* %0)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %8 = add i64 %"19_0.0.reg2mem178.0.reg2mem182.0", 1
-  br label %0
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %2 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
+  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
+  ret void
 }
 
 declare %RESULT* @__quantum__qis__mz__body(%QUBIT*)
 
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
-declare void @__quantum__rt__bool_record_output(i1, i8*)
-
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
 
 declare void @__quantum__qis__rz__body(double, %QUBIT*)
+
+declare void @__quantum__rt__bool_record_output(i1, i8*)
 
 attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="2" "required_num_results"="2" }
 
