@@ -57,7 +57,6 @@ def test_guppy_files_qircheck(
     tmp_path: Path, guppy_file: Path, snapshot: Snapshot
 ) -> None:
     if guppy_file.name not in GUPPY_EXAMPLES_XFAIL:
-        snapshot.snapshot_dir = SNAPSHOT_DIR
         out_file = tmp_path / "out.ll"
         cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file))
         with Path.open(out_file) as f:
