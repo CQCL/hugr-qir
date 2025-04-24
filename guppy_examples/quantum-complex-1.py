@@ -1,3 +1,6 @@
+import sys
+from typing import no_type_check
+
 from guppylang import guppy, quantum, qubit
 from guppylang.std.angles import angle, angles
 from guppylang.std.builtins import result
@@ -8,6 +11,7 @@ guppy.load(angles)
 
 
 @guppy
+@no_type_check
 def main() -> None:
     q0 = qubit()
     q1 = qubit()
@@ -20,7 +24,7 @@ def main() -> None:
     y(q0)
     z(q0)
 
-    cx( q0, q1)
+    cx(q0, q1)
     cz(q0, q1)
 
     rx(q0, angle(1.5))
@@ -32,4 +36,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    print(guppy.get_module().compile().package.to_json())
+    sys.stdout.buffer.write(guppy.get_module().compile().package.to_bytes())

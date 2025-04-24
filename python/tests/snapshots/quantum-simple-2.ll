@@ -1,38 +1,54 @@
----
-source: tests/guppy.rs
-expression: compile(&mut hugr)
----
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
 
-%QUBIT = type opaque
 %RESULT = type opaque
+%QUBIT = type opaque
 
 @0 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @1 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
-define void @__hugr__.main.12() #0 {
+define void @__hugr__.main.1() #0 {
 alloca_block:
+<<<<<<< HEAD:tests/snapshots/guppy__llvmir@quantum-functions-2.snap
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
-  call void @__quantum__qis__mz__body(%QUBIT* null, %RESULT* null)
-  %0 = call i1 @__quantum__qis__read_result__body(%RESULT* null)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__mz__body(%QUBIT* null, %RESULT* null)
+  %0 = call i1 @__quantum__qis__read_result__body(%RESULT* null)
   call void @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*), %RESULT* inttoptr (i64 1 to %RESULT*))
   %1 = call i1 @__quantum__qis__read_result__body(%RESULT* inttoptr (i64 1 to %RESULT*))
   call void @__quantum__rt__bool_record_output(i1 %0, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+=======
+  %0 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
+  %1 = call i1 @__quantum__qis__read_result__body(%RESULT* %0)
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %2 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
+  %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
+  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+>>>>>>> main:python/tests/snapshots/quantum-simple-2.ll
   call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
   ret void
 }
 
+<<<<<<< HEAD:tests/snapshots/guppy__llvmir@quantum-functions-2.snap
 declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
 
 declare void @__quantum__qis__rz__body(double, %QUBIT*)
 
 declare void @__quantum__qis__mz__body(%QUBIT*, %RESULT*)
+=======
+declare %RESULT* @__quantum__qis__mz__body(%QUBIT*)
+>>>>>>> main:python/tests/snapshots/quantum-simple-2.ll
 
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
+
+declare void @__quantum__qis__phasedx__body(double, double, %QUBIT*)
+
+declare void @__quantum__qis__rz__body(double, %QUBIT*)
 
 declare void @__quantum__rt__bool_record_output(i1, i8*)
 

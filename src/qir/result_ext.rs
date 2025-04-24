@@ -145,7 +145,7 @@ mod test {
             builder
                 .add_extension(QirCodegenExtension)
                 .add_prelude_extensions(QirPreludeCodegen)
-                .add_int_extensions()
+                .add_default_int_extensions()
                 .add_float_extensions()
         });
         llvm_ctx

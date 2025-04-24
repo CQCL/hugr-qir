@@ -60,7 +60,7 @@ impl CompileArgs {
 
         CodegenExtsBuilder::default()
             .add_prelude_extensions(pcg.clone())
-            .add_int_extensions()
+            .add_default_int_extensions()
             .add_float_extensions()
             .add_conversion_extensions()
             .add_logic_extensions()
@@ -275,9 +275,9 @@ pub fn add_module_metadata(
             .get_context()
             .create_string_attribute("required_num_results", &results_count.to_string()),
     ];
-    let entry_func_name = find_entry_point_name(&namer, hugr)?;
+    let entry_func_name = find_entry_point_name(namer, hugr)?;
     let fn_value = module.get_function(&entry_func_name);
-    if fn_value == None {
+    if Option::is_none(&fn_value) {
         return Err(anyhow!(
             "expected main function: \"{}\" not found in HUGR",
             entry_func_name
