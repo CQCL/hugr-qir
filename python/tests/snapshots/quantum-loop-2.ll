@@ -1,8 +1,8 @@
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
 
-%RESULT = type opaque
 %QUBIT = type opaque
+%RESULT = type opaque
 
 @0 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 @1 = private unnamed_addr constant [2 x i8] c"0\00", align 1
@@ -12,8 +12,8 @@ alloca_block:
   br label %cond_exit_216
 
 cond_exit_216:                                    ; preds = %cond_exit_197._crit_edge, %alloca_block
-  %"19_1.0.reg2mem.0.reg2mem.0" = phi i64 [ 10, %alloca_block ], [ %28, %cond_exit_197._crit_edge ]
-  %"19_0.0.reg2mem.0.reg2mem.0" = phi i64 [ 0, %alloca_block ], [ %27, %cond_exit_197._crit_edge ]
+  %"19_1.0.reg2mem.0.reg2mem.0" = phi i64 [ 10, %alloca_block ], [ %25, %cond_exit_197._crit_edge ]
+  %"19_0.0.reg2mem.0.reg2mem.0" = phi i64 [ 0, %alloca_block ], [ %24, %cond_exit_197._crit_edge ]
   %0 = icmp slt i64 %"19_0.0.reg2mem.0.reg2mem.0", %"19_1.0.reg2mem.0.reg2mem.0"
   %1 = insertvalue { i1, i64, i64 } { i1 true, i64 poison, i64 poison }, i64 %"19_0.0.reg2mem.0.reg2mem.0", 1
   %2 = insertvalue { i1, i64, i64 } %1, i64 %"19_1.0.reg2mem.0.reg2mem.0", 2
@@ -32,7 +32,7 @@ cond_71_case_1:                                   ; preds = %18
   %.reload235.fca.1.extract = extractvalue { { i64, i64 }, i64 } %4, 1
   br label %cond_exit_197
 
-cond_exit_197._crit_edge:                         ; preds = %cond_exit_197, %29
+cond_exit_197._crit_edge:                         ; preds = %cond_exit_197, %26
   br label %cond_exit_216
 
 cond_exit_30:                                     ; preds = %cond_exit_216, %7
@@ -73,12 +73,12 @@ cond_exit_30:                                     ; preds = %cond_exit_216, %7
   br i1 %19, label %cond_71_case_1, label %cond_71_case_0
 
 cond_exit_56:                                     ; preds = %16, %cond_56_case_1
-  %20 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %21 = call i1 @__quantum__qis__read_result__body(%RESULT* %20)
-  %22 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
-  %23 = call i1 @__quantum__qis__read_result__body(%RESULT* %22)
-  call void @__quantum__rt__bool_record_output(i1 %21, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
-  call void @__quantum__rt__bool_record_output(i1 %23, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
+  call void @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*), %RESULT* null)
+  %20 = call i1 @__quantum__qis__read_result__body(%RESULT* null)
+  call void @__quantum__qis__mz__body(%QUBIT* null, %RESULT* inttoptr (i64 1 to %RESULT*))
+  %21 = call i1 @__quantum__qis__read_result__body(%RESULT* inttoptr (i64 1 to %RESULT*))
+  call void @__quantum__rt__bool_record_output(i1 %20, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %21, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
   ret void
 
 cond_71_case_0:                                   ; preds = %18
@@ -91,17 +91,17 @@ cond_exit_197:                                    ; preds = %cond_71_case_1, %co
   %"0133.0.reg2mem238.sroa.6.0.reg2mem.0" = phi i64 [ %.reload235.fca.1.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 2 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 2 to %QUBIT*))
-  %24 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 2 to %QUBIT*))
-  %25 = call i1 @__quantum__qis__read_result__body(%RESULT* %24)
+  call void @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 2 to %QUBIT*), %RESULT* inttoptr (i64 2 to %RESULT*))
+  %22 = call i1 @__quantum__qis__read_result__body(%RESULT* inttoptr (i64 2 to %RESULT*))
   %"0133.0.reload.fca.0.0.insert" = insertvalue { { i64, i64 }, i64 } poison, i64 %"0133.0.reg2mem238.sroa.0.0.reg2mem.0", 0, 0
   %"0133.0.reload.fca.0.1.insert" = insertvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.0.0.insert", i64 %"0133.0.reg2mem238.sroa.3.0.reg2mem.0", 0, 1
   %"0133.0.reload.fca.1.insert" = insertvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.0.1.insert", i64 %"0133.0.reg2mem238.sroa.6.0.reg2mem.0", 1
-  %26 = extractvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.1.insert", 0
-  %27 = extractvalue { i64, i64 } %26, 0
-  %28 = extractvalue { i64, i64 } %26, 1
-  br i1 %25, label %29, label %cond_exit_197._crit_edge
+  %23 = extractvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.1.insert", 0
+  %24 = extractvalue { i64, i64 } %23, 0
+  %25 = extractvalue { i64, i64 } %23, 1
+  br i1 %22, label %26, label %cond_exit_197._crit_edge
 
-29:                                               ; preds = %cond_exit_197
+26:                                               ; preds = %cond_exit_197
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* null)
   br label %cond_exit_197._crit_edge
@@ -109,7 +109,7 @@ cond_exit_197:                                    ; preds = %cond_71_case_1, %co
 
 declare void @abort()
 
-declare %RESULT* @__quantum__qis__mz__body(%QUBIT*)
+declare void @__quantum__qis__mz__body(%QUBIT*, %RESULT*)
 
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 

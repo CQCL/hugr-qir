@@ -15,16 +15,10 @@ alloca_block:
   %0 = call i1 @__quantum__qis__read_result__body(%RESULT* null)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %QUBIT* inttoptr (i64 1 to %QUBIT*))
-<<<<<<< HEAD:tests/snapshots/guppy__llvmir@quantum-functions-1.snap
   call void @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*), %RESULT* inttoptr (i64 1 to %RESULT*))
   %1 = call i1 @__quantum__qis__read_result__body(%RESULT* inttoptr (i64 1 to %RESULT*))
-  call void @__quantum__rt__bool_record_output(i1 %0, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
-=======
-  %2 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %3 = call i1 @__quantum__qis__read_result__body(%RESULT* %2)
-  call void @__quantum__rt__bool_record_output(i1 %3, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
->>>>>>> main:python/tests/snapshots/quantum-functions-1.ll
-  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %0, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
   ret void
 }
 
