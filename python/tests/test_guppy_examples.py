@@ -54,7 +54,7 @@ def test_guppy_files(tmp_path: Path, guppy_file: Path, snapshot: Snapshot) -> No
     "guppy_file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files]
 )
 def test_guppy_files_qircheck(
-    tmp_path: Path, guppy_file: Path, snapshot: Snapshot
+    tmp_path: Path, guppy_file: Path
 ) -> None:
     if guppy_file.name not in GUPPY_EXAMPLES_XFAIL:
         out_file = tmp_path / "out.ll"
