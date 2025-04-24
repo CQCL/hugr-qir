@@ -248,7 +248,7 @@ pub fn replace_int_opque_pointer(module: &Module, funcname: &str) -> u64 {
         }
     }
 
-    return pointer_counter;
+    pointer_counter;
 }
 
 pub fn add_module_metadata(
