@@ -12,8 +12,8 @@ alloca_block:
   br label %cond_exit_173
 
 cond_exit_173:                                    ; preds = %cond_exit_71, %alloca_block
-  %"19_1.0.reg2mem.0.reg2mem.0" = phi i64 [ 10, %alloca_block ], [ %26, %cond_exit_71 ]
-  %"19_0.0.reg2mem.0.reg2mem.0" = phi i64 [ 0, %alloca_block ], [ %25, %cond_exit_71 ]
+  %"19_1.0.reg2mem.0.reg2mem.0" = phi i64 [ 10, %alloca_block ], [ %24, %cond_exit_71 ]
+  %"19_0.0.reg2mem.0.reg2mem.0" = phi i64 [ 0, %alloca_block ], [ %23, %cond_exit_71 ]
   %0 = icmp slt i64 %"19_0.0.reg2mem.0.reg2mem.0", %"19_1.0.reg2mem.0.reg2mem.0"
   %1 = insertvalue { i1, i64, i64 } { i1 true, i64 poison, i64 poison }, i64 %"19_0.0.reg2mem.0.reg2mem.0", 1
   %2 = insertvalue { i1, i64, i64 } %1, i64 %"19_1.0.reg2mem.0.reg2mem.0", 2
@@ -72,12 +72,12 @@ cond_exit_30:                                     ; preds = %cond_exit_173, %7
   br i1 %19, label %cond_71_case_1, label %cond_71_case_0
 
 cond_exit_56:                                     ; preds = %16, %cond_56_case_1
-  %20 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*))
-  %21 = call i1 @__quantum__qis__read_result__body(%RESULT* %20)
-  %22 = call %RESULT* @__quantum__qis__mz__body(%QUBIT* null)
-  %23 = call i1 @__quantum__qis__read_result__body(%RESULT* %22)
-  call void @__quantum__rt__bool_record_output(i1 %21, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
-  call void @__quantum__rt__bool_record_output(i1 %23, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
+  call void @__quantum__qis__mz__body(%QUBIT* inttoptr (i64 1 to %QUBIT*), %RESULT* null)
+  %20 = call i1 @__quantum__qis__read_result__body(%RESULT* null)
+  call void @__quantum__qis__mz__body(%QUBIT* null, %RESULT* inttoptr (i64 1 to %RESULT*))
+  %21 = call i1 @__quantum__qis__read_result__body(%RESULT* inttoptr (i64 1 to %RESULT*))
+  call void @__quantum__rt__bool_record_output(i1 %20, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %21, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
   ret void
 
 cond_71_case_0:                                   ; preds = %18
@@ -91,15 +91,15 @@ cond_exit_71:                                     ; preds = %cond_71_case_1, %co
   %"0140.0.reload.fca.0.0.insert" = insertvalue { { i64, i64 }, i64 } poison, i64 %"0140.0.reg2mem.sroa.0.0.reg2mem.0", 0, 0
   %"0140.0.reload.fca.0.1.insert" = insertvalue { { i64, i64 }, i64 } %"0140.0.reload.fca.0.0.insert", i64 %"0140.0.reg2mem.sroa.3.0.reg2mem.0", 0, 1
   %"0140.0.reload.fca.1.insert" = insertvalue { { i64, i64 }, i64 } %"0140.0.reload.fca.0.1.insert", i64 %"0140.0.reg2mem.sroa.6.0.reg2mem.0", 1
-  %24 = extractvalue { { i64, i64 }, i64 } %"0140.0.reload.fca.1.insert", 0
-  %25 = extractvalue { i64, i64 } %24, 0
-  %26 = extractvalue { i64, i64 } %24, 1
+  %22 = extractvalue { { i64, i64 }, i64 } %"0140.0.reload.fca.1.insert", 0
+  %23 = extractvalue { i64, i64 } %22, 0
+  %24 = extractvalue { i64, i64 } %22, 1
   br label %cond_exit_173
 }
 
 declare void @abort()
 
-declare %RESULT* @__quantum__qis__mz__body(%QUBIT*)
+declare void @__quantum__qis__mz__body(%QUBIT*, %RESULT*)
 
 declare i1 @__quantum__qis__read_result__body(%RESULT*)
 
