@@ -5,21 +5,21 @@ expression: mod_str
 ; ModuleID = 'test_context'
 source_filename = "test_context"
 
-%QUBIT = type opaque
+%Qubit = type opaque
 
-define %QUBIT* @_hl.main.1() {
+define %Qubit* @_hl.main.1() {
 alloca_block:
-  %"0" = alloca %QUBIT*, align 8
-  %"4_0" = alloca %QUBIT*, align 8
+  %"0" = alloca %Qubit*, align 8
+  %"4_0" = alloca %Qubit*, align 8
   br label %entry_block
 
 entry_block:                                      ; preds = %alloca_block
-  %0 = call %QUBIT* @__quantum__rt__qubit_allocate()
-  store %QUBIT* %0, %QUBIT** %"4_0", align 8
-  %"4_01" = load %QUBIT*, %QUBIT** %"4_0", align 8
-  store %QUBIT* %"4_01", %QUBIT** %"0", align 8
-  %"02" = load %QUBIT*, %QUBIT** %"0", align 8
-  ret %QUBIT* %"02"
+  %0 = call %Qubit* @__quantum__rt__qubit_allocate()
+  store %Qubit* %0, %Qubit** %"4_0", align 8
+  %"4_01" = load %Qubit*, %Qubit** %"4_0", align 8
+  store %Qubit* %"4_01", %Qubit** %"0", align 8
+  %"02" = load %Qubit*, %Qubit** %"0", align 8
+  ret %Qubit* %"02"
 }
 
-declare %QUBIT* @__quantum__rt__qubit_allocate()
+declare %Qubit* @__quantum__rt__qubit_allocate()
