@@ -29,7 +29,7 @@ impl QirCodegenExtension {
         match op {
             Measure => {
                 let qb = args.inputs[0];
-                // i.e. RESULT*
+                // i.e. Result*
                 let result = emit_qis_measure_to_result(context, qb)?;
 
                 let result_bool = emit_qis_read_result(context, result)?;
@@ -37,7 +37,7 @@ impl QirCodegenExtension {
             }
             LazyMeasure => {
                 let qb = args.inputs[0];
-                // i.e. RESULT*
+                // i.e. Result*
                 let result = emit_qis_measure_to_result(context, qb)?;
 
                 let result_bool = emit_qis_read_result(context, result)?;
@@ -54,7 +54,7 @@ impl QirCodegenExtension {
             }
             QSystemOp::MeasureReset => {
                 let qb = args.inputs[0];
-                // i.e. RESULT*
+                // i.e. Result*
                 let result = emit_qis_measure_to_result(context, qb)?;
                 let _ = emit_qis_gate(context, "__quantum__qis__reset__body", [], [qb])?;
                 let result_bool = emit_qis_read_result(context, result)?;

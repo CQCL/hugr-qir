@@ -32,8 +32,8 @@ impl PreludeCodegen for QirPreludeCodegen {
     fn qubit_type<'c>(&self, session: &TypingSession<'c, '_>) -> impl BasicType<'c> {
         let iw_ctx = session.iw_context();
         iw_ctx
-            .get_struct_type("QUBIT")
-            .unwrap_or_else(|| iw_ctx.opaque_struct_type("QUBIT"))
+            .get_struct_type("Qubit")
+            .unwrap_or_else(|| iw_ctx.opaque_struct_type("Qubit"))
             .ptr_type(Default::default())
     }
 
@@ -54,16 +54,16 @@ impl PreludeCodegen for QirPreludeCodegen {
     }
 }
 
-/// Returns the qir "RESULT" type.
+/// Returns the qir "Result" type.
 fn result_type(ctx: &Context) -> impl BasicType<'_> {
-    ctx.get_struct_type("RESULT")
-        .unwrap_or_else(|| ctx.opaque_struct_type("RESULT"))
+    ctx.get_struct_type("Result")
+        .unwrap_or_else(|| ctx.opaque_struct_type("Result"))
         .ptr_type(Default::default())
 }
 
 /// Emits a call to a qir gate fuction.
 /// This function takes some number of angles as doubles, followed by some
-/// number of qubits as QUBIT pointers.
+/// number of qubits as Qubit pointers.
 fn emit_qis_gate<'c, H: HugrView<Node = Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     func: impl AsRef<str>,
@@ -110,7 +110,7 @@ fn emit_qis_gate_finish<'c, H: HugrView<Node = Node>>(
     outputs.finish(context.builder(), outs)
 }
 
-/// A helper to emit a qir measure function and return the result as a RESULT
+/// A helper to emit a qir measure function and return the result as a Result
 /// pointer.
 fn emit_qis_measure_to_result<'c, H: HugrView<Node = Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
@@ -119,7 +119,7 @@ fn emit_qis_measure_to_result<'c, H: HugrView<Node = Node>>(
     let iw_ctx = context.iw_context();
     let res_t = result_type(iw_ctx);
     let conv_t = res_t.fn_type(&[qb.get_type().into()], false);
-    let conv_func = context.get_extern_func("__QIR__CONV_QUBIT_TO_RESULT", conv_t)?;
+    let conv_func = context.get_extern_func("__QIR__CONV_Qubit_TO_Result", conv_t)?;
 
     let Some(result) = context
         .builder()
@@ -144,7 +144,7 @@ fn emit_qis_measure_to_result<'c, H: HugrView<Node = Node>>(
     Ok(result)
 }
 
-/// A helper to convert a RESULT pointer to a (representation of) a hugr bool.
+/// A helper to convert a Result pointer to a (representation of) a hugr bool.
 fn emit_qis_read_result<'c, H: HugrView<Node = Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
     result: BasicValueEnum<'c>,
@@ -183,7 +183,7 @@ fn emit_qis_qfree<'c, H: HugrView<Node = Node>>(
 }
 
 /// A helper to emit a qir __quantum__rt__qubit_allocate call.
-/// Returns a qir QUBIT pointer.
+/// Returns a qir Qubit pointer.
 fn emit_qis_qalloc<'c, H: HugrView<Node = Node>>(
     context: &mut EmitFuncContext<'c, '_, H>,
 ) -> Result<BasicValueEnum<'c>> {
