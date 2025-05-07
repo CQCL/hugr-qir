@@ -164,7 +164,7 @@ impl CompileArgs {
         let module = emit.emit_module(hugr.fat_root().unwrap())?.finish();
 
         let qubit_count: u64 = replace_int_opque_pointer(&module, "__quantum__rt__qubit_allocate");
-        let result_count: u64 = replace_int_opque_pointer(&module, "__QIR__CONV_QUBIT_TO_RESULT");
+        let result_count: u64 = replace_int_opque_pointer(&module, "__QIR__CONV_Qubit_TO_Result");
 
         add_module_metadata(&namer, hugr, &module, qubit_count, result_count)?;
 

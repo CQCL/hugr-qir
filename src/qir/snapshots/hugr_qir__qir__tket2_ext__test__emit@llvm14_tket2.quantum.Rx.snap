@@ -5,15 +5,15 @@ expression: mod_str
 ; ModuleID = 'test_context'
 source_filename = "test_context"
 
-%QUBIT = type opaque
+%Qubit = type opaque
 
-define %QUBIT* @_hl.main.1(%QUBIT* %0, double %1) {
+define %Qubit* @_hl.main.1(%Qubit* %0, double %1) {
 alloca_block:
   br label %entry_block
 
 entry_block:                                      ; preds = %alloca_block
-  call void @__quantum__qis__rx__body(double %1, %QUBIT* %0)
-  ret %QUBIT* %0
+  call void @__quantum__qis__rx__body(double %1, %Qubit* %0)
+  ret %Qubit* %0
 }
 
-declare void @__quantum__qis__rx__body(double, %QUBIT*)
+declare void @__quantum__qis__rx__body(double, %Qubit*)
