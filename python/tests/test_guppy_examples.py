@@ -1,40 +1,12 @@
-import subprocess
-import sys
 from pathlib import Path
-from typing import IO
 
 import pytest
-from hugr_qir._hugr_qir import cli
 from pytest_snapshot.plugin import Snapshot  # type: ignore
 from quantinuum_qircheck import qircheck
 
-GUPPY_EXAMPLES_DIR = Path(__file__).parent / "../../guppy_examples"
+from .conftest import cli_on_guppy, guppy_files
+
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
-
-
-def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
-    subprocess.run(  # noqa: S603
-        [sys.executable, guppy_file],
-        check=True,
-        stdout=outfd,
-        text=True,
-    )
-
-
-def cli_on_guppy(guppy_file: Path, tmp_path: Path, *args: str) -> None:
-    guppy_file = Path(guppy_file)
-    hugr_file = tmp_path / Path(f"{guppy_file.name}.hugr")
-    with Path.open(hugr_file, "w") as f:
-        guppy_to_hugr_file(guppy_file, f)
-    cli(str(hugr_file), *[str(arg) for arg in args])
-
-
-def get_guppy_files() -> list[Path]:
-    guppy_dir = Path(GUPPY_EXAMPLES_DIR)
-    return list(guppy_dir.glob("*.py"))
-
-
-guppy_files = get_guppy_files()
 
 
 @pytest.mark.parametrize(
@@ -59,7 +31,7 @@ def test_guppy_file_snapshots(
 ) -> None:
     snapshot.snapshot_dir = SNAPSHOT_DIR
     out_file = tmp_path / "out.ll"
-    cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file))
+    cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file), "--no-validate-qir")
     with Path.open(out_file) as f:
         qir = f.read()
     snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
