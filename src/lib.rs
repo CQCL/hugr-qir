@@ -163,8 +163,10 @@ impl CompileArgs {
         let emit = EmitHugr::new(context, module, namer.clone(), extensions);
         let module = emit.emit_module(hugr.fat_root().unwrap())?.finish();
 
-        let qubit_count: u64 = replace_qubit_allocate(&module);
-        add_module_metadata(&namer, hugr, &module, qubit_count)?;
+        let qubit_count: u64 = replace_int_opque_pointer(&module, "__quantum__rt__qubit_allocate");
+        let result_count: u64 = replace_int_opque_pointer(&module, "__QIR__CONV_Qubit_TO_Result");
+
+        add_module_metadata(&namer, hugr, &module, qubit_count, result_count)?;
 
         Ok(module)
     }
@@ -200,10 +202,10 @@ pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView<Node = Node>) -
     Ok(namer.name_func("main", entry_point_node))
 }
 
-pub fn replace_qubit_allocate(module: &Module) -> u64 {
+pub fn replace_int_opque_pointer(module: &Module, funcname: &str) -> u64 {
     let first_func = module.get_first_function().unwrap();
 
-    let mut qubit_counter: u64 = 0;
+    let mut pointer_counter: u64 = 0;
 
     debug_assert_eq!(
         1,
@@ -222,7 +224,7 @@ pub fn replace_qubit_allocate(module: &Module) -> u64 {
 
             let global = func.as_global_value();
 
-            if global.get_name().to_bytes() == "__quantum__rt__qubit_allocate".as_bytes() {
+            if global.get_name().to_bytes() == funcname.as_bytes() {
                 let ptr = PointerValue::try_from(ins).unwrap();
 
                 let ptr_width = ptr
@@ -234,10 +236,10 @@ pub fn replace_qubit_allocate(module: &Module) -> u64 {
                 let ptr_int_type = module.get_context().custom_width_int_type(ptr_width as u32);
 
                 let r = ptr_int_type
-                    .const_int(qubit_counter, false)
+                    .const_int(pointer_counter, false)
                     .const_to_pointer(ptr.get_type());
 
-                qubit_counter += 1;
+                pointer_counter += 1;
 
                 ptr.replace_all_uses_with(r);
 
@@ -246,13 +248,15 @@ pub fn replace_qubit_allocate(module: &Module) -> u64 {
         }
     }
 
-    qubit_counter
+    pointer_counter
 }
+
 pub fn add_module_metadata(
     namer: &Namer,
     hugr: &impl HugrView<Node = Node>,
     module: &Module,
     qubit_count: u64,
+    results_count: u64,
 ) -> Result<()> {
     let attributes = [
         module
@@ -269,7 +273,7 @@ pub fn add_module_metadata(
             .create_string_attribute("required_num_qubits", &qubit_count.to_string()),
         module
             .get_context()
-            .create_string_attribute("required_num_results", &qubit_count.to_string()),
+            .create_string_attribute("required_num_results", &results_count.to_string()),
     ];
     let entry_func_name = find_entry_point_name(namer, hugr)?;
     let fn_value = module.get_function(&entry_func_name);

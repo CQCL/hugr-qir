@@ -125,7 +125,7 @@ impl QirCodegenExtension {
             ),
             Measure => {
                 let qb = args.inputs[0];
-                // i.e. RESULT*
+                // i.e. Result*
                 let result = emit_qis_measure_to_result(context, qb)?;
 
                 let result_i1 = emit_qis_read_result(context, result)?;
@@ -133,7 +133,7 @@ impl QirCodegenExtension {
             }
             MeasureFree => {
                 let qb = args.inputs[0];
-                // i.e. RESULT*
+                // i.e. Result*
                 let result = emit_qis_measure_to_result(context, qb)?;
                 emit_qis_qfree(context, qb)?;
                 let result_i1 = emit_qis_read_result(context, result)?;

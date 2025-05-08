@@ -5,38 +5,38 @@ expression: mod_str
 ; ModuleID = 'test_context'
 source_filename = "test_context"
 
-%QUBIT = type opaque
+%Qubit = type opaque
 
-define { %QUBIT*, %QUBIT* } @_hl.main.1(%QUBIT* %0, %QUBIT* %1, double %2) {
+define { %Qubit*, %Qubit* } @_hl.main.1(%Qubit* %0, %Qubit* %1, double %2) {
 alloca_block:
-  %"0" = alloca %QUBIT*, align 8
-  %"1" = alloca %QUBIT*, align 8
-  %"2_0" = alloca %QUBIT*, align 8
-  %"2_1" = alloca %QUBIT*, align 8
+  %"0" = alloca %Qubit*, align 8
+  %"1" = alloca %Qubit*, align 8
+  %"2_0" = alloca %Qubit*, align 8
+  %"2_1" = alloca %Qubit*, align 8
   %"2_2" = alloca double, align 8
-  %"4_0" = alloca %QUBIT*, align 8
-  %"4_1" = alloca %QUBIT*, align 8
+  %"4_0" = alloca %Qubit*, align 8
+  %"4_1" = alloca %Qubit*, align 8
   br label %entry_block
 
 entry_block:                                      ; preds = %alloca_block
-  store %QUBIT* %0, %QUBIT** %"2_0", align 8
-  store %QUBIT* %1, %QUBIT** %"2_1", align 8
+  store %Qubit* %0, %Qubit** %"2_0", align 8
+  store %Qubit* %1, %Qubit** %"2_1", align 8
   store double %2, double* %"2_2", align 8
-  %"2_01" = load %QUBIT*, %QUBIT** %"2_0", align 8
-  %"2_12" = load %QUBIT*, %QUBIT** %"2_1", align 8
+  %"2_01" = load %Qubit*, %Qubit** %"2_0", align 8
+  %"2_12" = load %Qubit*, %Qubit** %"2_1", align 8
   %"2_23" = load double, double* %"2_2", align 8
-  call void @__quantum__qis__rzz__body(%QUBIT* %"2_01", %QUBIT* %"2_12")
-  store %QUBIT* %"2_01", %QUBIT** %"4_0", align 8
-  store %QUBIT* %"2_12", %QUBIT** %"4_1", align 8
-  %"4_04" = load %QUBIT*, %QUBIT** %"4_0", align 8
-  %"4_15" = load %QUBIT*, %QUBIT** %"4_1", align 8
-  store %QUBIT* %"4_04", %QUBIT** %"0", align 8
-  store %QUBIT* %"4_15", %QUBIT** %"1", align 8
-  %"06" = load %QUBIT*, %QUBIT** %"0", align 8
-  %"17" = load %QUBIT*, %QUBIT** %"1", align 8
-  %mrv = insertvalue { %QUBIT*, %QUBIT* } undef, %QUBIT* %"06", 0
-  %mrv8 = insertvalue { %QUBIT*, %QUBIT* } %mrv, %QUBIT* %"17", 1
-  ret { %QUBIT*, %QUBIT* } %mrv8
+  call void @__quantum__qis__rzz__body(%Qubit* %"2_01", %Qubit* %"2_12")
+  store %Qubit* %"2_01", %Qubit** %"4_0", align 8
+  store %Qubit* %"2_12", %Qubit** %"4_1", align 8
+  %"4_04" = load %Qubit*, %Qubit** %"4_0", align 8
+  %"4_15" = load %Qubit*, %Qubit** %"4_1", align 8
+  store %Qubit* %"4_04", %Qubit** %"0", align 8
+  store %Qubit* %"4_15", %Qubit** %"1", align 8
+  %"06" = load %Qubit*, %Qubit** %"0", align 8
+  %"17" = load %Qubit*, %Qubit** %"1", align 8
+  %mrv = insertvalue { %Qubit*, %Qubit* } undef, %Qubit* %"06", 0
+  %mrv8 = insertvalue { %Qubit*, %Qubit* } %mrv, %Qubit* %"17", 1
+  ret { %Qubit*, %Qubit* } %mrv8
 }
 
-declare void @__quantum__qis__rzz__body(%QUBIT*, %QUBIT*)
+declare void @__quantum__qis__rzz__body(%Qubit*, %Qubit*)
