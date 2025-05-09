@@ -3,6 +3,7 @@
 import tempfile
 from importlib.metadata import version
 from pathlib import Path
+from typing import IO
 
 import click
 from quantinuum_qircheck import qircheck
@@ -27,9 +28,12 @@ from hugr_qir._hugr_qir import cli
     help="Name of output file (optional)",
 )
 @click.version_option(version=version("hugr_qir"))
-def hugr_qir(validate: bool, hugr_file: Path, outfile: click.File) -> None:
+def hugr_qir(validate: bool, hugr_file: Path, outfile: IO) -> None:
     """This is the cli for converting hugr to qir."""
+    hugr_qir_impl(validate, hugr_file, outfile)
 
+
+def hugr_qir_impl(validate: bool, hugr_file: Path, outfile: IO) -> None:
     options = ["-q"]
     with tempfile.NamedTemporaryFile(delete=True, suffix=".ll") as temp_file:
         tmp_options = [*options, "-o", temp_file.name]
@@ -39,13 +43,7 @@ def hugr_qir(validate: bool, hugr_file: Path, outfile: click.File) -> None:
     if validate:
         qircheck(qir)
 
-    if hasattr(outfile, "write"):
-        outfile.write(qir)
-    else:
-        # this should never happen but the check for write is
-        # needed to appease mypy (click doesn't handle typing well)
-        err_msg = f"Could not write to object {outfile}"
-        raise AttributeError(err_msg)
+    outfile.write(qir)
 
 
 if __name__ == "__main__":

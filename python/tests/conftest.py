@@ -1,5 +1,6 @@
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import IO
 
@@ -16,6 +17,19 @@ def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
         stdout=outfd,
         text=True,
     )
+
+
+def guppy_to_hugr_binary(guppy_file: Path) -> bytes:
+    with tempfile.NamedTemporaryFile(delete=True, suffix=".hugr") as temp_hugrfile:
+        with Path.open(Path(temp_hugrfile.name), "wb") as outfd:
+            subprocess.run(  # noqa: S603
+                [sys.executable, guppy_file],
+                check=True,
+                stdout=outfd,
+                text=True,
+            )
+        with Path.open(Path(temp_hugrfile.name), "rb") as outfd:
+            return outfd.read()
 
 
 def get_guppy_files() -> list[Path]:
