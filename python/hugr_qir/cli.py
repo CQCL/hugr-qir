@@ -17,7 +17,7 @@ from hugr_qir._hugr_qir import cli
     "--validate-qir/--no-validate-qir",
     "validate",
     default=True,
-    help="Whether to validate output",
+    help="Whether to validate the QIR output",
 )
 @click.option(
     "-o",
@@ -29,7 +29,12 @@ from hugr_qir._hugr_qir import cli
 )
 @click.version_option(version=version("hugr_qir"))
 def hugr_qir(validate: bool, hugr_file: Path, outfile: IO) -> None:
-    """This is the cli for converting hugr to qir."""
+    """Convert a HUGR file to QIR.
+
+    Provide the name of the HUGR file as the first argument.
+    Per default, QIR is emitted to stdout, but can
+    be written to a file using the `-o` option.
+    """
     hugr_qir_impl(validate, hugr_file, outfile)
 
 
