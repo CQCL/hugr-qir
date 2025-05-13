@@ -3,6 +3,8 @@ target-version = "py312"
 
 line-length = 88
 
+extend-exclude = ["submit-guppy-h1-h2-via-qir.ipynb"]
+
 lint.select = [
   "E",    # pycodestyle Errors
   "W",    # pycodestyle Warnings
@@ -65,3 +67,4 @@ convention = "google"
 "guppy_examples/*" = ["INP"]
 "python/tests/*" = ["PGH003"]
 "python/hugr_qir/*" = ["FBT001", "FBT002"]
+
