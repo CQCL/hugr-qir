@@ -24,6 +24,12 @@ dev = [
     "pytest-cov >=5.0.0,<6",
     "guppylang~=0.18.0",
 ]
+examples = [
+    "pytket-quantinuum>=0.47.0",
+    "guppylang~=0.18.0",
+    "jupyterlab>=4.4.2",
+    "llvmlite>=0.44.0"
+]
 
 [build-system]
 requires = ["maturin>=1.4,<2.0"]
