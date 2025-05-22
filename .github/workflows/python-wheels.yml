@@ -17,6 +17,9 @@ on:
 permissions:
   contents: read
 
+env:
+  LLVM_VERSION: "14.0"
+
 jobs:
   # Check if the tag matches the package name,
   # or if the workflow is running on a non-release event.
@@ -61,7 +64,13 @@ jobs:
           target: ${{ matrix.platform.target }}
           args: --release --out dist --find-interpreter
           sccache: 'true'
-          manylinux: auto
+          manylinux: 2014
+          before-script-linux: |
+            curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang+llvm-14.0.6-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+            tar -xf clang+llvm-14.0.6-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+            mv clang+llvm-14.0.6-x86_64-linux-gnu-ubuntu-18.04 /opt/llvm14
+            echo "LLVM_SYS_140_PREFIX=/opt/llvm14" >> $GITHUB_ENV
+
       - name: Upload wheels
         uses: actions/upload-artifact@v4
         with:
@@ -87,6 +96,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
@@ -116,6 +129,10 @@ jobs:
         with:
           python-version: 3.x
           architecture: ${{ matrix.platform.target }}
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
@@ -143,6 +160,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
