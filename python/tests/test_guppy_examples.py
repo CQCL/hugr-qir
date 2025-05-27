@@ -6,7 +6,7 @@ from pytest_snapshot.plugin import Snapshot  # type: ignore
 from .conftest import cli_on_guppy, guppy_files
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
-GUPPY_EXAMPLES_XFAIL = ["quantum-loop-1.py", "quantum-loop-2.py"]
+GUPPY_EXAMPLES_XFAIL = []
 
 guppy_files_xpass = [
     guppy_file

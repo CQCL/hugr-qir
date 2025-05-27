@@ -13,15 +13,51 @@ TODO
 
 ## Usage
 
-TODO
+You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb`.
 
-## Recent Changes
+## Changelog
 
-TODO
+### v0.0.1
+
+- add hugr_to_qir conversion function
 
 ## Development
 
-TODO
+### #️⃣ Setting up the development environment
+
+The easiest way to setup the development environment is to use the provided
+[`devenv.nix`](devenv.nix) file. This will setup a development shell with all the
+required dependencies.
+
+To use this, you will need to install [devenv](https://devenv.sh/getting-started/).
+Once you have it running, open a shell with:
+
+```bash
+devenv shell
+```
+
+All the required dependencies should be available. You can automate loading the
+shell by setting up [direnv](https://devenv.sh/automatic-shell-activation/).
+
+### Run tests
+
+You can run the rust test with:
+
+```bash
+cargo test
+```
+
+You can run the Python test with:
+
+```bash
+pytest
+```
+
+If you want to update the snapshots you can do that via:
+
+```bash
+pytest --snapshot-update
+```
 
 ## License
 
