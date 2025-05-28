@@ -25,7 +25,7 @@ dev = [
     "guppylang~=0.18.0",
 ]
 examples = [
-    "pytket-quantinuum>=0.47.0",
+    "pytket-quantinuum>=0.45.0",
     "guppylang~=0.18.0",
     "jupyterlab>=4.4.2",
     "llvmlite>=0.44.0"
