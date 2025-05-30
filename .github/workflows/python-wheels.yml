@@ -77,19 +77,20 @@ jobs:
         platform:
           - runner: windows-latest
             target: x64
-          - runner: windows-latest
-            target: x86
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
           architecture: ${{ matrix.platform.target }}
-      - name: Install LLVM and Clang
-        uses: KyleMayes/install-llvm-action@v2
-        with:
-          version: ${{ env.LLVM_VERSION }}
-          env: 'true'
+      - name: Install LLVM
+        # Use PLC-lang/llvm-package-windows because official windows binaries do not include llvm-config
+        run: |
+          rustup update
+          curl -LO https://github.com/PLC-lang/llvm-package-windows/releases/download/v14.0.6/LLVM-14.0.6-win64.7z
+          7z x LLVM-14.0.6-win64.7z "-oC:\LLVM" -y
+          echo "C:\\LLVM\\bin" >> $env:GITHUB_PATH
+          echo "LLVM_SYS_140_PREFIX=C:\\LLVM" >> $env:GITHUB_ENV
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
@@ -156,10 +157,6 @@ jobs:
     if: ${{ (github.event_name == 'release' && github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/hugr-qir-v') ) || (github.event_name == 'workflow_dispatch' && github.ref_type == 'tag' && startsWith(github.ref, 'refs/tags/hugr-qir-v') ) }}
     steps:
       - uses: actions/download-artifact@v4
-      - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2
-        with:
-          subject-path: 'wheels-*/*'
       - name: Publish to PyPI
         uses: PyO3/maturin-action@v1
         env:
