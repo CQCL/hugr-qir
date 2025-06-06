@@ -1,16 +1,26 @@
 import tempfile
+from base64 import b64encode
 from pathlib import Path
+
+from llvmlite.binding import (  # type: ignore[import-untyped]
+    create_context,
+    parse_assembly,
+)
 
 from .cli import hugr_qir_impl
 
 
-def hugr_to_qir(hugr: bytes, validate_qir: bool = True) -> str:
-    """A function for converting hugr to qir.
+def hugr_to_qir(
+    hugr: bytes, *, validate_qir: bool = True, emit_text: bool = False
+) -> str:
+    """A function for converting hugr to qir (llvm bitcode)
 
     :param hugr: HUGR in binary format
     :param validate_qir: Whether to validate the created QIR
+    :param emit_text: If True, output qir as human-readable LLVM assembly language
 
-    :returns: QIR corresponding to the HUGR input as a text string
+    :returns: QIR corresponding to the HUGR input as an LLVM bitcode string (default) or
+    as human-readable LLVM assembly language (when passing `as_bitcode = False`)
     """
     with (
         tempfile.NamedTemporaryFile(delete=True, suffix=".hugr") as temp_infile,
@@ -21,4 +31,10 @@ def hugr_to_qir(hugr: bytes, validate_qir: bool = True) -> str:
         with Path.open(Path(temp_outfile.name), "w") as cli_output:
             hugr_qir_impl(validate_qir, Path(temp_infile.name), cli_output)
         with Path.open(Path(temp_outfile.name), "r") as cli_output:
-            return cli_output.read()
+            qir_ir = cli_output.read()
+            if emit_text:
+                return qir_ir
+            ctx = create_context()
+            module = parse_assembly(qir_ir, context=ctx)
+            qir_bitcode = module.as_bitcode()
+            return b64encode(qir_bitcode).decode("utf-8")
