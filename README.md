@@ -1,5 +1,6 @@
 # hugr-qir
 
+# WARNING: this is a beta version, still under development and not all hugr/guppy programs can be converted
 
 [![build_status][]](https://github.com/CQCL/hugr-qir/actions)
 [![codecov][]](https://codecov.io/gh/CQCL/hugr-qir)
@@ -9,19 +10,49 @@ A tool for converting Hierarchical Unified Graph Representation (HUGR, pronounce
 
 ## Installation
 
-TODO
+You can install this from pypi via `pip install hugr-qir`.
 
 ## Usage
 
-TODO
-
-## Recent Changes
-
-TODO
+You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb`.
 
 ## Development
 
-TODO
+### #️⃣ Setting up the development environment
+
+The easiest way to setup the development environment is to use the provided
+[`devenv.nix`](devenv.nix) file. This will setup a development shell with all the
+required dependencies.
+
+To use this, you will need to install [devenv](https://devenv.sh/getting-started/).
+Once you have it running, open a shell with:
+
+```bash
+devenv shell
+```
+
+All the required dependencies should be available. You can automate loading the
+shell by setting up [direnv](https://devenv.sh/automatic-shell-activation/).
+
+### Run tests
+
+You can run the rust test with:
+
+```bash
+cargo test
+```
+
+You can run the Python test with:
+
+```bash
+pytest
+```
+
+If you want to update the snapshots you can do that via:
+
+```bash
+pytest --snapshot-update
+```
 
 ## License
 

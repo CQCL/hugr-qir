@@ -15,6 +15,10 @@ guppy_files_xpass = [
     if guppy_file.name not in GUPPY_EXAMPLES_XFAIL
 ]
 
+guppy_files_xfail = [
+    guppy_file for guppy_file in guppy_files if guppy_file.name in GUPPY_EXAMPLES_XFAIL
+]
+
 
 @pytest.mark.parametrize(
     "guppy_file",
@@ -24,6 +28,17 @@ guppy_files_xpass = [
 def test_guppy_files(guppy_file: Path) -> None:
     hugr = guppy_to_hugr_binary(guppy_file)
     hugr_to_qir(hugr)
+
+
+@pytest.mark.parametrize(
+    "guppy_file",
+    guppy_files_xfail,
+    ids=[str(file_path.stem) for file_path in guppy_files_xfail],
+)
+def test_guppy_files_xfail(guppy_file: Path) -> None:
+    hugr = guppy_to_hugr_binary(guppy_file)
+    with pytest.raises(ValueError):  # noqa: PT011
+        hugr_to_qir(hugr)
 
 
 @pytest.mark.parametrize(
