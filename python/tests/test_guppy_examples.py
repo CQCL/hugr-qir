@@ -6,13 +6,8 @@ from pytest_snapshot.plugin import Snapshot  # type: ignore
 from .conftest import cli_on_guppy, guppy_files
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
-GUPPY_EXAMPLES_XFAIL: list[str] = []
 
-guppy_files_xpass = [
-    guppy_file
-    for guppy_file in guppy_files
-    if guppy_file.name not in GUPPY_EXAMPLES_XFAIL
-]
+guppy_files_xpass = list(guppy_files)
 
 
 @pytest.mark.parametrize(
