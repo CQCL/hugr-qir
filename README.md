@@ -9,17 +9,11 @@ A tool for converting Hierarchical Unified Graph Representation (HUGR, pronounce
 
 ## Installation
 
-TODO
+You can install this from pypi via `pip install hugr-qir`.
 
 ## Usage
 
 You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb`.
-
-## Changelog
-
-### v0.0.1
-
-- add hugr_to_qir conversion function
 
 ## Development
 
