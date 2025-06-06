@@ -1,5 +1,6 @@
 # hugr-qir
 
+# WARNING: this is a beta version, still under development and not all hugr/guppy programs can be converted
 
 [![build_status][]](https://github.com/CQCL/hugr-qir/actions)
 [![codecov][]](https://codecov.io/gh/CQCL/hugr-qir)
