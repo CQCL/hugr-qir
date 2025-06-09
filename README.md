@@ -14,13 +14,13 @@ You can install this from pypi via `pip install hugr-qir`.
 
 ## Usage
 
-### python
+### Python
 
 You can use the function `hugr_qir.hugr_to_qir` to convert your hugr to qir. With the parameter `validate_qir` you can run a check on the generated QIR. This check is run by default.
 
 You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb` showing the conversion and the submission to H1/H2.
 
-### cli
+### CLI
 
 You can use the available cli after installing the python package.
 
