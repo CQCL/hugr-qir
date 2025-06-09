@@ -86,16 +86,16 @@ cond_71_case_0:                                   ; preds = %18
   br label %cond_exit_197
 
 cond_exit_197:                                    ; preds = %cond_71_case_1, %cond_71_case_0
-  %"0133.0.reg2mem238.sroa.0.0.reg2mem.0" = phi i64 [ %.reload235.fca.0.0.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
-  %"0133.0.reg2mem238.sroa.3.0.reg2mem.0" = phi i64 [ %.reload235.fca.0.1.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
-  %"0133.0.reg2mem238.sroa.6.0.reg2mem.0" = phi i64 [ %.reload235.fca.1.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
+  %"0133.0.reg2mem.sroa.0.0.reg2mem.0" = phi i64 [ %.reload235.fca.0.0.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
+  %"0133.0.reg2mem.sroa.3.0.reg2mem.0" = phi i64 [ %.reload235.fca.0.1.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
+  %"0133.0.reg2mem.sroa.6.0.reg2mem.0" = phi i64 [ %.reload235.fca.1.extract, %cond_71_case_1 ], [ 0, %cond_71_case_0 ]
+  %"0133.0.reload.fca.0.0.insert" = insertvalue { { i64, i64 }, i64 } poison, i64 %"0133.0.reg2mem.sroa.0.0.reg2mem.0", 0, 0
+  %"0133.0.reload.fca.0.1.insert" = insertvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.0.0.insert", i64 %"0133.0.reg2mem.sroa.3.0.reg2mem.0", 0, 1
+  %"0133.0.reload.fca.1.insert" = insertvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.0.1.insert", i64 %"0133.0.reg2mem.sroa.6.0.reg2mem.0", 1
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* inttoptr (i64 2 to %Qubit*))
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* inttoptr (i64 2 to %Qubit*))
   call void @__quantum__qis__mz__body(%Qubit* inttoptr (i64 2 to %Qubit*), %Result* inttoptr (i64 2 to %Result*))
   %22 = call i1 @__quantum__qis__read_result__body(%Result* inttoptr (i64 2 to %Result*))
-  %"0133.0.reload.fca.0.0.insert" = insertvalue { { i64, i64 }, i64 } poison, i64 %"0133.0.reg2mem238.sroa.0.0.reg2mem.0", 0, 0
-  %"0133.0.reload.fca.0.1.insert" = insertvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.0.0.insert", i64 %"0133.0.reg2mem238.sroa.3.0.reg2mem.0", 0, 1
-  %"0133.0.reload.fca.1.insert" = insertvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.0.1.insert", i64 %"0133.0.reg2mem238.sroa.6.0.reg2mem.0", 1
   %23 = extractvalue { { i64, i64 }, i64 } %"0133.0.reload.fca.1.insert", 0
   %24 = extractvalue { i64, i64 } %23, 0
   %25 = extractvalue { i64, i64 } %23, 1
