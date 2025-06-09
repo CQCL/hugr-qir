@@ -616,6 +616,7 @@ version = "0.0.2"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
+    { name = "llvmlite" },
     { name = "quantinuum-qircheck" },
 ]
 
@@ -641,6 +642,7 @@ examples = [
 [package.metadata]
 requires-dist = [
     { name = "click", specifier = ">=8.1.8" },
+    { name = "llvmlite" },
     { name = "quantinuum-qircheck", specifier = "==0.1.0" },
 ]
 
