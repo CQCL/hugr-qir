@@ -14,7 +14,52 @@ You can install this from pypi via `pip install hugr-qir`.
 
 ## Usage
 
-You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb`.
+### python
+
+You can use the function `hugr_qir.hugr_to_qir` to convert your hugr to qir. With the parameter `validate_qir` you can run a check on the generated QIR. This check is run by default.
+
+You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb` showing the conversion and the submission to H1/H2.
+
+### cli
+
+You can use the available cli after installing the python package.
+
+This will generate qir for a given hugr file:
+
+```
+hugr-qir test-file.hugr
+```
+
+For available parameters are:
+
+```
+Usage: hugr-qir [OPTIONS] HUGR_FILE
+
+  Convert a HUGR file to QIR.
+
+  Provide the name of the HUGR file as the first argument. Per default, QIR is
+  emitted to stdout, but can be written to a file using the `-o` option.
+
+Options:
+  --validate-qir / --no-validate-qir
+                                  Whether to validate the QIR output
+  -o, --output FILENAME           Name of output file (optional)
+  --version                       Show the version and exit.
+  --help                          Show this message and exit.
+```
+
+If you want to generate a hugr file from guppy, you can do this in two steps:
+1. add this to the end of your guppy file:
+```
+if __name__ == "__main__":
+    sys.stdout.buffer.write(guppy.get_module().compile().package.to_bytes())
+```
+
+2. Generate the hugr file with:
+```
+python guppy_examples/quantum-classical-1.py > test-guppy.hugr
+```
+
 
 ## Development
 
