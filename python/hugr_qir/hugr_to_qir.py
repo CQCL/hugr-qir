@@ -19,8 +19,9 @@ def hugr_to_qir(
     :param validate_qir: Whether to validate the created QIR
     :param emit_text: If True, output qir as human-readable LLVM assembly language
 
-    :returns: QIR corresponding to the HUGR input as an LLVM bitcode string (default) or
-    as human-readable LLVM assembly language (when passing `as_bitcode = False`)
+    :returns: QIR corresponding to the HUGR input as an LLVM bitcode string base64
+    encoded (default) or as human-readable LLVM assembly language (when
+    passing `as_bitcode = False`)
     """
     with (
         tempfile.NamedTemporaryFile(delete=True, suffix=".hugr") as temp_infile,
