@@ -1,0 +1,65 @@
+; ModuleID = 'hugr-qir'
+source_filename = "hugr-qir"
+
+%Qubit = type opaque
+%Result = type opaque
+
+@0 = private unnamed_addr constant [2 x i8] c"a\00", align 1
+@1 = private unnamed_addr constant [2 x i8] c"b\00", align 1
+
+define void @__hugr__.main.1() #0 {
+alloca_block:
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
+  call void @__quantum__qis__mz__body(%Qubit* null, %Result* inttoptr (i64 2 to %Result*))
+  %0 = call i1 @__quantum__qis__read_result__body(%Result* inttoptr (i64 2 to %Result*))
+  br i1 %0, label %cond_exit_24, label %2
+
+1:                                                ; preds = %cond_exit_24, %2
+  %"53_1.0.reg2mem.0.reg2mem.0" = phi i1 [ %"49_1.0", %cond_exit_24 ], [ %3, %2 ]
+  %"53_0.0.reg2mem.0.reg2mem.0" = phi i1 [ %"49_0.0", %cond_exit_24 ], [ %0, %2 ]
+  call void @__quantum__rt__bool_record_output(i1 %"53_0.0.reg2mem.0.reg2mem.0", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+  call void @__quantum__rt__bool_record_output(i1 %"53_1.0.reg2mem.0.reg2mem.0", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i32 0, i32 0))
+  ret void
+
+2:                                                ; preds = %alloca_block
+  call void @__quantum__qis__mz__body(%Qubit* inttoptr (i64 1 to %Qubit*), %Result* inttoptr (i64 1 to %Result*))
+  %3 = call i1 @__quantum__qis__read_result__body(%Result* inttoptr (i64 1 to %Result*))
+  br label %1
+
+cond_exit_24:                                     ; preds = %alloca_block
+  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
+  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
+  call void @__quantum__qis__mz__body(%Qubit* inttoptr (i64 1 to %Qubit*), %Result* null)
+  %4 = call i1 @__quantum__qis__read_result__body(%Result* null)
+  %5 = insertvalue { i1, i1, i1 } { i1 false, i1 poison, i1 poison }, i1 %0, 1
+  %6 = insertvalue { i1, i1, i1 } %5, i1 %4, 2
+  %7 = insertvalue { i1, i1, i1 } { i1 true, i1 poison, i1 poison }, i1 %0, 1
+  %"052.0" = select i1 %4, { i1, i1, i1 } %7, { i1, i1, i1 } %6
+  %8 = extractvalue { i1, i1, i1 } %"052.0", 0
+  %9 = extractvalue { i1, i1, i1 } %"052.0", 1
+  %10 = extractvalue { i1, i1, i1 } %"052.0", 2
+  %11 = extractvalue { i1, i1, i1 } %"052.0", 1
+  %"49_1.0" = select i1 %8, i1 false, i1 %10
+  %"49_0.0" = select i1 %8, i1 %11, i1 %9
+  br label %1
+}
+
+declare void @__quantum__qis__phasedx__body(double, double, %Qubit*)
+
+declare void @__quantum__qis__rz__body(double, %Qubit*)
+
+declare void @__quantum__qis__mz__body(%Qubit*, %Result*)
+
+declare i1 @__quantum__qis__read_result__body(%Result*)
+
+declare void @__quantum__rt__bool_record_output(i1, i8*)
+
+attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="2" "required_num_results"="3" }
+
+!llvm.module.flags = !{!0, !1, !2, !3}
+
+!0 = !{i32 1, !"qir_major_version", i32 1}
+!1 = !{i32 7, !"qir_minor_version", i32 0}
+!2 = !{i32 1, !"dynamic_qubit_management", i1 false}
+!3 = !{i32 1, !"dynamic_result_management", i1 false}
