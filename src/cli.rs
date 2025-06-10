@@ -109,7 +109,6 @@ impl Cli {
     pub fn compile_args(&self) -> CompileArgs {
         CompileArgs {
             debug: self.debug,
-            save_hugr: self.save_hugr.clone(),
             verbosity: self.hugr_args.other_args.verbose.log_level(),
             validate: self.validate,
             qsystem_pass: self.qsystem_pass,

@@ -1,4 +1,3 @@
-use std::fs::OpenOptions;
 use std::rc::Rc;
 
 use crate::inkwell::values::CallSiteValue;
@@ -7,7 +6,7 @@ use crate::inline::inline;
 use anyhow::anyhow;
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
-use hugr::algorithms::RemoveDeadFuncsPass;
+use hugr::algorithms::{ComposablePass, RemoveDeadFuncsPass};
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
@@ -33,7 +32,6 @@ pub mod rotation;
 #[non_exhaustive]
 pub struct CompileArgs {
     pub debug: u8,
-    pub save_hugr: Option<String>,
 
     /// None means no output
     pub verbosity: Option<Level>,
@@ -45,7 +43,6 @@ impl Default for CompileArgs {
     fn default() -> Self {
         Self {
             debug: 0,
-            save_hugr: None,
             verbosity: None,
             validate: false,
             qsystem_pass: true,
@@ -90,11 +87,6 @@ impl CompileArgs {
         inline(hugr, all_calls)?;
         self.remove_dead_functions(hugr)?;
 
-        if let Some(path) = &self.save_hugr {
-            let mut open_options = OpenOptions::new();
-            open_options.truncate(true);
-            serde_json::to_writer_pretty(open_options.open(path)?, hugr)?;
-        }
         Ok(())
     }
 
