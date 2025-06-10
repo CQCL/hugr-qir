@@ -10,13 +10,13 @@ A tool for converting Hierarchical Unified Graph Representation (HUGR, pronounce
 
 ## Installation
 
-You can install this from pypi via `pip install hugr-qir`.
+You can install from pypi via `pip install hugr-qir`.
 
 ## Usage
 
 ### Python
 
-You can use the function `hugr_qir.hugr_to_qir` to convert your hugr to qir. With the parameter `validate_qir` you can run a check on the generated QIR. This check is run by default.
+Use the function `hugr_to_qir` from the `hugr_to_qir` module to convert hugr to qir. By default, some basic validity checks will be run on the generated QIR. These checks can be turned off by passing `validate_qir = False`.
 
 You can find an example notebook at `examples/submit-guppy-h1-h2-via-qir.ipynb` showing the conversion and the submission to H1/H2.
 
