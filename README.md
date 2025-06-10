@@ -10,7 +10,7 @@ A tool for converting Hierarchical Unified Graph Representation (HUGR, pronounce
 
 ## Installation
 
-You can install this from pypi via `pip install hugr-qir`.
+You can install from pypi via `pip install hugr-qir`.
 
 ## Usage
 
