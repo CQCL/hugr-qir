@@ -30,23 +30,7 @@ This will generate qir for a given hugr file:
 hugr-qir test-file.hugr
 ```
 
-For available parameters are:
-
-```
-Usage: hugr-qir [OPTIONS] HUGR_FILE
-
-  Convert a HUGR file to QIR.
-
-  Provide the name of the HUGR file as the first argument. Per default, QIR is
-  emitted to stdout, but can be written to a file using the `-o` option.
-
-Options:
-  --validate-qir / --no-validate-qir
-                                  Whether to validate the QIR output
-  -o, --output FILENAME           Name of output file (optional)
-  --version                       Show the version and exit.
-  --help                          Show this message and exit.
-```
+Run `hugr-qir --help` to see the available options.
 
 If you want to generate a hugr file from guppy, you can do this in two steps:
 1. add this to the end of your guppy file:
