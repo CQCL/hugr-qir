@@ -7,6 +7,7 @@ from typing import IO
 
 import click
 from quantinuum_qircheck import qircheck
+from quantinuum_qircheck.qircheck import ValidationError
 
 from hugr_qir._hugr_qir import cli
 
@@ -46,7 +47,11 @@ def hugr_qir_impl(validate: bool, hugr_file: Path, outfile: IO) -> None:
         with Path.open(Path(temp_file.name)) as output:
             qir = output.read()
     if validate:
-        qircheck(qir)
+        try:
+            qircheck(qir)
+        except ValidationError as e:
+            msg = f"Found a problem in the generated QIR: {e}"
+            raise ValueError(msg) from e
 
     outfile.write(qir)
 
