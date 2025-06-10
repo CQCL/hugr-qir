@@ -74,13 +74,6 @@ impl QirCodegenExtension {
                 &args.inputs[0..1],
                 args.outputs,
             ),
-            ZZMax => emit_qis_gate_finish(
-                context,
-                "__quantum__qis__zzmax__body",
-                [],
-                &args.inputs[0..2],
-                args.outputs,
-            ),
             QSystemOp::ZZPhase => emit_qis_gate_finish(
                 context,
                 "__quantum__qis__rzz__body",
@@ -110,7 +103,7 @@ impl QirCodegenExtension {
 #[cfg(test)]
 mod test {
 
-    use hugr::ops::{NamedOp, OpType};
+    use hugr::ops::OpType;
     use hugr_llvm::{
         check_emission,
         test::{llvm_ctx, TestContext},
@@ -140,7 +133,6 @@ mod test {
     #[case(QSystemOp::QFree)]
     #[case(QSystemOp::TryQAlloc)]
     #[case(QSystemOp::ZZPhase)]
-    #[case(QSystemOp::ZZMax)]
     #[case(QSystemOp::PhasedX)]
     #[case(QSystemOp::Rz)]
     #[case(QSystemOp::LazyMeasure)]
@@ -148,13 +140,12 @@ mod test {
     fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
         let op = op.into();
         let mut insta = insta::Settings::clone_current();
-        insta.set_snapshot_suffix(format!(
-            "{}_{}",
-            insta.snapshot_suffix().unwrap_or(""),
-            NamedOp::name(&op)
-        ));
+        insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op));
         insta.bind(|| {
-            let hugr = single_op_hugr(op);
+            use tket2_hseries::QSystemPass;
+
+            let mut hugr = single_op_hugr(op);
+            QSystemPass::default().run(&mut hugr).unwrap();
             check_emission!(hugr, ctx);
         })
     }

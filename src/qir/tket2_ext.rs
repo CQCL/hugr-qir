@@ -151,7 +151,7 @@ impl QirCodegenExtension {
 
 #[cfg(test)]
 mod test {
-    use hugr::ops::{NamedOp, OpType};
+    use hugr::ops::OpType;
     use hugr_llvm::{
         check_emission,
         test::{llvm_ctx, TestContext},
@@ -198,11 +198,7 @@ mod test {
     fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
         let op = op.into();
         let mut insta = insta::Settings::clone_current();
-        insta.set_snapshot_suffix(format!(
-            "{}_{}",
-            insta.snapshot_suffix().unwrap_or(""),
-            op.name()
-        ));
+        insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op));
         insta.bind(|| {
             let hugr = single_op_hugr(op);
             check_emission!(hugr, ctx);

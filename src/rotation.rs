@@ -221,10 +221,9 @@ mod test {
     use tket2::extension::rotation::{rotation_type, RotationOpBuilder as _};
     use tket2::hugr::builder::{Dataflow, DataflowSubContainer as _, SubContainer};
     use tket2::hugr::extension::prelude::UnwrapBuilder;
-    use tket2::hugr::extension::ExtensionSet;
     use tket2::hugr::ops::constant::{CustomConst, TryHash};
     use tket2::hugr::ops::OpName;
-    use tket2::hugr::std_extensions::arithmetic::float_types::{self, float64_type, ConstF64};
+    use tket2::hugr::std_extensions::arithmetic::float_types::{float64_type, ConstF64};
 
     use super::*;
 
@@ -333,10 +332,6 @@ mod test {
     impl CustomConst for NonFiniteConst64 {
         fn name(&self) -> OpName {
             "NonFiniteConst64".into()
-        }
-
-        fn extension_reqs(&self) -> ExtensionSet {
-            float_types::EXTENSION_ID.into()
         }
 
         fn get_type(&self) -> HugrType {

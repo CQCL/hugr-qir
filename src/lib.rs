@@ -73,7 +73,7 @@ impl CompileArgs {
     /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
         if self.qsystem_pass {
-            let mut pass = tket2_hseries::QSystemPass::default();
+            let pass = tket2_hseries::QSystemPass::default();
             //if self.validate {
             //    pass = pass.with_validation_level(ValidationLevel::WithExtensions);
             //}
@@ -92,7 +92,7 @@ impl CompileArgs {
 
     pub fn remove_dead_functions(&self, hugr: &mut Hugr) -> Result<()> {
         let entry_point_node = find_hugr_entry_point(hugr)?;
-        let mut dead_func_pass =
+        let dead_func_pass =
             RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
         //if self.validate {
         //            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
