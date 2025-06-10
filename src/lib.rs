@@ -8,8 +8,6 @@ use anyhow::anyhow;
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
 use hugr::algorithms::RemoveDeadFuncsPass;
-use hugr::hugr_passes::ComposablePass;
-use hugr::hugr_passes::ComposablePass;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
@@ -79,9 +77,9 @@ impl CompileArgs {
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
         if self.qsystem_pass {
             let mut pass = tket2_hseries::QSystemPass::default();
-            if self.validate {
-                pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-            }
+            //if self.validate {
+            //    pass = pass.with_validation_level(ValidationLevel::WithExtensions);
+            //}
             pass.run(hugr)?;
         }
 
