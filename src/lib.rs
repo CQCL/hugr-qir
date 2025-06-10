@@ -7,8 +7,9 @@ use crate::inline::inline;
 use anyhow::anyhow;
 use anyhow::Result;
 use clap_verbosity_flag::log::Level;
-use hugr::algorithms::validation::ValidationLevel;
 use hugr::algorithms::RemoveDeadFuncsPass;
+use hugr::hugr_passes::ComposablePass;
+use hugr::hugr_passes::ComposablePass;
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
@@ -103,9 +104,9 @@ impl CompileArgs {
         let entry_point_node = find_hugr_entry_point(hugr)?;
         let mut dead_func_pass =
             RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
-        if self.validate {
-            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
-        }
+        //if self.validate {
+        //            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
+        //}
         dead_func_pass.run(hugr)?;
         Ok(())
     }
@@ -195,7 +196,7 @@ pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> 
             .filter(|&n| {
                 hugr.get_optype(n)
                     .as_func_defn()
-                    .is_some_and(|f| f.name == "main")
+                    .is_some_and(|f| f.func_name() == "main")
             })
             .collect();
         match mains.as_slice() {
@@ -231,7 +232,7 @@ pub fn replace_int_opque_pointer(module: &Module, funcname: &str) -> u64 {
             };
             let func = call.get_called_fn_value();
 
-            let global = func.as_global_value();
+            let global = func.expect("REASON").as_global_value();
 
             if global.get_name().to_bytes() == funcname.as_bytes() {
                 let ptr = PointerValue::try_from(ins).unwrap();

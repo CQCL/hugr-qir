@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Result};
 use hugr::algorithms::call_graph::{CallGraph, CallGraphEdge};
 use hugr::hugr::hugrmut::HugrMut;
-use hugr::hugr::rewrite::inline_call::InlineCall;
+use hugr::hugr::patch::inline_call::InlineCall;
 use hugr::Node;
 use petgraph::algo::toposort;
 use petgraph::visit::{EdgeFiltered, IntoEdges};
