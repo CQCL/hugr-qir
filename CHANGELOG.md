@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.4
+
+- update hugr and guppy dependency
+
 ### v0.0.3
 
 - update quantinuum-qircheck version requirement to 0.2.0
