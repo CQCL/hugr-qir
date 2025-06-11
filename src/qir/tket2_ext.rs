@@ -135,8 +135,8 @@ impl QirCodegenExtension {
                 let qb = args.inputs[0];
                 // i.e. Result*
                 let result = emit_qis_measure_to_result(context, qb)?;
-                let result_i1 = emit_qis_read_result(context, result)?;
                 emit_qis_qfree(context, qb)?;
+                let result_i1 = emit_qis_read_result(context, result)?;
                 args.outputs.finish(context.builder(), [result_i1])
             }
             QAlloc => {
