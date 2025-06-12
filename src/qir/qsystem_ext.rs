@@ -1,3 +1,7 @@
+use crate::qir::{
+    emit_qis_gate, emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc,
+    emit_qis_qfree, emit_qis_read_result,
+};
 use anyhow::Result;
 use hugr::{
     extension::prelude::{option_type, qb_t},
@@ -10,10 +14,6 @@ use hugr_llvm::{
     types::HugrSumType,
 };
 use tket2_hseries::extension::qsystem::QSystemOp;
-use crate::qir::{
-    emit_qis_gate, emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc,
-    emit_qis_qfree, emit_qis_read_result,
-};
 
 use super::QirCodegenExtension;
 
@@ -72,7 +72,8 @@ impl QirCodegenExtension {
                 let result_i32 = result_sum.build_get_tag(context.builder())?;
                 let i1 = context.iw_context().bool_type();
                 let result_i1 = context.builder().build_int_truncate(result_i32, i1, "")?;
-                args.outputs.finish(context.builder(), [qb, result_i1.into()])
+                args.outputs
+                    .finish(context.builder(), [qb, result_i1.into()])
             }
             Rz => emit_qis_gate_finish(
                 context,

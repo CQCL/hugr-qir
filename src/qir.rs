@@ -1,8 +1,8 @@
+mod boolcodegenextension_workaround;
 pub mod futures_ext;
 pub mod qsystem_ext;
 pub mod result_ext;
 pub mod tket2_ext;
-mod boolcodegenextension_workaround;
 
 use anyhow::{bail, ensure, Result};
 use hugr::{

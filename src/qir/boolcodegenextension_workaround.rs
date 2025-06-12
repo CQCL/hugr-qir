@@ -1,13 +1,13 @@
 use anyhow::anyhow;
-use hugr_core::{HugrView, Node};
 use hugr_core::ops::{ExtensionOp, Value};
 use hugr_core::types::{SumType, TypeName};
-use hugr_llvm::CodegenExtension;
+use hugr_core::{HugrView, Node};
 use hugr_llvm::emit::{emit_value, EmitFuncContext, EmitOpArgs};
-use hugr_llvm::inkwell::IntPredicate;
 use hugr_llvm::inkwell::types::IntType;
+use hugr_llvm::inkwell::IntPredicate;
 use hugr_llvm::sum::LLVMSumValue;
 use hugr_llvm::types::TypingSession;
+use hugr_llvm::CodegenExtension;
 use tket2::extension::bool::{BoolOp, ConstBool, BOOL_EXTENSION_ID};
 
 // This is copied from https://github.com/CQCL/guppylang/blob/main/execute_llvm/src/bool.rs

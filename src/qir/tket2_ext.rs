@@ -1,10 +1,10 @@
-use anyhow::{bail, Result};
-use hugr::{ops::ExtensionOp, HugrView, Node};
-use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 use crate::qir::{
     emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_qfree,
     emit_qis_read_result,
 };
+use anyhow::{bail, Result};
+use hugr::{ops::ExtensionOp, HugrView, Node};
+use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 
 use super::QirCodegenExtension;
 
@@ -158,12 +158,12 @@ mod test {
     use rstest::rstest;
     use tket2::Tk2Op;
 
+    use crate::qir::boolcodegenextension_workaround::BoolCodegenExtension;
     use crate::test::single_op_hugr;
     use crate::{
         qir::{QirCodegenExtension, QirPreludeCodegen},
         rotation::RotationCodegenExtension,
     };
-    use crate::qir::boolcodegenextension_workaround::BoolCodegenExtension;
 
     #[rstest::fixture]
     fn ctx(mut llvm_ctx: TestContext) -> TestContext {
