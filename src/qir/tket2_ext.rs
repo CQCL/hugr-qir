@@ -1,7 +1,6 @@
 use anyhow::{bail, Result};
 use hugr::{ops::ExtensionOp, HugrView, Node};
 use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
-
 use crate::qir::{
     emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_qfree,
     emit_qis_read_result,
@@ -164,6 +163,7 @@ mod test {
         qir::{QirCodegenExtension, QirPreludeCodegen},
         rotation::RotationCodegenExtension,
     };
+    use crate::qir::boolcodegenextension_workaround::BoolCodegenExtension;
 
     #[rstest::fixture]
     fn ctx(mut llvm_ctx: TestContext) -> TestContext {
@@ -172,6 +172,7 @@ mod test {
                 .add_extension(QirCodegenExtension)
                 .add_prelude_extensions(QirPreludeCodegen)
                 .add_extension(RotationCodegenExtension::new(QirPreludeCodegen))
+                .add_extension(BoolCodegenExtension)
         });
         llvm_ctx
     }

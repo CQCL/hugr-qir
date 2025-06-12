@@ -10,7 +10,6 @@ use hugr_llvm::{
     types::HugrSumType,
 };
 use tket2_hseries::extension::qsystem::QSystemOp;
-use tket2_hseries::extension::qsystem::QSystemOp::MeasureReset;
 use crate::qir::{
     emit_qis_gate, emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc,
     emit_qis_qfree, emit_qis_read_result,
