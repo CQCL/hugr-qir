@@ -1,11 +1,11 @@
-use anyhow::{anyhow, bail, Result};
+use anyhow::{Result, anyhow, bail};
 use hugr::{
+    HugrView, Node,
     extension::{prelude::ConstString, simple_op::MakeExtensionOp as _},
     ops::ExtensionOp,
-    HugrView, Node,
 };
 use hugr_llvm::{
-    emit::{emit_value, EmitFuncContext, EmitOpArgs},
+    emit::{EmitFuncContext, EmitOpArgs, emit_value},
     inkwell::types::BasicType as _,
     sum::LLVMSumValue,
     types::HugrSumType,
@@ -130,7 +130,7 @@ mod test {
     use hugr::ops::OpType;
     use hugr_llvm::{
         check_emission,
-        test::{llvm_ctx, TestContext},
+        test::{TestContext, llvm_ctx},
     };
     use rstest::rstest;
 

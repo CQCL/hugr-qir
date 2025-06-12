@@ -4,16 +4,16 @@ pub mod qsystem_ext;
 pub mod result_ext;
 pub mod tket2_ext;
 
-use anyhow::{bail, ensure, Result};
+use anyhow::{Result, bail, ensure};
 use hugr::{
-    extension::prelude::qb_t,
-    llvm::{extension::PreludeCodegen, CodegenExtension, CodegenExtsBuilder},
-    ops::Value,
     HugrView,
+    extension::prelude::qb_t,
+    llvm::{CodegenExtension, CodegenExtsBuilder, extension::PreludeCodegen},
+    ops::Value,
 };
-use hugr::{llvm as hugr_llvm, Node};
-use hugr_llvm::emit::libc::emit_libc_abort;
+use hugr::{Node, llvm as hugr_llvm};
 use hugr_llvm::emit::RowPromise;
+use hugr_llvm::emit::libc::emit_libc_abort;
 use hugr_llvm::inkwell;
 use hugr_llvm::inkwell::values::BasicValueEnum;
 use inkwell::{context::Context, types::BasicType};
@@ -21,7 +21,7 @@ use itertools::Itertools;
 use tket2_hseries::extension::futures;
 
 use hugr_llvm::{
-    emit::{emit_value, EmitFuncContext},
+    emit::{EmitFuncContext, emit_value},
     types::TypingSession,
 };
 

@@ -1,16 +1,16 @@
-use anyhow::{bail, ensure, Result};
+use anyhow::{Result, bail, ensure};
 use hugr::{
+    HugrView, Node,
     extension::prelude::bool_t,
     ops::{ExtensionOp, Value},
     types::CustomType,
-    HugrView, Node,
 };
 use hugr_llvm::{
-    emit::{emit_value, EmitFuncContext, EmitOpArgs},
+    emit::{EmitFuncContext, EmitOpArgs, emit_value},
     inkwell::types::BasicTypeEnum,
     types::TypingSession,
 };
-use tket2_hseries::extension::futures::{FutureOpDef, EXTENSION_ID, FUTURE_TYPE_NAME};
+use tket2_hseries::extension::futures::{EXTENSION_ID, FUTURE_TYPE_NAME, FutureOpDef};
 
 use super::QirCodegenExtension;
 
@@ -64,7 +64,7 @@ mod test {
     use hugr::{extension::prelude::bool_t, ops::OpType};
     use hugr_llvm::{
         check_emission,
-        test::{llvm_ctx, TestContext},
+        test::{TestContext, llvm_ctx},
     };
     use rstest::rstest;
 

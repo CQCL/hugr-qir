@@ -4,9 +4,9 @@ use crate::qir::{
 };
 use anyhow::Result;
 use hugr::{
+    HugrView, Node,
     extension::prelude::{option_type, qb_t},
     ops::ExtensionOp,
-    HugrView, Node,
 };
 use hugr_llvm::{
     emit::{EmitFuncContext, EmitOpArgs},
@@ -121,7 +121,7 @@ mod test {
     use hugr::ops::OpType;
     use hugr_llvm::{
         check_emission,
-        test::{llvm_ctx, TestContext},
+        test::{TestContext, llvm_ctx},
     };
     use rstest::rstest;
 

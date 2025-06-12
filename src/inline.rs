@@ -1,8 +1,8 @@
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
+use hugr::Node;
 use hugr::algorithms::call_graph::{CallGraph, CallGraphEdge};
 use hugr::hugr::hugrmut::HugrMut;
 use hugr::hugr::patch::inline_call::InlineCall;
-use hugr::Node;
 use hugr_core::{Hugr, HugrView};
 use petgraph::algo::toposort;
 use petgraph::visit::{EdgeFiltered, IntoEdges};

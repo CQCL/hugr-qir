@@ -2,8 +2,8 @@ use crate::qir::{
     emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_qfree,
     emit_qis_read_result,
 };
-use anyhow::{bail, Result};
-use hugr::{ops::ExtensionOp, HugrView, Node};
+use anyhow::{Result, bail};
+use hugr::{HugrView, Node, ops::ExtensionOp};
 use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 
 use super::QirCodegenExtension;
@@ -153,7 +153,7 @@ mod test {
     use hugr::ops::OpType;
     use hugr_llvm::{
         check_emission,
-        test::{llvm_ctx, TestContext},
+        test::{TestContext, llvm_ctx},
     };
     use rstest::rstest;
     use tket2::Tk2Op;

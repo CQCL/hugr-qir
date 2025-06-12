@@ -1,6 +1,6 @@
 use std::{io::Write, path::Path};
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use clap::Parser;
 use clap_verbosity_flag::log::Level;
 use delegate::delegate;
