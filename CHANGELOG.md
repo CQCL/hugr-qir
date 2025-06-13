@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.4
+
+- update guppylang version requirement 0.19.1
+
 ### v0.0.3
 
 - update quantinuum-qircheck version requirement to 0.2.0

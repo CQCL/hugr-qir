@@ -1,20 +1,20 @@
-use anyhow::{anyhow, bail, Result};
+use anyhow::{Result, anyhow, bail};
+use hugr::Node;
+use hugr::llvm::CodegenExtension;
 use hugr::llvm::custom::CodegenExtsBuilder;
-use hugr::llvm::emit::{emit_value, EmitFuncContext, EmitOpArgs};
+use hugr::llvm::emit::{EmitFuncContext, EmitOpArgs, emit_value};
 use hugr::llvm::extension::{DefaultPreludeCodegen, PreludeCodegen};
 use hugr::llvm::inkwell;
 use hugr::llvm::types::TypingSession;
-use hugr::llvm::CodegenExtension;
-use hugr::Node;
+use inkwell::FloatPredicate;
 use inkwell::types::FloatType;
 use inkwell::values::{FloatValue, IntValue};
-use inkwell::FloatPredicate;
 use lazy_static::lazy_static;
-use tket2::extension::rotation::{rotation_type, ConstRotation, RotationOp, ROTATION_EXTENSION_ID};
-use tket2::hugr::extension::prelude::{option_type, ConstError};
+use tket2::extension::rotation::{ConstRotation, ROTATION_EXTENSION_ID, RotationOp, rotation_type};
+use tket2::hugr::HugrView;
+use tket2::hugr::extension::prelude::{ConstError, option_type};
 use tket2::hugr::ops::ExtensionOp;
 use tket2::hugr::types::TypeName;
-use tket2::hugr::HugrView;
 const ROTATION_TYPE_ID: TypeName = TypeName::new_inline("rotation");
 /// A codegen extension for the `tket2.rotation` extension.
 ///
@@ -210,21 +210,20 @@ impl<PCG: PreludeCodegen> CodegenExtension for RotationCodegenExtension<PCG> {
 #[cfg(test)]
 mod test {
 
+    use hugr::Node;
     use hugr::llvm::check_emission;
     use hugr::llvm::emit::test::SimpleHugrConfig;
     use hugr::llvm::extension::DefaultPreludeCodegen;
-    use hugr::llvm::test::{exec_ctx, llvm_ctx, TestContext};
+    use hugr::llvm::test::{TestContext, exec_ctx, llvm_ctx};
     use hugr::llvm::types::HugrType;
-    use hugr::Node;
     use inkwell::values::BasicValueEnum;
     use rstest::rstest;
-    use tket2::extension::rotation::{rotation_type, RotationOpBuilder as _};
+    use tket2::extension::rotation::{RotationOpBuilder as _, rotation_type};
     use tket2::hugr::builder::{Dataflow, DataflowSubContainer as _, SubContainer};
     use tket2::hugr::extension::prelude::UnwrapBuilder;
-    use tket2::hugr::extension::ExtensionSet;
-    use tket2::hugr::ops::constant::{CustomConst, TryHash};
     use tket2::hugr::ops::OpName;
-    use tket2::hugr::std_extensions::arithmetic::float_types::{self, float64_type, ConstF64};
+    use tket2::hugr::ops::constant::{CustomConst, TryHash};
+    use tket2::hugr::std_extensions::arithmetic::float_types::{ConstF64, float64_type};
 
     use super::*;
 
@@ -333,10 +332,6 @@ mod test {
     impl CustomConst for NonFiniteConst64 {
         fn name(&self) -> OpName {
             "NonFiniteConst64".into()
-        }
-
-        fn extension_reqs(&self) -> ExtensionSet {
-            float_types::EXTENSION_ID.into()
         }
 
         fn get_type(&self) -> HugrType {

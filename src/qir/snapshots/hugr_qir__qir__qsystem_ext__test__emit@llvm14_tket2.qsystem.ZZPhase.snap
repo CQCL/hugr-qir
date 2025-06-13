@@ -12,10 +12,10 @@ alloca_block:
   br label %entry_block
 
 entry_block:                                      ; preds = %alloca_block
-  call void @__quantum__qis__rzz__body(%Qubit* %0, %Qubit* %1)
+  call void @__quantum__qis__rzz__body(double %2, %Qubit* %0, %Qubit* %1)
   %mrv = insertvalue { %Qubit*, %Qubit* } undef, %Qubit* %0, 0
   %mrv8 = insertvalue { %Qubit*, %Qubit* } %mrv, %Qubit* %1, 1
   ret { %Qubit*, %Qubit* } %mrv8
 }
 
-declare void @__quantum__qis__rzz__body(%Qubit*, %Qubit*)
+declare void @__quantum__qis__rzz__body(double, %Qubit*, %Qubit*)

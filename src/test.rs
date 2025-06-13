@@ -1,8 +1,8 @@
 use hugr::{
+    Hugr,
     builder::{Container, Dataflow, DataflowSubContainer, HugrBuilder, ModuleBuilder},
     ops::{OpTrait, OpType},
     types::PolyFuncType,
-    Hugr,
 };
 
 pub fn single_op_hugr(op: OpType) -> Hugr {

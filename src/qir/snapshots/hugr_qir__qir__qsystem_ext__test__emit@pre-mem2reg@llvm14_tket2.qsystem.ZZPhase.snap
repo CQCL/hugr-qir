@@ -25,7 +25,7 @@ entry_block:                                      ; preds = %alloca_block
   %"2_01" = load %Qubit*, %Qubit** %"2_0", align 8
   %"2_12" = load %Qubit*, %Qubit** %"2_1", align 8
   %"2_23" = load double, double* %"2_2", align 8
-  call void @__quantum__qis__rzz__body(%Qubit* %"2_01", %Qubit* %"2_12")
+  call void @__quantum__qis__rzz__body(double %"2_23", %Qubit* %"2_01", %Qubit* %"2_12")
   store %Qubit* %"2_01", %Qubit** %"4_0", align 8
   store %Qubit* %"2_12", %Qubit** %"4_1", align 8
   %"4_04" = load %Qubit*, %Qubit** %"4_0", align 8
@@ -39,4 +39,4 @@ entry_block:                                      ; preds = %alloca_block
   ret { %Qubit*, %Qubit* } %mrv8
 }
 
-declare void @__quantum__qis__rzz__body(%Qubit*, %Qubit*)
+declare void @__quantum__qis__rzz__body(double, %Qubit*, %Qubit*)

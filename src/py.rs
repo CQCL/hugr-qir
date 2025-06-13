@@ -4,9 +4,9 @@ use clap::Parser;
 use hugr::llvm::inkwell;
 use itertools::Itertools as _;
 use pyo3::{
-    pyfunction, pymodule,
+    Bound, PyResult, pyfunction, pymodule,
     types::{PyAnyMethods as _, PyModule, PyModuleMethods as _, PyTuple},
-    wrap_pyfunction, Bound, PyResult,
+    wrap_pyfunction,
 };
 
 use crate::cli::Cli;
