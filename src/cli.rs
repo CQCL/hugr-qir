@@ -110,7 +110,6 @@ impl Cli {
         CompileArgs {
             debug: self.debug,
             verbosity: self.hugr_args.other_args.verbose.log_level(),
-            validate: self.validate,
             qsystem_pass: self.qsystem_pass,
         }
     }

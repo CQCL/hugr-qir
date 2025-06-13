@@ -35,7 +35,6 @@ pub struct CompileArgs {
 
     /// None means no output
     pub verbosity: Option<Level>,
-    pub validate: bool,
     pub qsystem_pass: bool,
 }
 
@@ -44,7 +43,6 @@ impl Default for CompileArgs {
         Self {
             debug: 0,
             verbosity: None,
-            validate: false,
             qsystem_pass: true,
         }
     }
@@ -74,9 +72,6 @@ impl CompileArgs {
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
         if self.qsystem_pass {
             let pass = tket2_hseries::QSystemPass::default();
-            //if self.validate {
-            //    pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-            //}
             pass.run(hugr)?;
         }
 
@@ -94,9 +89,6 @@ impl CompileArgs {
         let entry_point_node = find_hugr_entry_point(hugr)?;
         let dead_func_pass =
             RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
-        //if self.validate {
-        //            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
-        //}
         dead_func_pass.run(hugr)?;
         Ok(())
     }
