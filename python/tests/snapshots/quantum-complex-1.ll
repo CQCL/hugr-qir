@@ -17,12 +17,12 @@ alloca_block:
   call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %Qubit* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
   call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
-  call void @__quantum__qis__rzz__body(%Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
+  call void @__quantum__qis__rzz__body(double 0x3FF921FB54442D18, %Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* null)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %Qubit* null)
-  call void @__quantum__qis__rzz__body(%Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
+  call void @__quantum__qis__rzz__body(double 0x3FF921FB54442D18, %Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
   call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %Qubit* null)
@@ -42,7 +42,7 @@ declare void @__quantum__qis__phasedx__body(double, double, %Qubit*)
 
 declare void @__quantum__qis__rz__body(double, %Qubit*)
 
-declare void @__quantum__qis__rzz__body(%Qubit*, %Qubit*)
+declare void @__quantum__qis__rzz__body(double, %Qubit*, %Qubit*)
 
 declare void @__quantum__qis__mz__body(%Qubit*, %Result*)
 

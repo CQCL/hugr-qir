@@ -92,7 +92,7 @@ impl QirCodegenExtension {
             ZZPhase => emit_qis_gate_finish(
                 context,
                 "__quantum__qis__rzz__body",
-                &args.inputs[2..2],
+                &args.inputs[2..3],
                 &args.inputs[0..2],
                 args.outputs,
             ),
