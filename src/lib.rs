@@ -74,30 +74,35 @@ impl CompileArgs {
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
         if self.qsystem_pass {
             let pass = tket2_hseries::QSystemPass::default();
-            //if self.validate {
-            //    pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-            //}
             pass.run(hugr)?;
+            if self.validate {
+                hugr.validate()?;
+            }
         }
+        self.inline_calls(hugr)?;
+        self.remove_dead_functions(hugr)?;
+        Ok(())
+    }
 
+    pub fn inline_calls(&self, hugr: &mut Hugr) -> Result<()> {
         let all_calls: Vec<_> = hugr
             .nodes()
             .filter(|n| hugr.get_optype(*n).is_call())
             .collect();
         inline(hugr, all_calls)?;
-        self.remove_dead_functions(hugr)?;
-
+        if self.validate {
+            hugr.validate()?;
+        }
         Ok(())
     }
-
     pub fn remove_dead_functions(&self, hugr: &mut Hugr) -> Result<()> {
         let entry_point_node = find_hugr_entry_point(hugr)?;
         let dead_func_pass =
             RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
-        //if self.validate {
-        //            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
-        //}
         dead_func_pass.run(hugr)?;
+        if self.validate {
+            hugr.validate()?;
+        }
         Ok(())
     }
 
@@ -152,7 +157,7 @@ impl CompileArgs {
 
         module
             .verify()
-            .map_err(|msg| anyhow!("Failed to optmise module: {msg}\n, {}", module.to_string()))?;
+            .map_err(|msg| anyhow!("Failed to optimise module: {msg}\n, {}", module.to_string()))?;
         Ok(())
     }
 
