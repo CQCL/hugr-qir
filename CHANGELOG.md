@@ -2,7 +2,7 @@
 
 ### v0.0.5
 
-- update hugr_to_qir to take PackagePointer and bytes for conversion
+- update hugr_to_qir to take ModulePointer and bytes for conversion
 
 ### v0.0.4
 
