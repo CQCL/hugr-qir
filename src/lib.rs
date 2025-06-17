@@ -1,19 +1,17 @@
-use std::fs::OpenOptions;
 use std::rc::Rc;
 
 use crate::inkwell::values::CallSiteValue;
 use crate::inkwell::values::PointerValue;
 use crate::inline::inline;
-use anyhow::anyhow;
 use anyhow::Result;
+use anyhow::anyhow;
 use clap_verbosity_flag::log::Level;
-use hugr::algorithms::validation::ValidationLevel;
-use hugr::algorithms::RemoveDeadFuncsPass;
+use hugr::HugrView;
+use hugr::algorithms::{ComposablePass, RemoveDeadFuncsPass};
 use hugr::llvm::custom::CodegenExtsMap;
 use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
-use hugr::llvm::{inkwell, CodegenExtsBuilder};
-use hugr::HugrView;
+use hugr::llvm::{CodegenExtsBuilder, inkwell};
 use hugr::{Hugr, Node};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
@@ -34,7 +32,6 @@ pub mod rotation;
 #[non_exhaustive]
 pub struct CompileArgs {
     pub debug: u8,
-    pub save_hugr: Option<String>,
 
     /// None means no output
     pub verbosity: Option<Level>,
@@ -46,7 +43,6 @@ impl Default for CompileArgs {
     fn default() -> Self {
         Self {
             debug: 0,
-            save_hugr: None,
             verbosity: None,
             validate: false,
             qsystem_pass: true,
@@ -77,36 +73,36 @@ impl CompileArgs {
     /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
         if self.qsystem_pass {
-            let mut pass = tket2_hseries::QSystemPass::default();
-            if self.validate {
-                pass = pass.with_validation_level(ValidationLevel::WithExtensions);
-            }
+            let pass = tket2_hseries::QSystemPass::default();
             pass.run(hugr)?;
+            if self.validate {
+                hugr.validate()?;
+            }
         }
+        self.inline_calls(hugr)?;
+        self.remove_dead_functions(hugr)?;
+        Ok(())
+    }
 
+    pub fn inline_calls(&self, hugr: &mut Hugr) -> Result<()> {
         let all_calls: Vec<_> = hugr
             .nodes()
             .filter(|n| hugr.get_optype(*n).is_call())
             .collect();
         inline(hugr, all_calls)?;
-        self.remove_dead_functions(hugr)?;
-
-        if let Some(path) = &self.save_hugr {
-            let mut open_options = OpenOptions::new();
-            open_options.truncate(true);
-            serde_json::to_writer_pretty(open_options.open(path)?, hugr)?;
+        if self.validate {
+            hugr.validate()?;
         }
         Ok(())
     }
-
     pub fn remove_dead_functions(&self, hugr: &mut Hugr) -> Result<()> {
         let entry_point_node = find_hugr_entry_point(hugr)?;
-        let mut dead_func_pass =
+        let dead_func_pass =
             RemoveDeadFuncsPass::default().with_module_entry_points([entry_point_node]);
-        if self.validate {
-            dead_func_pass = dead_func_pass.validation_level(ValidationLevel::WithExtensions);
-        }
         dead_func_pass.run(hugr)?;
+        if self.validate {
+            hugr.validate()?;
+        }
         Ok(())
     }
 
@@ -161,7 +157,7 @@ impl CompileArgs {
 
         module
             .verify()
-            .map_err(|msg| anyhow!("Failed to optmise module: {msg}\n, {}", module.to_string()))?;
+            .map_err(|msg| anyhow!("Failed to optimise module: {msg}\n, {}", module.to_string()))?;
         Ok(())
     }
 
@@ -195,7 +191,7 @@ pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> 
             .filter(|&n| {
                 hugr.get_optype(n)
                     .as_func_defn()
-                    .is_some_and(|f| f.name == "main")
+                    .is_some_and(|f| f.func_name() == "main")
             })
             .collect();
         match mains.as_slice() {
@@ -231,7 +227,7 @@ pub fn replace_int_opque_pointer(module: &Module, funcname: &str) -> u64 {
             };
             let func = call.get_called_fn_value();
 
-            let global = func.as_global_value();
+            let global = func.expect("REASON").as_global_value();
 
             if global.get_name().to_bytes() == funcname.as_bytes() {
                 let ptr = PointerValue::try_from(ins).unwrap();

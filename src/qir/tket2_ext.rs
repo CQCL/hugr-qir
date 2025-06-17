@@ -1,11 +1,10 @@
-use anyhow::{bail, Result};
-use hugr::{ops::ExtensionOp, HugrView, Node};
-use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
-
 use crate::qir::{
     emit_qis_gate_finish, emit_qis_measure_to_result, emit_qis_qalloc, emit_qis_qfree,
     emit_qis_read_result,
 };
+use anyhow::{Result, bail};
+use hugr::{HugrView, Node, ops::ExtensionOp};
+use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 
 use super::QirCodegenExtension;
 
@@ -151,14 +150,15 @@ impl QirCodegenExtension {
 
 #[cfg(test)]
 mod test {
-    use hugr::ops::{NamedOp, OpType};
+    use hugr::ops::OpType;
     use hugr_llvm::{
         check_emission,
-        test::{llvm_ctx, TestContext},
+        test::{TestContext, llvm_ctx},
     };
     use rstest::rstest;
     use tket2::Tk2Op;
 
+    use crate::qir::boolcodegenextension_workaround::BoolCodegenExtension;
     use crate::test::single_op_hugr;
     use crate::{
         qir::{QirCodegenExtension, QirPreludeCodegen},
@@ -172,6 +172,7 @@ mod test {
                 .add_extension(QirCodegenExtension)
                 .add_prelude_extensions(QirPreludeCodegen)
                 .add_extension(RotationCodegenExtension::new(QirPreludeCodegen))
+                .add_extension(BoolCodegenExtension)
         });
         llvm_ctx
     }
@@ -198,11 +199,7 @@ mod test {
     fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
         let op = op.into();
         let mut insta = insta::Settings::clone_current();
-        insta.set_snapshot_suffix(format!(
-            "{}_{}",
-            insta.snapshot_suffix().unwrap_or(""),
-            op.name()
-        ));
+        insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op));
         insta.bind(|| {
             let hugr = single_op_hugr(op);
             check_emission!(hugr, ctx);
