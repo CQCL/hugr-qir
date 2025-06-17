@@ -29,11 +29,12 @@ def hugr_to_qir(
         tempfile.NamedTemporaryFile(delete=True, suffix=".ll") as temp_outfile,
     ):
         hugr_bytes: bytes
-        if type(hugr) is PackagePointer:
-            hugr_bytes = hugr.package.to_bytes()
-        else:
-            assert type(hugr) is bytes  # noqa: S101
+
+        if type(hugr) is bytes:
             hugr_bytes = hugr
+        else:
+            assert type(hugr) is PackagePointer
+            hugr_bytes = hugr.package.to_bytes()
 
         with Path.open(Path(temp_infile.name), "wb") as cli_input:
             cli_input.write(hugr_bytes)

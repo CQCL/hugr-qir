@@ -29,7 +29,6 @@ dev = [
 examples = [
     "pytket-quantinuum>=0.45.0",
     "jupyterlab>=4.4.2",
-    "llvmlite>=0.44.0"
 ]
 
 [build-system]

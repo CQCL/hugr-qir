@@ -635,7 +635,6 @@ dev = [
 ]
 examples = [
     { name = "jupyterlab" },
-    { name = "llvmlite" },
     { name = "pytket-quantinuum" },
 ]
 
@@ -661,7 +660,6 @@ dev = [
 ]
 examples = [
     { name = "jupyterlab", specifier = ">=4.4.2" },
-    { name = "llvmlite", specifier = ">=0.44.0" },
     { name = "pytket-quantinuum", specifier = ">=0.45.0" },
 ]
 
