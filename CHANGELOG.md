@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.5
+
+- update hugr_to_qir to take PackagePointer and bytes for conversion
+
 ### v0.0.4
 
 - update guppylang version requirement 0.19.1
