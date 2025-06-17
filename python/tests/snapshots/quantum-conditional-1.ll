@@ -11,15 +11,15 @@ alloca_block:
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
   call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
-  call void @__quantum__qis__zzmax__body(%Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
+  call void @__quantum__qis__rzz__body(double 0x3FF921FB54442D18, %Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* null)
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
   call void @__quantum__qis__mz__body(%Qubit* null, %Result* inttoptr (i64 1 to %Result*))
   %0 = call i1 @__quantum__qis__read_result__body(%Result* inttoptr (i64 1 to %Result*))
-  br i1 %0, label %2, label %alloca_block._crit_edge
+  br i1 %0, label %2, label %cond_exit_109
 
-alloca_block._crit_edge:                          ; preds = %alloca_block, %2
+cond_exit_109:                                    ; preds = %alloca_block, %2
   call void @__quantum__qis__mz__body(%Qubit* inttoptr (i64 1 to %Qubit*), %Result* null)
   %1 = call i1 @__quantum__qis__read_result__body(%Result* null)
   call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
@@ -27,14 +27,14 @@ alloca_block._crit_edge:                          ; preds = %alloca_block, %2
 
 2:                                                ; preds = %alloca_block
   call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %Qubit* inttoptr (i64 1 to %Qubit*))
-  br label %alloca_block._crit_edge
+  br label %cond_exit_109
 }
 
 declare void @__quantum__qis__phasedx__body(double, double, %Qubit*)
 
 declare void @__quantum__qis__rz__body(double, %Qubit*)
 
-declare void @__quantum__qis__zzmax__body(%Qubit*, %Qubit*)
+declare void @__quantum__qis__rzz__body(double, %Qubit*, %Qubit*)
 
 declare void @__quantum__qis__mz__body(%Qubit*, %Result*)
 
