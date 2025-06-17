@@ -612,11 +612,12 @@ wheels = [
 
 [[package]]
 name = "hugr-qir"
-version = "0.0.4"
+version = "0.0.5"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
     { name = "guppylang" },
+    { name = "hugr" },
     { name = "llvmlite" },
     { name = "quantinuum-qircheck" },
 ]
@@ -634,7 +635,6 @@ dev = [
 ]
 examples = [
     { name = "jupyterlab" },
-    { name = "llvmlite" },
     { name = "pytket-quantinuum" },
 ]
 
@@ -642,6 +642,7 @@ examples = [
 requires-dist = [
     { name = "click", specifier = "~=8.1.8" },
     { name = "guppylang", specifier = "~=0.19.1" },
+    { name = "hugr", specifier = "~=0.12.1" },
     { name = "llvmlite", specifier = "~=0.44.0" },
     { name = "quantinuum-qircheck", specifier = "~=0.2.0" },
 ]
@@ -659,7 +660,6 @@ dev = [
 ]
 examples = [
     { name = "jupyterlab", specifier = ">=4.4.2" },
-    { name = "llvmlite", specifier = ">=0.44.0" },
     { name = "pytket-quantinuum", specifier = ">=0.45.0" },
 ]
 
