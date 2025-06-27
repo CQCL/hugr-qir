@@ -1,6 +1,6 @@
 ## Changelog
 
-### v0.0.4
+### v0.0.6
 
 - update guppylang version requirement 0.20.0
 - update hugr version requirement 0.12.2

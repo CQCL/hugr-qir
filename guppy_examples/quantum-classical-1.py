@@ -6,7 +6,6 @@ from guppylang.std.builtins import result
 from guppylang.std.quantum import h, measure
 
 
-
 @guppy
 @no_type_check
 def main() -> None:
