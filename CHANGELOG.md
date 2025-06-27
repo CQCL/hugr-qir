@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.0.4
+
+- update guppylang version requirement 0.20.0
+- update hugr version requirement 0.12.2
+
 ### v0.0.5
 
 - update hugr_to_qir to take ModulePointer and bytes for conversion

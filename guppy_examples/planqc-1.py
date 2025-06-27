@@ -1,13 +1,10 @@
 import sys
 from typing import no_type_check
 
-from guppylang import guppy, quantum, qubit
-from guppylang.std.angles import angle, angles
+from guppylang import guppy, qubit
+from guppylang.std.angles import angle
 from guppylang.std.builtins import result
 from guppylang.std.quantum import h, measure, rz
-
-guppy.load(quantum)
-guppy.load(angles)
 
 
 @guppy
@@ -28,4 +25,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    sys.stdout.buffer.write(guppy.get_module().compile().package.to_bytes())
+    sys.stdout.buffer.write(guppy.compile(main).package.to_bytes())
