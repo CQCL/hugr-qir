@@ -7,7 +7,7 @@ source_filename = "hugr-qir"
 @0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 @1 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 
-define void @__hugr__.main.12() #0 {
+define void @__hugr__.main.1() #0 {
 alloca_block:
   call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
   call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)

@@ -516,7 +516,7 @@ wheels = [
 
 [[package]]
 name = "guppylang"
-version = "0.19.1"
+version = "0.20.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "graphviz" },
@@ -526,9 +526,9 @@ dependencies = [
     { name = "tket2-exts" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/71/02/0adc938f22c147740046deaa1d526a0e3913bf34967d24164e8a8e3615a7/guppylang-0.19.1.tar.gz", hash = "sha256:078341972970d637360983347be27172fa9348a199eb0d9b68180d910f789686", size = 437438 }
+sdist = { url = "https://files.pythonhosted.org/packages/65/5a/d28872bf79ec26de8e33e89fa4f8c0c54cadfa3dc9c45a3154c1a617894b/guppylang-0.20.0.tar.gz", hash = "sha256:56d7f307a83ddf49f6eb209735fa95ca204b3aa3edb6ba0e2b9e422113898337", size = 425571 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/b2/2a16772fa2e3f6c50975df0f2c107e9903f5f032841f88c587608e53bdd7/guppylang-0.19.1-py3-none-any.whl", hash = "sha256:53b7e98655216b5873cb3e822d97680f1251a08ffb2295f30f4a6c0ea6be7822", size = 218124 },
+    { url = "https://files.pythonhosted.org/packages/b6/5b/9c8d0acb5916cea6c879cdbdce0c69e5d0930eeb2f69703d2fa718a2ce52/guppylang-0.20.0-py3-none-any.whl", hash = "sha256:c0f19e23e9dec3cd756ad54a5a33a3b7f1349eb307e15a07beb105ddb0b77775", size = 234382 },
 ]
 
 [[package]]
@@ -612,7 +612,7 @@ wheels = [
 
 [[package]]
 name = "hugr-qir"
-version = "0.0.5"
+version = "0.0.6"
 source = { editable = "." }
 dependencies = [
     { name = "click" },
@@ -641,8 +641,8 @@ examples = [
 [package.metadata]
 requires-dist = [
     { name = "click", specifier = "~=8.1.8" },
-    { name = "guppylang", specifier = "~=0.19.1" },
-    { name = "hugr", specifier = "~=0.12.1" },
+    { name = "guppylang", specifier = "~=0.20.0" },
+    { name = "hugr", specifier = "~=0.12.2" },
     { name = "llvmlite", specifier = "~=0.44.0" },
     { name = "quantinuum-qircheck", specifier = "~=0.2.0" },
 ]
@@ -2370,14 +2370,14 @@ wheels = [
 
 [[package]]
 name = "tket2-exts"
-version = "0.8.0"
+version = "0.9.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "hugr" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/22/5d/980d8a3ddd6058fd84ed3d7afb452f211e54e505a23fafec6004f6b430d5/tket2_exts-0.8.0.tar.gz", hash = "sha256:d403ddb2268976cd81ab9270393f2584f5fe924721e9a280b848a2c88ec17249", size = 12254 }
+sdist = { url = "https://files.pythonhosted.org/packages/1e/e3/d00691b4d0754bdde56c13822e326fb89fc13ac45cfbb1ae358b24a4f406/tket2_exts-0.9.1.tar.gz", hash = "sha256:31ff8cf833545ac2de466446180581aacd010e298538e49ece0c517b3ad5dfb9", size = 12410 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/27/5a/1b713ebb87b847e0fcfc099b7c508a9979e5e2b474324a937d58d37c95fc/tket2_exts-0.8.0-py3-none-any.whl", hash = "sha256:e1fa4fdaab0ef31c2d66d18cf790ffbb6fb0405b93603895e997cc1839344387", size = 18247 },
+    { url = "https://files.pythonhosted.org/packages/1a/e0/0c8477db1aab499cef96bee9761c138b9d634f7b4826317c77a5273b475e/tket2_exts-0.9.1-py3-none-any.whl", hash = "sha256:5aea9fa9fbdeded4bc93b7e87f4a9ff56b348ef6c961e11dd9e1163c78880aa6", size = 18282 },
 ]
 
 [[package]]

@@ -20,7 +20,7 @@ fn main() -> ExitCode {
         Ok(_) => ExitCode::SUCCESS,
         Err(e) => {
             if report_err {
-                eprintln!("Error: {}", e);
+                eprintln!("Error: {e}");
             }
             ExitCode::FAILURE
         }
