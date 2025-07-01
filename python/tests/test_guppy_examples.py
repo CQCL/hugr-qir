@@ -17,7 +17,12 @@ guppy_files_xpass = list(guppy_files)
 )
 def test_guppy_files(tmp_path: Path, guppy_file: Path) -> None:
     out_file = tmp_path / "out.ll"
-    cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file))
+    cli_on_guppy(
+        guppy_file,
+        tmp_path,
+        "-o",
+        str(out_file),
+    )
 
 
 @pytest.mark.parametrize(
@@ -28,7 +33,14 @@ def test_guppy_file_snapshots(
 ) -> None:
     snapshot.snapshot_dir = SNAPSHOT_DIR
     out_file = tmp_path / "out.ll"
-    cli_on_guppy(guppy_file, tmp_path, "-o", str(out_file), "--no-validate-qir")
+    cli_on_guppy(
+        guppy_file,
+        tmp_path,
+        "-o",
+        str(out_file),
+        "--no-validate-qir",
+        "--validate-hugr",
+    )
     with Path.open(out_file) as f:
         qir = f.read()
     snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
