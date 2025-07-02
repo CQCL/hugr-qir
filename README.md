@@ -36,7 +36,7 @@ If you want to generate a hugr file from guppy, you can do this in two steps:
 1. add this to the end of your guppy file:
 ```
 if __name__ == "__main__":
-    sys.stdout.buffer.write(guppy.get_module().compile().package.to_bytes())
+    sys.stdout.buffer.write(guppy.compile(main).package.to_bytes())
 ```
 
 2. Generate the hugr file with:
