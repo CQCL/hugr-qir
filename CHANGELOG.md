@@ -2,6 +2,7 @@
 
 ### v0.0.6
 
+- expose option to validate input hugr
 - update guppylang version requirement 0.20.0
 - update hugr version requirement 0.12.2
 
