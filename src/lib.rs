@@ -72,6 +72,9 @@ impl CompileArgs {
 
     /// TODO: Change to "hugr: &mut impl HugrMut" once QSeriesPass works on &mut impl HugrMut
     pub fn hugr_to_hugr(&self, hugr: &mut Hugr) -> Result<()> {
+        if self.validate {
+            hugr.validate()?;
+        }
         if self.qsystem_pass {
             let pass = tket2_hseries::QSystemPass::default();
             pass.run(hugr)?;

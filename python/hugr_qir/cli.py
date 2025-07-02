@@ -16,9 +16,15 @@ from hugr_qir._hugr_qir import cli
 @click.argument("hugr_file", type=click.Path(exists=True, path_type=Path))
 @click.option(
     "--validate-qir/--no-validate-qir",
-    "validate",
+    "validate_qir",
     default=True,
     help="Whether to validate the QIR output",
+)
+@click.option(
+    "--validate-hugr/--no-validate-hugr",
+    "validate_hugr",
+    default=False,
+    help="Whether to validate the input hugr before and after each internal pass",
 )
 @click.option(
     "-o",
@@ -29,24 +35,30 @@ from hugr_qir._hugr_qir import cli
     help="Name of output file (optional)",
 )
 @click.version_option(version=version("hugr_qir"))
-def hugr_qir(validate: bool, hugr_file: Path, outfile: IO) -> None:
+def hugr_qir(
+    validate_qir: bool, validate_hugr: bool, hugr_file: Path, outfile: IO
+) -> None:
     """Convert a HUGR file to QIR.
 
     Provide the name of the HUGR file as the first argument.
     Per default, QIR is emitted to stdout, but can
     be written to a file using the `-o` option.
     """
-    hugr_qir_impl(validate, hugr_file, outfile)
+    hugr_qir_impl(validate_qir, validate_hugr, hugr_file, outfile)
 
 
-def hugr_qir_impl(validate: bool, hugr_file: Path, outfile: IO) -> None:
+def hugr_qir_impl(
+    validate_qir: bool, validate_hugr: bool, hugr_file: Path, outfile: IO
+) -> None:
     options = ["-q"]
+    if validate_hugr:
+        options.append("--validate")
     with tempfile.NamedTemporaryFile(delete=True, suffix=".ll") as temp_file:
         tmp_options = [*options, "-o", temp_file.name]
         cli(str(hugr_file), *tmp_options)
         with Path.open(Path(temp_file.name)) as output:
             qir = output.read()
-    if validate:
+    if validate_qir:
         try:
             qircheck(qir)
         except ValidationError as e:
