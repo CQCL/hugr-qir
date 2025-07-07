@@ -17,12 +17,12 @@ impl CompileTarget {
     pub fn initialise(&self) {
         match self {
             Self::Native => {
-                let _ = Target::initialize_native(&Default::default());
+                let _ = Target::initialize_native(&InitializationConfig::default());
             }
             Self::QuantinuumHardware => {
                 // Target::initialize_aarch64(&Default::default());
-                // Target::initialize_aarch64();
-                let _ = Target::initialize_all(&InitializationConfig::default());
+                //Target::initialize_aarch64();
+                Target::initialize_all(&InitializationConfig::default());
                 // initialize_x86
                 // initialize_all
             }

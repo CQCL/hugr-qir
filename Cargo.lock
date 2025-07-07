@@ -975,6 +975,7 @@ dependencies = [
  "hugr-cli",
  "hugr-core",
  "hugr-llvm",
+ "inkwell",
  "insta",
  "itertools 0.14.0",
  "lazy_static",
