@@ -6,6 +6,9 @@ rust-config: &rust-config
   - "Cargo.lock"
   - "Cargo.toml"
   - ".github/workflows/ci-rs.yml"
+  - "devenv.lock"
+  - "devenv.nix"
+  - "devenv.yaml"
 
 rust: &rust
   - *rust-config
