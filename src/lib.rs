@@ -1,5 +1,7 @@
 use std::rc::Rc;
 
+use crate::inkwell::OptimizationLevel;
+use crate::inkwell::passes::PassBuilderOptions;
 use crate::inkwell::values::CallSiteValue;
 use crate::inkwell::values::PointerValue;
 use crate::inline::inline;
@@ -19,9 +21,13 @@ use inkwell::module::Module;
 use inkwell::passes::PassManager;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
-
+use std::error::Error;
+use target::CompileTarget;
 pub mod cli;
 pub mod qir;
+pub mod target;
+use crate::inkwell::support::LLVMString;
+use std::fmt::{self, Display, Formatter};
 
 #[cfg(feature = "py")]
 mod py;
@@ -109,6 +115,35 @@ impl CompileArgs {
         Ok(())
     }
 
+    /// Optimize the module using LLVM passes
+    fn optimize_module_llvm(&self, module: &Module) -> Result<()> {
+        //OptimizationLevel::Aggressive => "default<O3>",
+        //OptimizationLevel::Less => "default<O1>",
+        //OptimizationLevel::None => "default<O0>",
+        //OptimizationLevel::Default => "default<O2>",
+
+        let ct = CompileTarget::QuantinuumHardware; // melf
+
+        let ctm = ct.machine(OptimizationLevel::Aggressive);
+
+        // let triple = TargetTriple::create("arm64-unknown-none");
+
+        module.set_triple(&ctm.get_triple());
+        module.set_data_layout(&ctm.get_target_data().get_data_layout());
+
+        //args.target_machine.get_target_data().get_data_layout();
+        //args.target_machine.get_triple();
+
+        module
+            .run_passes(
+                "default<O3>",
+                &ctm,
+                PassBuilderOptions::create(),
+            )
+            .map_err(Into::<ProcessErrs>::into)?;
+        Ok(())
+    }
+
     /// Some standard LLVM optimizations
     pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()> {
         let pb = PassManager::create(());
@@ -182,10 +217,52 @@ impl CompileArgs {
     pub fn compile<'c>(&self, hugr: &mut Hugr, context: &'c Context) -> Result<Module<'c>> {
         self.hugr_to_hugr(hugr)?;
         let module = self.hugr_to_llvm(hugr, context)?;
-        self.optimize_module(&module)?;
+        
+        self.optimize_module_llvm(&module)?; // todo
+        //self.optimize_module(&module)?; // todo
+
         Ok(module)
     }
 }
+
+#[derive(Debug)]
+/// Handles a series of errors
+struct ProcessErrs(Vec<String>);
+
+impl Display for ProcessErrs {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        for s in &self.0 {
+            f.write_str(&format!("{s}\n"))?;
+        }
+        Ok(())
+    }
+}
+
+impl From<String> for ProcessErrs {
+    fn from(value: String) -> Self {
+        Self(vec![value])
+    }
+}
+
+impl From<LLVMString> for ProcessErrs {
+    fn from(value: LLVMString) -> Self {
+        Self(vec![value.to_string()])
+    }
+}
+
+impl From<&str> for ProcessErrs {
+    fn from(value: &str) -> Self {
+        Self(vec![value.to_string()])
+    }
+}
+
+impl From<Vec<String>> for ProcessErrs {
+    fn from(value: Vec<String>) -> Self {
+        Self(value)
+    }
+}
+
+impl Error for ProcessErrs {}
 
 pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> {
     let entry_point_node = {
