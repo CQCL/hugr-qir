@@ -29,6 +29,7 @@ impl CompileTarget {
         }
     }
     pub fn machine(self, level: OptimizationLevel) -> TargetMachine {
+        self.initialise();
         let reloc_mode = RelocMode::PIC;
         let code_model = CodeModel::Default;
         match self {
@@ -46,7 +47,7 @@ impl CompileTarget {
             Self::QuantinuumHardware => {
                 // aarch64-unknown-linux-gnu
                 // arm64-unknown-none
-                let triple = TargetTriple::create("arm64-unknown-none");
+                let triple = TargetTriple::create("aarch64-unknown-linux-gnu");
                 Target::from_triple(&triple)
                     .unwrap()
                     .create_target_machine(&triple, "", "", level, reloc_mode, code_model)
