@@ -158,42 +158,6 @@ impl CompileArgs {
     }
 }
 
-#[derive(Debug)]
-/// Handles a series of errors
-struct ProcessErrs(Vec<String>);
-
-impl Display for ProcessErrs {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        for s in &self.0 {
-            f.write_str(&format!("{s}\n"))?;
-        }
-        Ok(())
-    }
-}
-
-impl From<String> for ProcessErrs {
-    fn from(value: String) -> Self {
-        Self(vec![value])
-    }
-}
-
-impl From<LLVMString> for ProcessErrs {
-    fn from(value: LLVMString) -> Self {
-        Self(vec![value.to_string()])
-    }
-}
-
-impl From<&str> for ProcessErrs {
-    fn from(value: &str) -> Self {
-        Self(vec![value.to_string()])
-    }
-}
-
-impl From<Vec<String>> for ProcessErrs {
-    fn from(value: Vec<String>) -> Self {
-        Self(value)
-    }
-}
 
 impl Error for ProcessErrs {}
 
