@@ -56,6 +56,10 @@ impl Default for CompileArgs {
 }
 
 impl CompileArgs {
+    const OPT_LEVEL_STR: &str = "default<O3>";
+    const OPT_LEVEL: OptimizationLevel = OptimizationLevel::Aggressive;
+    const COMP_TARGET: CompileTarget = CompileTarget::QuantinuumHardware;
+
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
         let pcg = QirPreludeCodegen;
 
@@ -116,17 +120,15 @@ impl CompileArgs {
 
     /// Optimize the module using LLVM passes
     fn optimize_module_llvm(&self, module: &Module) -> Result<()> {
-        let ct = CompileTarget::QuantinuumHardware;
+        Self::COMP_TARGET.initialise();
 
-        ct.initialise();
-
-        let ctm = ct.machine(OptimizationLevel::Aggressive);
+        let ctm = Self::COMP_TARGET.machine(Self::OPT_LEVEL);
 
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
         module
-            .run_passes("default<O3>", &ctm, PassBuilderOptions::create())
+            .run_passes(Self::OPT_LEVEL_STR, &ctm, PassBuilderOptions::create())
             .map_err(Into::<ProcessErrs>::into)?;
         Ok(())
     }
