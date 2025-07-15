@@ -20,13 +20,10 @@ use inkwell::context::Context;
 use inkwell::module::Module;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
-use std::error::Error;
 use target::CompileTarget;
 pub mod cli;
 pub mod qir;
 pub mod target;
-use crate::inkwell::support::LLVMString;
-use std::fmt::{self, Display, Formatter};
 
 #[cfg(feature = "py")]
 mod py;
@@ -127,9 +124,7 @@ impl CompileArgs {
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
-        module
-            .run_passes(Self::OPT_LEVEL_STR, &ctm, PassBuilderOptions::create())
-            .map_err(Into::<ProcessErrs>::into)?;
+        let _ = module.run_passes(Self::OPT_LEVEL_STR, &ctm, PassBuilderOptions::create());
         Ok(())
     }
 
@@ -157,9 +152,6 @@ impl CompileArgs {
         Ok(module)
     }
 }
-
-
-impl Error for ProcessErrs {}
 
 pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> {
     let entry_point_node = {
