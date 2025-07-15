@@ -3,8 +3,6 @@ use crate::inkwell::{
     targets::{CodeModel, InitializationConfig, RelocMode, Target, TargetMachine, TargetTriple},
 };
 
-// use inkwell::targets::{InitializationConfig, Target, TargetMachine};
-
 #[derive(Clone, Debug, Copy, Default)]
 #[non_exhaustive]
 pub enum CompileTarget {
@@ -20,16 +18,11 @@ impl CompileTarget {
                 let _ = Target::initialize_native(&InitializationConfig::default());
             }
             Self::QuantinuumHardware => {
-                // Target::initialize_aarch64(&Default::default());
-                //Target::initialize_aarch64();
                 Target::initialize_all(&InitializationConfig::default());
-                // initialize_x86
-                // initialize_all
             }
         }
     }
     pub fn machine(self, level: OptimizationLevel) -> TargetMachine {
-        self.initialise();
         let reloc_mode = RelocMode::PIC;
         let code_model = CodeModel::Default;
         match self {
@@ -45,8 +38,6 @@ impl CompileTarget {
                 )
                 .unwrap(),
             Self::QuantinuumHardware => {
-                // aarch64-unknown-linux-gnu
-                // arm64-unknown-none
                 let triple = TargetTriple::create("aarch64-unknown-linux-gnu");
                 Target::from_triple(&triple)
                     .unwrap()

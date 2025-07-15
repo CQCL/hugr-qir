@@ -18,7 +18,6 @@ use hugr::{Hugr, Node};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
 use inkwell::module::Module;
-use inkwell::passes::PassManager;
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 use std::error::Error;
@@ -117,85 +116,18 @@ impl CompileArgs {
 
     /// Optimize the module using LLVM passes
     fn optimize_module_llvm(&self, module: &Module) -> Result<()> {
-        //OptimizationLevel::Aggressive => "default<O3>",
-        //OptimizationLevel::Less => "default<O1>",
-        //OptimizationLevel::None => "default<O0>",
-        //OptimizationLevel::Default => "default<O2>",
+        let ct = CompileTarget::QuantinuumHardware;
 
-        let ct = CompileTarget::QuantinuumHardware; // melf
+        ct.initialise();
 
         let ctm = ct.machine(OptimizationLevel::Aggressive);
-
-        // let triple = TargetTriple::create("arm64-unknown-none");
 
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
-        //args.target_machine.get_target_data().get_data_layout();
-        //args.target_machine.get_triple();
-
         module
-            .run_passes(
-                "default<O3>",
-                &ctm,
-                PassBuilderOptions::create(),
-            )
+            .run_passes("default<O3>", &ctm, PassBuilderOptions::create())
             .map_err(Into::<ProcessErrs>::into)?;
-        Ok(())
-    }
-
-    /// Some standard LLVM optimizations
-    pub fn optimize_module(&self, module: &inkwell::module::Module) -> Result<()> {
-        let pb = PassManager::create(());
-        // the selection and the order of the passes are just found
-        // by trying until the result was good.
-        // find details about them at:
-        // https://docs.rs/llvm-plugin-inkwell/latest/llvm_plugin_inkwell/passes/struct.PassManager.html
-        pb.add_promote_memory_to_register_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_cfg_simplification_pass(); // it seams to be good to have this pass multiple times
-        pb.add_aggressive_inst_combiner_pass();
-        pb.add_instruction_simplify_pass();
-        pb.add_cfg_simplification_pass();
-        pb.add_aggressive_inst_combiner_pass();
-        pb.add_aggressive_dce_pass();
-        pb.add_instruction_simplify_pass();
-        pb.add_promote_memory_to_register_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_aggressive_dce_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_global_dce_pass();
-        pb.add_lower_switch_pass();
-        pb.add_instruction_simplify_pass(); // it seams to be good to have this pass multiple times
-        pb.add_demote_memory_to_register_pass();
-        pb.add_scalar_repl_aggregates_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_instruction_simplify_pass();
-        pb.add_cfg_simplification_pass();
-        pb.add_aggressive_inst_combiner_pass();
-        pb.add_aggressive_dce_pass();
-        pb.add_instruction_simplify_pass();
-        pb.add_promote_memory_to_register_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_cfg_simplification_pass();
-        pb.add_aggressive_inst_combiner_pass();
-        pb.add_aggressive_dce_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_instruction_simplify_pass();
-        pb.add_demote_memory_to_register_pass();
-        pb.add_scalar_repl_aggregates_pass();
-        pb.add_scalar_repl_aggregates_pass_ssa();
-        pb.add_instruction_simplify_pass();
-        pb.add_cfg_simplification_pass();
-        pb.add_aggressive_inst_combiner_pass();
-        pb.add_aggressive_dce_pass();
-        pb.add_instruction_simplify_pass();
-        pb.add_global_dce_pass(); // it seams to be good to run this (again) at the end
-        pb.run_on(module);
-
-        module
-            .verify()
-            .map_err(|msg| anyhow!("Failed to optimise module: {msg}\n, {}", module.to_string()))?;
         Ok(())
     }
 
@@ -217,9 +149,8 @@ impl CompileArgs {
     pub fn compile<'c>(&self, hugr: &mut Hugr, context: &'c Context) -> Result<Module<'c>> {
         self.hugr_to_hugr(hugr)?;
         let module = self.hugr_to_llvm(hugr, context)?;
-        
-        self.optimize_module_llvm(&module)?; // todo
-        //self.optimize_module(&module)?; // todo
+
+        self.optimize_module_llvm(&module)?;
 
         Ok(module)
     }
