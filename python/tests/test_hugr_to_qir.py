@@ -14,7 +14,7 @@ from pytest_snapshot.plugin import Snapshot  # type: ignore
 from .conftest import guppy_files, guppy_to_hugr_binary
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
-GUPPY_EXAMPLES_XFAIL = []
+GUPPY_EXAMPLES_XFAIL: list[str] = []
 
 guppy_files_xpass = [
     guppy_file
