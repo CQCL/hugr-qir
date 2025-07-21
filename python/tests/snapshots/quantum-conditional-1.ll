@@ -1,46 +1,48 @@
 ; ModuleID = 'hugr-qir'
 source_filename = "hugr-qir"
+target datalayout = "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128"
+target triple = "aarch64-unknown-linux-gnu"
 
 %Qubit = type opaque
 %Result = type opaque
 
 @0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 
-define void @__hugr__.main.1() #0 {
+define void @__hugr__.main.1() local_unnamed_addr #0 {
 alloca_block:
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
-  call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
-  call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
-  call void @__quantum__qis__rzz__body(double 0x3FF921FB54442D18, %Qubit* null, %Qubit* inttoptr (i64 1 to %Qubit*))
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* null)
-  call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
-  call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* inttoptr (i64 1 to %Qubit*))
-  call void @__quantum__qis__mz__body(%Qubit* null, %Result* inttoptr (i64 1 to %Result*))
-  %0 = call i1 @__quantum__qis__read_result__body(%Result* inttoptr (i64 1 to %Result*))
-  br i1 %0, label %2, label %cond_exit_109
+  tail call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
+  tail call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
+  tail call void @__quantum__qis__phasedx__body(double 0xBFF921FB54442D18, double 0x3FF921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
+  tail call void @__quantum__qis__rzz__body(double 0x3FF921FB54442D18, %Qubit* null, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
+  tail call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* null)
+  tail call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
+  tail call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
+  tail call void @__quantum__qis__mz__body(%Qubit* null, %Result* nonnull inttoptr (i64 1 to %Result*))
+  %0 = tail call i1 @__quantum__qis__read_result__body(%Result* nonnull inttoptr (i64 1 to %Result*))
+  br i1 %0, label %2, label %cond_109_case_1
 
-cond_exit_109:                                    ; preds = %alloca_block, %2
-  call void @__quantum__qis__mz__body(%Qubit* inttoptr (i64 1 to %Qubit*), %Result* null)
-  %1 = call i1 @__quantum__qis__read_result__body(%Result* null)
-  call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i32 0, i32 0))
+cond_109_case_1:                                  ; preds = %alloca_block, %2
+  tail call void @__quantum__qis__mz__body(%Qubit* nonnull inttoptr (i64 1 to %Qubit*), %Result* null)
+  %1 = tail call i1 @__quantum__qis__read_result__body(%Result* null)
+  tail call void @__quantum__rt__bool_record_output(i1 %1, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i64 0, i64 0))
   ret void
 
 2:                                                ; preds = %alloca_block
-  call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %Qubit* inttoptr (i64 1 to %Qubit*))
-  br label %cond_exit_109
+  tail call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0.000000e+00, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
+  br label %cond_109_case_1
 }
 
-declare void @__quantum__qis__phasedx__body(double, double, %Qubit*)
+declare void @__quantum__qis__phasedx__body(double, double, %Qubit*) local_unnamed_addr
 
-declare void @__quantum__qis__rz__body(double, %Qubit*)
+declare void @__quantum__qis__rz__body(double, %Qubit*) local_unnamed_addr
 
-declare void @__quantum__qis__rzz__body(double, %Qubit*, %Qubit*)
+declare void @__quantum__qis__rzz__body(double, %Qubit*, %Qubit*) local_unnamed_addr
 
-declare void @__quantum__qis__mz__body(%Qubit*, %Result*)
+declare void @__quantum__qis__mz__body(%Qubit*, %Result*) local_unnamed_addr
 
-declare i1 @__quantum__qis__read_result__body(%Result*)
+declare i1 @__quantum__qis__read_result__body(%Result*) local_unnamed_addr
 
-declare void @__quantum__rt__bool_record_output(i1, i8*)
+declare void @__quantum__rt__bool_record_output(i1, i8*) local_unnamed_addr
 
 attributes #0 = { "entry_point" "output_labeling_schema" "qir_profiles"="custom" "required_num_qubits"="2" "required_num_results"="2" }
 
