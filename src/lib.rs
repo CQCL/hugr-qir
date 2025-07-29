@@ -39,6 +39,9 @@ pub struct CompileArgs {
     pub verbosity: Option<Level>,
     pub validate: bool,
     pub qsystem_pass: bool,
+    pub target: CompileTarget,
+    pub opt_level: OptimizationLevel,  
+
 }
 
 impl Default for CompileArgs {
@@ -48,14 +51,16 @@ impl Default for CompileArgs {
             verbosity: None,
             validate: false,
             qsystem_pass: true,
+            target: CompileTarget::Native,
+            opt_level: OptimizationLevel::Aggressive,
         }
     }
 }
 
 impl CompileArgs {
-    const OPT_LEVEL_STR: &str = "default<O3>";
-    const OPT_LEVEL: OptimizationLevel = OptimizationLevel::Aggressive;
-    const COMP_TARGET: CompileTarget = CompileTarget::QuantinuumHardware;
+    // const OPT_LEVEL_STR: &str = "default<O3>";
+    // const OPT_LEVEL: OptimizationLevel = OptimizationLevel::Aggressive;
+    // const COMP_TARGET: CompileTarget = CompileTarget::QuantinuumHardware;
 
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
         let pcg = QirPreludeCodegen;
@@ -117,14 +122,21 @@ impl CompileArgs {
 
     /// Optimize the module using LLVM passes
     fn optimize_module_llvm(&self, module: &Module) -> Result<()> {
-        Self::COMP_TARGET.initialise();
+        self.target.initialise();
 
-        let ctm = Self::COMP_TARGET.machine(Self::OPT_LEVEL);
+        let ctm = self.target.machine(self.opt_level);
 
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
-        let _ = module.run_passes(Self::OPT_LEVEL_STR, &ctm, PassBuilderOptions::create());
+        let opt_str = match self.opt_level{
+            OptimizationLevel::None => "default<O0>",
+            OptimizationLevel::Less => "default<O1>",
+            OptimizationLevel::Default => "default<O2>",
+            OptimizationLevel::Aggressive => "default<O3>",            
+        };
+
+        let _ = module.run_passes(opt_str, &ctm, PassBuilderOptions::create());
         Ok(())
     }
 
