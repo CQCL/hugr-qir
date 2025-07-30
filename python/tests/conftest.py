@@ -20,17 +20,16 @@ def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
 
 
 def guppy_to_hugr_binary(guppy_file: Path) -> bytes:
-    with tempfile.NamedTemporaryFile(
-        delete=True, delete_on_close=False, suffix=".hugr"
-    ) as temp_hugrfile:
-        with Path.open(Path(temp_hugrfile.name), "wb") as outfd:
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as temp_dir:
+        temp_hugr_path = Path(f"{temp_dir}/tmp.hugr")  # noqa: S108
+        with Path.open(temp_hugr_path, "wb") as outfd:
             subprocess.run(  # noqa: S603
                 [sys.executable, guppy_file],
                 check=True,
                 stdout=outfd,
                 text=True,
             )
-        with Path.open(Path(temp_hugrfile.name), "rb") as outfd:
+        with Path.open(Path(temp_hugr_path), "rb") as outfd:
             return outfd.read()
 
 
