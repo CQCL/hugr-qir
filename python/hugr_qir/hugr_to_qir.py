@@ -31,8 +31,8 @@ def hugr_to_qir(
     passing `as_bitcode = False`)
     """
     with (
-        tempfile.NamedTemporaryFile(delete=True, suffix=".hugr") as temp_infile,
-        tempfile.NamedTemporaryFile(delete=True, suffix=".ll") as temp_outfile,
+        tempfile.NamedTemporaryFile(delete=False, suffix=".hugr") as temp_infile,
+        tempfile.NamedTemporaryFile(delete=False, suffix=".ll") as temp_outfile,
     ):
         hugr_bytes: bytes
 

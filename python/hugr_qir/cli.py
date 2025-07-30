@@ -53,7 +53,7 @@ def hugr_qir_impl(
     options = ["-q"]
     if validate_hugr:
         options.append("--validate")
-    with tempfile.NamedTemporaryFile(delete=True, suffix=".ll") as temp_file:
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".ll") as temp_file:
         tmp_options = [*options, "-o", temp_file.name]
         cli(str(hugr_file), *tmp_options)
         with Path.open(Path(temp_file.name)) as output:
