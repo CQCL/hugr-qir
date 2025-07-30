@@ -58,7 +58,6 @@ def hugr_qir_impl(
         cli(str(hugr_file), *tmp_options)
         with Path.open(Path(temp_file.name)) as output:
             qir = output.read()
-        Path(temp_file.name).unlink()
     if validate_qir:
         try:
             qircheck(qir)
