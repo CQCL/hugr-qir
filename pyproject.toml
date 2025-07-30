@@ -102,3 +102,8 @@ repair-wheel-command = [
     'delvewheel repair -w {dest_dir} {wheel}',
     'pipx run abi3audit --strict --report {wheel}',
 ]
+test-groups = []
+before-test = [
+    'pip install --upgrade pip',
+    'pip install --group {project}/pyproject.toml:dev'
+]
