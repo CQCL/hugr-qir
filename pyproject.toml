@@ -49,7 +49,7 @@ reportMissingModuleSource = "none"
 [tool.cibuildwheel]
 build = "cp310-*"
 skip = "*-win32 *-manylinux_i686 *-musllinux*"
-manylinux-x86_64-image = "manylinux_2_28"
+manylinux-x86_64-image = "manylinux_2_34"
 test-groups = ["dev"]
 test-sources = ["python/tests", "guppy_examples"]
 test-command = "pytest python/tests"
@@ -61,7 +61,7 @@ LLVM_SYS_140_PREFIX = '/tmp/llvm'
 before-all = [
     'curl -sSf https://sh.rustup.rs | sh -s -- -y',
     # NOTE: used to be 'dnf install libffi-devel -y',
-    'dnf install https://azure.repo.almalinux.org/8.10/BaseOS/x86_64/os/Packages/libffi-devel-3.1-24.el8.x86_64.rpm -y',
+    'dnf install https://azure.repo.almalinux.org/9.6/BaseOS/x86_64/os/Packages/libffi-3.4.2-8.el9.x86_64.rpm',
     'curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang+llvm-14.0.6-x86_64-linux-gnu-rhel-8.4.tar.xz',
     'mkdir -p /tmp/llvm',
     'tar xf clang+llvm-14.0.6-x86_64-linux-gnu-rhel-8.4.tar.xz -C /tmp/llvm --strip-components=1',
