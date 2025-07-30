@@ -50,9 +50,14 @@ def hugr_to_qir(
             )
         with Path.open(Path(temp_outfile.name), "r") as cli_output:
             qir_ir = cli_output.read()
-            if emit_text:
-                return qir_ir
-            ctx = create_context()
-            module = parse_assembly(qir_ir, context=ctx)
-            qir_bitcode = module.as_bitcode()
-            return b64encode(qir_bitcode).decode("utf-8")
+
+        Path(temp_infile.name).unlink()
+        Path(temp_outfile.name).unlink()
+
+        if emit_text:
+            return qir_ir
+
+        ctx = create_context()
+        module = parse_assembly(qir_ir, context=ctx)
+        qir_bitcode = module.as_bitcode()
+        return b64encode(qir_bitcode).decode("utf-8")

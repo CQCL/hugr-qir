@@ -29,7 +29,9 @@ def guppy_to_hugr_binary(guppy_file: Path) -> bytes:
                 text=True,
             )
         with Path.open(Path(temp_hugrfile.name), "rb") as outfd:
-            return outfd.read()
+            result = outfd.read()
+        Path(temp_hugrfile.name).unlink()
+        return result
 
 
 def get_guppy_files() -> list[Path]:
