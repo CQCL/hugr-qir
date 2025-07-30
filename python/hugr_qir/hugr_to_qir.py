@@ -31,8 +31,12 @@ def hugr_to_qir(
     passing `as_bitcode = False`)
     """
     with (
-        tempfile.NamedTemporaryFile(delete=False, suffix=".hugr") as temp_infile,
-        tempfile.NamedTemporaryFile(delete=False, suffix=".ll") as temp_outfile,
+        tempfile.NamedTemporaryFile(
+            delete=True, delete_on_close=False, suffix=".hugr"
+        ) as temp_infile,
+        tempfile.NamedTemporaryFile(
+            delete=True, delete_on_close=True, suffix=".ll"
+        ) as temp_outfile,
     ):
         hugr_bytes: bytes
 
@@ -50,9 +54,6 @@ def hugr_to_qir(
             )
         with Path.open(Path(temp_outfile.name), "r") as cli_output:
             qir_ir = cli_output.read()
-
-        Path(temp_infile.name).unlink()
-        Path(temp_outfile.name).unlink()
 
         if emit_text:
             return qir_ir
