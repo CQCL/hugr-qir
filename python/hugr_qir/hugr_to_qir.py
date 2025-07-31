@@ -30,11 +30,10 @@ def hugr_to_qir(
     encoded (default) or as human-readable LLVM assembly language (when
     passing `as_bitcode = False`)
     """
-    with (
-        tempfile.NamedTemporaryFile(delete=True, suffix=".hugr") as temp_infile,
-        tempfile.NamedTemporaryFile(delete=True, suffix=".ll") as temp_outfile,
-    ):
+    with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
         hugr_bytes: bytes
+        tmp_infile_path = Path(f"{tmp_dir}/tmp.hugr")  # noqa: S108
+        tmp_outfile_path = Path(f"{tmp_dir}/tmp.ll")  # noqa: S108
 
         if type(hugr) is bytes:
             hugr_bytes = hugr
@@ -42,17 +41,17 @@ def hugr_to_qir(
             assert type(hugr) is ModulePointer  # noqa: S101
             hugr_bytes = hugr.package.to_bytes()
 
-        with Path.open(Path(temp_infile.name), "wb") as cli_input:
+        with Path.open(tmp_infile_path, "wb") as cli_input:
             cli_input.write(hugr_bytes)
-        with Path.open(Path(temp_outfile.name), "w") as cli_output:
-            hugr_qir_impl(
-                validate_qir, validate_hugr, Path(temp_infile.name), cli_output
-            )
-        with Path.open(Path(temp_outfile.name), "r") as cli_output:
+        with Path.open(tmp_outfile_path, "w") as cli_output:
+            hugr_qir_impl(validate_qir, validate_hugr, tmp_infile_path, cli_output)
+        with Path.open(tmp_outfile_path, "r") as cli_output:
             qir_ir = cli_output.read()
-            if emit_text:
-                return qir_ir
-            ctx = create_context()
-            module = parse_assembly(qir_ir, context=ctx)
-            qir_bitcode = module.as_bitcode()
-            return b64encode(qir_bitcode).decode("utf-8")
+
+        if emit_text:
+            return qir_ir
+
+        ctx = create_context()
+        module = parse_assembly(qir_ir, context=ctx)
+        qir_bitcode = module.as_bitcode()
+        return b64encode(qir_bitcode).decode("utf-8")
