@@ -52,7 +52,7 @@ pub enum OutputFormat {
 impl Cli {
     delegate! {
         to self.hugr_args {
-            pub fn verbosity(&self, level: Level) -> bool;
+            pub fn verbosity(&self, level: Level) -> bool; // todo hugr update
         }
     }
     pub fn run<'c>(
@@ -62,7 +62,7 @@ impl Cli {
         let mut hugr = self
             .hugr_args
             .run()?
-            .into_iter()
+            .into_iter() // todo hugr update
             .exactly_one()
             .map_err(|e| {
                 anyhow!(
@@ -109,7 +109,7 @@ impl Cli {
     pub fn compile_args(&self) -> CompileArgs {
         CompileArgs {
             debug: self.debug,
-            verbosity: self.hugr_args.other_args.verbose.log_level(),
+            verbosity: self.hugr_args.other_args.verbose.log_level(), // todo hugr update
             validate: self.validate,
             qsystem_pass: self.qsystem_pass,
         }

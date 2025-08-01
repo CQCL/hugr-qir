@@ -8,8 +8,8 @@ dependencies = [
     "click~=8.1.8",
     "quantinuum-qircheck~=0.2.0",
     "llvmlite~=0.44.0",
-    "hugr~=0.12.2",
-    "guppylang~=0.20.0"
+    "hugr~=0.13.0",
+    "guppylang~=0.21.0"
 ]
 
 [project.scripts]
@@ -45,6 +45,9 @@ bindings = "pyo3"
 [tool.pyright]
 # Rust bindings have typing stubs but no python source code.
 reportMissingModuleSource = "none"
+
+[tool.uv.sources]
+guppylang = { git = "https://github.com/cqcl/guppylang.git", branch = "main" }
 
 [tool.cibuildwheel]
 build = "cp310-*"

@@ -9,13 +9,13 @@ use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
-    pub fn emit_tk2op<'c, H: HugrView<Node = Node>>(
+    pub fn emit_TketOp<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,
-        op: tket2::Tk2Op,
+        op: tket::TketOp,
     ) -> Result<()> {
-        use tket2::Tk2Op::*;
+        use tket::TketOp::*;
         match op {
             H => emit_qis_gate_finish(
                 context,
@@ -156,7 +156,7 @@ mod test {
         test::{TestContext, llvm_ctx},
     };
     use rstest::rstest;
-    use tket2::Tk2Op;
+    use tket::TketOp;
 
     use crate::qir::boolcodegenextension_workaround::BoolCodegenExtension;
     use crate::test::single_op_hugr;
@@ -178,24 +178,24 @@ mod test {
     }
 
     #[rstest]
-    #[case(Tk2Op::QFree)]
-    #[case(Tk2Op::QAlloc)]
-    #[case(Tk2Op::MeasureFree)]
-    #[case(Tk2Op::Measure)]
-    #[case(Tk2Op::Reset)]
-    #[case(Tk2Op::Rz)]
-    #[case(Tk2Op::Ry)]
-    #[case(Tk2Op::Rx)]
-    #[case(Tk2Op::Z)]
-    #[case(Tk2Op::Y)]
-    #[case(Tk2Op::X)]
-    #[case(Tk2Op::Sdg)]
-    #[case(Tk2Op::S)]
-    #[case(Tk2Op::Tdg)]
-    #[case(Tk2Op::T)]
-    #[case(Tk2Op::CX)]
-    #[case(Tk2Op::CY)]
-    #[case(Tk2Op::CZ)]
+    #[case(TketOp::QFree)]
+    #[case(TketOp::QAlloc)]
+    #[case(TketOp::MeasureFree)]
+    #[case(TketOp::Measure)]
+    #[case(TketOp::Reset)]
+    #[case(TketOp::Rz)]
+    #[case(TketOp::Ry)]
+    #[case(TketOp::Rx)]
+    #[case(TketOp::Z)]
+    #[case(TketOp::Y)]
+    #[case(TketOp::X)]
+    #[case(TketOp::Sdg)]
+    #[case(TketOp::S)]
+    #[case(TketOp::Tdg)]
+    #[case(TketOp::T)]
+    #[case(TketOp::CX)]
+    #[case(TketOp::CY)]
+    #[case(TketOp::CZ)]
     fn emit(ctx: TestContext, #[case] op: impl Into<OpType>) {
         let op = op.into();
         let mut insta = insta::Settings::clone_current();

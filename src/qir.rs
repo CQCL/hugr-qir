@@ -18,7 +18,7 @@ use hugr_llvm::inkwell;
 use hugr_llvm::inkwell::values::BasicValueEnum;
 use inkwell::{context::Context, types::BasicType};
 use itertools::Itertools;
-use tket2_hseries::extension::futures;
+use tket_qsystem::extension::futures;
 
 use hugr_llvm::{
     emit::{EmitFuncContext, emit_value},
@@ -214,19 +214,19 @@ impl CodegenExtension for QirCodegenExtension {
         Self: 'a,
     {
         builder
-            .simple_extension_op::<tket2::Tk2Op>({
+            .simple_extension_op::<tket::TketOp>({
                 let s = self.clone();
-                move |context, args, op| s.emit_tk2op(context, args, op)
+                move |context, args, op| s.emit_TketOp(context, args, op)
             })
-            .simple_extension_op::<tket2_hseries::extension::result::ResultOpDef>({
+            .simple_extension_op::<tket_qsystem::extension::result::ResultOpDef>({
                 let s = self.clone();
                 move |context, args, op| s.emit_result_op(context, args, op)
             })
-            .simple_extension_op::<tket2_hseries::extension::qsystem::QSystemOp>({
+            .simple_extension_op::<tket_qsystem::extension::qsystem::QSystemOp>({
                 let s = self.clone();
                 move |context, args, op| s.emit_qsystem_op(context, args, op)
             })
-            .simple_extension_op::<tket2_hseries::extension::futures::FutureOpDef>({
+            .simple_extension_op::<tket_qsystem::extension::futures::FutureOpDef>({
                 let s = self.clone();
                 move |context, args, op| s.emit_futures_op(context, args, op)
             })

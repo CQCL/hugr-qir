@@ -8,7 +8,7 @@ use hugr_llvm::inkwell::IntPredicate;
 use hugr_llvm::inkwell::types::IntType;
 use hugr_llvm::sum::LLVMSumValue;
 use hugr_llvm::types::TypingSession;
-use tket2::extension::bool::{BOOL_EXTENSION_ID, BoolOp, ConstBool};
+use tket::extension::bool::{BOOL_EXTENSION_ID, BoolOp, ConstBool};
 
 // This is copied from https://github.com/CQCL/guppylang/blob/main/execute_llvm/src/bool.rs
 // And is a workaround until the below issues are resolved
