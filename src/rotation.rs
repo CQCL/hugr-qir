@@ -1,3 +1,4 @@
+#![allow(unused)]
 use anyhow::{Result, anyhow, bail};
 use hugr::Node;
 use hugr::builder::DataflowHugr;

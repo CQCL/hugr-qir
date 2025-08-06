@@ -1,14 +1,10 @@
 use std::{io::Write, path::Path};
 
-use anyhow::{Result, anyhow};
+use anyhow::Result;
 use clap::Parser;
 use clap_verbosity_flag::log::Level;
-use delegate::delegate;
-use hugr::HugrView;
 use hugr::llvm::inkwell;
 use hugr::package::PackageValidationError;
-use hugr_cli::validate::ValArgs;
-use itertools::Itertools;
 
 use crate::CompileArgs;
 

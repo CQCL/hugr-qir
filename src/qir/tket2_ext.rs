@@ -9,6 +9,7 @@ use hugr_llvm::emit::{EmitFuncContext, EmitOpArgs};
 use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
+    #[allow(non_snake_case)]
     pub fn emit_TketOp<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
