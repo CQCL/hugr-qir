@@ -1,6 +1,7 @@
 use anyhow::{Result, anyhow, bail};
 use hugr::Node;
 use hugr::builder::DataflowHugr;
+use hugr::builder::HugrBuilder;
 use hugr::llvm::CodegenExtension;
 use hugr::llvm::custom::CodegenExtsBuilder;
 use hugr::llvm::emit::{EmitFuncContext, EmitOpArgs, emit_value};
@@ -16,7 +17,6 @@ use tket::hugr::HugrView;
 use tket::hugr::extension::prelude::{ConstError, option_type};
 use tket::hugr::ops::ExtensionOp;
 use tket::hugr::types::TypeName;
-use hugr::builder::HugrBuilder;
 
 const ROTATION_TYPE_ID: TypeName = TypeName::new_inline("rotation");
 /// A codegen extension for the `tket2.rotation` extension.
