@@ -103,6 +103,3 @@ repair-wheel-command = [
     'pipx run abi3audit --strict --report {wheel}',
 ]
 test-groups = []
-before-test = [
-    'pip install --upgrade pip',
-]
