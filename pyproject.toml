@@ -105,5 +105,4 @@ repair-wheel-command = [
 test-groups = []
 before-test = [
     'pip install --upgrade pip',
-    'pip install --group {project}/pyproject.toml:dev'
 ]
