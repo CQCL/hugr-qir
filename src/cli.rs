@@ -117,6 +117,7 @@ impl Cli {
         }
     }
 
+    // TODO: Replace with `CliError::validation` in `hugr-cli >= 0.22.2`.
     fn wrap_generator(generator: Option<String>, val_err: PackageValidationError) -> CliError {
         if let Some(g) = generator {
             CliError::ValidateKnownGenerator {
