@@ -26,6 +26,7 @@ fn llvm_bool_type<'c>(ts: &TypingSession<'c, '_>) -> IntType<'c> {
 pub struct BoolCodegenExtension;
 
 impl BoolCodegenExtension {
+    #[allow(dead_code)]
     fn emit_bool_op<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
