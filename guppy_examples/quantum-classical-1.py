@@ -23,4 +23,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    sys.stdout.buffer.write(guppy.compile(main).package.to_bytes())
+    sys.stdout.buffer.write(main.compile().to_bytes())

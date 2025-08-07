@@ -1,0 +1,20 @@
+---
+source: src/qir/result_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+@0 = private unnamed_addr constant [9 x i8] c"foo_uint\00", align 1
+
+define void @_hl.main.1(i8 %0) {
+alloca_block:
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  %1 = zext i8 %0 to i64
+  call void @__quantum__rt__int_record_output(i64 %1, i8* getelementptr inbounds ([9 x i8], [9 x i8]* @0, i32 0, i32 0))
+  ret void
+}
+
+declare void @__quantum__rt__int_record_output(i64, i8*)

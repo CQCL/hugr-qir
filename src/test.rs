@@ -1,6 +1,6 @@
 use hugr::{
     Hugr,
-    builder::{Container, Dataflow, DataflowSubContainer, HugrBuilder, ModuleBuilder},
+    builder::{Dataflow, DataflowSubContainer, HugrBuilder, ModuleBuilder},
     ops::{OpTrait, OpType},
     types::PolyFuncType,
 };
