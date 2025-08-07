@@ -20,7 +20,7 @@ const BOOL_TYPE_ID: TypeName = TypeName::new_inline("bool");
 
 #[expect(dead_code)]
 fn llvm_bool_type<'c>(ts: &TypingSession<'c, '_>) -> IntType<'c> {
-ts.iw_context().bool_type()
+    ts.iw_context().bool_type()
 }
 #[expect(dead_code)]
 pub struct BoolCodegenExtension;
