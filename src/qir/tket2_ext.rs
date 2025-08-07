@@ -10,7 +10,7 @@ use super::QirCodegenExtension;
 
 impl QirCodegenExtension {
     #[allow(non_snake_case)]
-    pub fn emit_TketOp<'c, H: HugrView<Node = Node>>(
+    pub fn emit_tket_op<'c, H: HugrView<Node = Node>>(
         &self,
         context: &mut EmitFuncContext<'c, '_, H>,
         args: EmitOpArgs<'c, '_, ExtensionOp, H>,

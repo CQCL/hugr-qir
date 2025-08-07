@@ -216,7 +216,7 @@ impl CodegenExtension for QirCodegenExtension {
         builder
             .simple_extension_op::<tket::TketOp>({
                 let s = self.clone();
-                move |context, args, op| s.emit_TketOp(context, args, op)
+                move |context, args, op| s.emit_tket_op(context, args, op)
             })
             .simple_extension_op::<tket_qsystem::extension::result::ResultOpDef>({
                 let s = self.clone();
