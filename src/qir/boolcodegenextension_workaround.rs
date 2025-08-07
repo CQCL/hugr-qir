@@ -15,6 +15,7 @@ use tket::extension::bool::{BOOL_EXTENSION_ID, BoolOp, ConstBool};
 // https://github.com/CQCL/tket2/issues/909
 // https://github.com/CQCL/tket2/issues/910
 
+#[allow(dead_code)]
 const BOOL_TYPE_ID: TypeName = TypeName::new_inline("bool");
 
 fn llvm_bool_type<'c>(ts: &TypingSession<'c, '_>) -> IntType<'c> {
