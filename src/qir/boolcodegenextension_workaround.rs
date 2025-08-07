@@ -18,9 +18,11 @@ use tket::extension::bool::{BOOL_EXTENSION_ID, BoolOp, ConstBool};
 #[allow(dead_code)]
 const BOOL_TYPE_ID: TypeName = TypeName::new_inline("bool");
 
+#[allow(dead_code)]
 fn llvm_bool_type<'c>(ts: &TypingSession<'c, '_>) -> IntType<'c> {
     ts.iw_context().bool_type()
 }
+#[allow(dead_code)]
 pub struct BoolCodegenExtension;
 
 impl BoolCodegenExtension {
