@@ -10,7 +10,7 @@ use hugr_llvm::{
     sum::LLVMSumValue,
     types::HugrSumType,
 };
-use tket2_hseries::extension::result::{ResultOp, ResultOpDef};
+use tket_qsystem::extension::result::{ResultOp, ResultOpDef};
 
 use super::QirCodegenExtension;
 impl QirCodegenExtension {
@@ -134,7 +134,7 @@ mod test {
     };
     use rstest::rstest;
 
-    use tket2_hseries::extension::result::ResultOpDef;
+    use tket_qsystem::extension::result::ResultOpDef;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};
     use crate::test::single_op_hugr;

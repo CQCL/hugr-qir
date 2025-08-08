@@ -1,22 +1,29 @@
 use std::{io::Write, path::Path};
 
-use anyhow::{Result, anyhow};
+use anyhow::Result;
 use clap::Parser;
 use clap_verbosity_flag::log::Level;
-use delegate::delegate;
 use hugr::llvm::inkwell;
-use hugr_cli::validate::ValArgs;
-use itertools::Itertools;
+use hugr::package::PackageValidationError;
 
 use crate::CompileArgs;
+
+use clap_verbosity_flag::InfoLevel;
+use clap_verbosity_flag::Verbosity;
+use hugr_cli::hugr_io::HugrInputArgs;
+
+use hugr_cli::CliError;
 
 /// Main command line interface
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
 pub struct Cli {
+    /// Hugr input.
     #[command(flatten)]
-    /// common arguments for injesting HUGRs
-    pub hugr_args: ValArgs,
+    pub input_args: HugrInputArgs,
+    /// Verbosity.
+    #[command(flatten)]
+    pub verbose: Verbosity<InfoLevel>,
 
     #[clap(
         value_parser,
@@ -50,26 +57,21 @@ pub enum OutputFormat {
 }
 
 impl Cli {
-    delegate! {
-        to self.hugr_args {
-            pub fn verbosity(&self, level: Level) -> bool;
-        }
+    pub fn verbosity(&self, level: Level) -> bool {
+        self.verbose.log_level_filter() >= level
     }
+
     pub fn run<'c>(
         &mut self,
         context: &'c inkwell::context::Context,
     ) -> Result<inkwell::module::Module<'c>> {
-        let mut hugr = self
-            .hugr_args
-            .run()?
-            .into_iter()
-            .exactly_one()
-            .map_err(|e| {
-                anyhow!(
-                    "Input contained {} HUGRs, only one is supported.",
-                    e.count()
-                )
-            })?;
+        let package = self.input_args.get_package()?;
+        let generator = hugr::envelope::get_generator(&package.modules);
+        package
+            .validate()
+            .map_err(|val_err| Self::wrap_generator(generator, val_err))?;
+        let mut hugr = package.modules[0].clone();
+
         let args = self.compile_args();
         args.compile(&mut hugr, context)
     }
@@ -109,9 +111,21 @@ impl Cli {
     pub fn compile_args(&self) -> CompileArgs {
         CompileArgs {
             debug: self.debug,
-            verbosity: self.hugr_args.other_args.verbose.log_level(),
+            verbosity: self.verbose.log_level(),
             validate: self.validate,
             qsystem_pass: self.qsystem_pass,
+        }
+    }
+
+    // TODO: Replace with `CliError::validation` in `hugr-cli >= 0.22.2`.
+    fn wrap_generator(generator: Option<String>, val_err: PackageValidationError) -> CliError {
+        if let Some(g) = generator {
+            CliError::ValidateKnownGenerator {
+                inner: val_err,
+                generator: Box::new(g.to_string()),
+            }
+        } else {
+            CliError::Validate(val_err)
         }
     }
 }

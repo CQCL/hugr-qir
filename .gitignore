@@ -25,4 +25,4 @@ devenv.local.nix
 # examples
 
 .ipynb_checkpoints/*
-example/.ipynb_checkpoints/*
+examples/.ipynb_checkpoints/*

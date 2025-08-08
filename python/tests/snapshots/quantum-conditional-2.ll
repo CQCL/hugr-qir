@@ -15,10 +15,10 @@ alloca_block:
   tail call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
   tail call void @__quantum__qis__mz__body(%Qubit* null, %Result* nonnull inttoptr (i64 2 to %Result*))
   %0 = tail call i1 @__quantum__qis__read_result__body(%Result* nonnull inttoptr (i64 2 to %Result*))
-  br i1 %0, label %cond_65_case_1, label %1
+  br i1 %0, label %cond_67_case_1, label %1
 
-cond_exit_178:                                    ; preds = %cond_65_case_1, %1
-  %"55_1.sroa.5.0" = phi i1 [ false, %cond_65_case_1 ], [ %2, %1 ]
+cond_exit_178:                                    ; preds = %cond_67_case_1, %1
+  %"55_1.sroa.5.0" = phi i1 [ false, %cond_67_case_1 ], [ %2, %1 ]
   tail call void @__quantum__rt__bool_record_output(i1 %0, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @0, i64 0, i64 0))
   tail call void @__quantum__rt__bool_record_output(i1 %"55_1.sroa.5.0", i8* getelementptr inbounds ([2 x i8], [2 x i8]* @1, i64 0, i64 0))
   ret void
@@ -28,7 +28,7 @@ cond_exit_178:                                    ; preds = %cond_65_case_1, %1
   %2 = tail call i1 @__quantum__qis__read_result__body(%Result* nonnull inttoptr (i64 1 to %Result*))
   br label %cond_exit_178
 
-cond_65_case_1:                                   ; preds = %alloca_block
+cond_67_case_1:                                   ; preds = %alloca_block
   tail call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
   tail call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
   tail call void @__quantum__qis__mz__body(%Qubit* nonnull inttoptr (i64 1 to %Qubit*), %Result* null)

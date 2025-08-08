@@ -1,0 +1,34 @@
+---
+source: src/qir/qsystem_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%Qubit = type opaque
+
+define %Qubit* @_hl.main.1(%Qubit* %0, double %1, double %2) {
+alloca_block:
+  %"0" = alloca %Qubit*, align 8
+  %"2_0" = alloca %Qubit*, align 8
+  %"2_1" = alloca double, align 8
+  %"2_2" = alloca double, align 8
+  %"4_0" = alloca %Qubit*, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  store %Qubit* %0, %Qubit** %"2_0", align 8
+  store double %1, double* %"2_1", align 8
+  store double %2, double* %"2_2", align 8
+  %"2_01" = load %Qubit*, %Qubit** %"2_0", align 8
+  %"2_12" = load double, double* %"2_1", align 8
+  %"2_23" = load double, double* %"2_2", align 8
+  call void @__quantum__qis__phasedx__body(double %"2_12", double %"2_23", %Qubit* %"2_01")
+  store %Qubit* %"2_01", %Qubit** %"4_0", align 8
+  %"4_04" = load %Qubit*, %Qubit** %"4_0", align 8
+  store %Qubit* %"4_04", %Qubit** %"0", align 8
+  %"05" = load %Qubit*, %Qubit** %"0", align 8
+  ret %Qubit* %"05"
+}
+
+declare void @__quantum__qis__phasedx__body(double, double, %Qubit*)

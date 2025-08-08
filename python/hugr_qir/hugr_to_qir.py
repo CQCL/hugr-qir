@@ -2,7 +2,7 @@ import tempfile
 from base64 import b64encode
 from pathlib import Path
 
-from hugr.package import ModulePointer
+from hugr.package import Package
 from llvmlite.binding import (  # type: ignore[import-untyped]
     create_context,
     parse_assembly,
@@ -12,7 +12,7 @@ from .cli import hugr_qir_impl
 
 
 def hugr_to_qir(
-    hugr: ModulePointer | bytes,
+    hugr: Package | bytes,
     *,
     validate_qir: bool = True,
     validate_hugr: bool = False,
@@ -38,8 +38,8 @@ def hugr_to_qir(
         if type(hugr) is bytes:
             hugr_bytes = hugr
         else:
-            assert type(hugr) is ModulePointer  # noqa: S101
-            hugr_bytes = hugr.package.to_bytes()
+            assert type(hugr) is Package  # noqa: S101
+            hugr_bytes = hugr.to_bytes()
 
         with Path.open(tmp_infile_path, "wb") as cli_input:
             cli_input.write(hugr_bytes)
