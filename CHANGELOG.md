@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.9
+
+- fix issues with windows wheels
+
 ### v0.0.8
 
 - update guppylang version requirement 0.21.0
