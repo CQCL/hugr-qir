@@ -1,5 +1,8 @@
+#![allow(unused)]
 use anyhow::{Result, anyhow, bail};
 use hugr::Node;
+use hugr::builder::DataflowHugr;
+use hugr::builder::HugrBuilder;
 use hugr::llvm::CodegenExtension;
 use hugr::llvm::custom::CodegenExtsBuilder;
 use hugr::llvm::emit::{EmitFuncContext, EmitOpArgs, emit_value};
@@ -10,11 +13,12 @@ use inkwell::FloatPredicate;
 use inkwell::types::FloatType;
 use inkwell::values::{FloatValue, IntValue};
 use lazy_static::lazy_static;
-use tket2::extension::rotation::{ConstRotation, ROTATION_EXTENSION_ID, RotationOp, rotation_type};
-use tket2::hugr::HugrView;
-use tket2::hugr::extension::prelude::{ConstError, option_type};
-use tket2::hugr::ops::ExtensionOp;
-use tket2::hugr::types::TypeName;
+use tket::extension::rotation::{ConstRotation, ROTATION_EXTENSION_ID, RotationOp, rotation_type};
+use tket::hugr::HugrView;
+use tket::hugr::extension::prelude::{ConstError, option_type};
+use tket::hugr::ops::ExtensionOp;
+use tket::hugr::types::TypeName;
+
 const ROTATION_TYPE_ID: TypeName = TypeName::new_inline("rotation");
 /// A codegen extension for the `tket2.rotation` extension.
 ///
@@ -218,12 +222,12 @@ mod test {
     use hugr::llvm::types::HugrType;
     use inkwell::values::BasicValueEnum;
     use rstest::rstest;
-    use tket2::extension::rotation::{RotationOpBuilder as _, rotation_type};
-    use tket2::hugr::builder::{Dataflow, DataflowSubContainer as _, SubContainer};
-    use tket2::hugr::extension::prelude::UnwrapBuilder;
-    use tket2::hugr::ops::OpName;
-    use tket2::hugr::ops::constant::{CustomConst, TryHash};
-    use tket2::hugr::std_extensions::arithmetic::float_types::{ConstF64, float64_type};
+    use tket::extension::rotation::{RotationOpBuilder as _, rotation_type};
+    use tket::hugr::builder::{Dataflow, DataflowSubContainer as _, SubContainer};
+    use tket::hugr::extension::prelude::UnwrapBuilder;
+    use tket::hugr::ops::OpName;
+    use tket::hugr::ops::constant::{CustomConst, TryHash};
+    use tket::hugr::std_extensions::arithmetic::float_types::{ConstF64, float64_type};
 
     use super::*;
 
@@ -249,7 +253,7 @@ mod test {
                 let _ = builder
                     .add_dataflow_op(RotationOp::radd, [rot1, rot2])
                     .unwrap();
-                builder.finish_sub_container().unwrap()
+                builder.finish_hugr().unwrap()
             });
         llvm_ctx.add_extensions(move |cge| {
             cge.add_extension(RotationCodegenExtension::new(prelude.clone()))
@@ -279,7 +283,7 @@ mod test {
                     .out_wire(0);
                 let value = builder.add_to_halfturns(rot).unwrap();
 
-                builder.finish_with_outputs([value]).unwrap()
+                builder.finish_hugr_with_outputs([value]).unwrap()
             });
         exec_ctx.add_extensions(|cge| {
             cge.add_extension(DEFAULT_ROTATION_EXTENSION.to_owned())
@@ -309,7 +313,7 @@ mod test {
             .finish(|mut builder| {
                 let rot = builder.add_load_value(angle);
                 let halfturns = builder.add_to_halfturns(rot).unwrap();
-                builder.finish_with_outputs([halfturns]).unwrap()
+                builder.finish_hugr_with_outputs([halfturns]).unwrap()
             });
         exec_ctx.add_extensions(|cge| {
             cge.add_extension(DEFAULT_ROTATION_EXTENSION.to_owned())
@@ -370,7 +374,7 @@ mod test {
         #[case] halfturns: f64,
         #[case] expected_halfturns: Option<f64>,
     ) {
-        use tket2::hugr::ops::Value;
+        use tket::hugr::ops::Value;
 
         let hugr = SimpleHugrConfig::new()
             .with_outs(float64_type())
@@ -403,7 +407,7 @@ mod test {
                     }
                     conditional.finish_sub_container().unwrap().out_wire(0)
                 };
-                builder.finish_with_outputs([halfturns]).unwrap()
+                builder.finish_hugr_with_outputs([halfturns]).unwrap()
             });
         exec_ctx.add_extensions(|cge| {
             add_nonfinite_const_extensions(

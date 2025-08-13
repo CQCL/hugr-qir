@@ -1,0 +1,22 @@
+---
+source: src/qir/tket2_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+%Qubit = type opaque
+
+define void @_hl.main.1(%Qubit* %0) {
+alloca_block:
+  %"2_0" = alloca %Qubit*, align 8
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  store %Qubit* %0, %Qubit** %"2_0", align 8
+  %"2_01" = load %Qubit*, %Qubit** %"2_0", align 8
+  call void @__quantum__rt__qubit_release(%Qubit* %"2_01")
+  ret void
+}
+
+declare void @__quantum__rt__qubit_release(%Qubit*)

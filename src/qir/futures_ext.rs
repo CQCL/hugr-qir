@@ -10,7 +10,7 @@ use hugr_llvm::{
     inkwell::types::BasicTypeEnum,
     types::TypingSession,
 };
-use tket2_hseries::extension::futures::{EXTENSION_ID, FUTURE_TYPE_NAME, FutureOpDef};
+use tket_qsystem::extension::futures::{EXTENSION_ID, FUTURE_TYPE_NAME, FutureOpDef};
 
 use super::QirCodegenExtension;
 
@@ -68,7 +68,7 @@ mod test {
     };
     use rstest::rstest;
 
-    use tket2_hseries::extension::futures::FutureOpDef;
+    use tket_qsystem::extension::futures::FutureOpDef;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};
     use crate::test::single_op_hugr;

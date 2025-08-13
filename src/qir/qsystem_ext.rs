@@ -13,7 +13,7 @@ use hugr_llvm::{
     sum::LLVMSumValue,
     types::HugrSumType,
 };
-use tket2_hseries::extension::qsystem::QSystemOp;
+use tket_qsystem::extension::qsystem::QSystemOp;
 
 use super::QirCodegenExtension;
 
@@ -125,7 +125,7 @@ mod test {
     };
     use rstest::rstest;
 
-    use tket2_hseries::extension::qsystem::QSystemOp;
+    use tket_qsystem::extension::qsystem::QSystemOp;
 
     use crate::qir::{QirCodegenExtension, QirPreludeCodegen};
     use crate::test::single_op_hugr;
@@ -158,7 +158,7 @@ mod test {
         let mut insta = insta::Settings::clone_current();
         insta.set_snapshot_suffix(format!("{}_{}", insta.snapshot_suffix().unwrap_or(""), op));
         insta.bind(|| {
-            use tket2_hseries::QSystemPass;
+            use tket_qsystem::QSystemPass;
 
             let mut hugr = single_op_hugr(op);
             QSystemPass::default().run(&mut hugr).unwrap();
