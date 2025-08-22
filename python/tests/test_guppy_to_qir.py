@@ -22,6 +22,6 @@ def main() -> None:
     result("0", b2)
 
 
-qir = hugr_to_qir(guppy.compile(main), emit_text=True)
+qir = hugr_to_qir(main.compile(), emit_text=True)
 
 assert len(qir) > 10  # noqa: PLR2004

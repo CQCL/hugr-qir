@@ -87,7 +87,7 @@ impl CompileArgs {
             hugr.validate()?;
         }
         if self.qsystem_pass {
-            let pass = tket2_hseries::QSystemPass::default();
+            let pass = tket_qsystem::QSystemPass::default();
             pass.run(hugr)?;
             if self.validate {
                 hugr.validate()?;

@@ -1,5 +1,15 @@
 ## Changelog
 
+### v0.0.9
+
+- fix issues with windows wheels
+
+### v0.0.8
+
+- update guppylang version requirement 0.21.0
+- update hugr version requirement 0.13.0
+- update quantinuum-qircheck version requirement to 0.3.0
+
 ### v0.0.7
 
 - expose option to validate input hugr
