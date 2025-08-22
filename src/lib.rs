@@ -40,8 +40,7 @@ pub struct CompileArgs {
     pub validate: bool,
     pub qsystem_pass: bool,
     pub target: CompileTarget,
-    pub opt_level: OptimizationLevel,  
-
+    pub opt_level: OptimizationLevel,
 }
 
 impl Default for CompileArgs {
@@ -129,11 +128,11 @@ impl CompileArgs {
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
-        let opt_str = match self.opt_level{
+        let opt_str = match self.opt_level {
             OptimizationLevel::None => "default<O0>",
             OptimizationLevel::Less => "default<O1>",
             OptimizationLevel::Default => "default<O2>",
-            OptimizationLevel::Aggressive => "default<O3>",            
+            OptimizationLevel::Aggressive => "default<O3>",
         };
 
         let _ = module.run_passes(opt_str, &ctm, PassBuilderOptions::create());
