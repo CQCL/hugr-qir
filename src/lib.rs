@@ -24,6 +24,7 @@ use target::CompileTarget;
 pub mod cli;
 pub mod qir;
 pub mod target;
+use itertools::Itertools;
 
 #[cfg(feature = "py")]
 mod py;
@@ -154,26 +155,62 @@ impl CompileArgs {
 }
 
 pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> {
-    let entry_point_node = {
-        let mains: Vec<_> = hugr
-            .nodes()
+    const HUGR_MAIN: &str = "main";
+
+    let entry_point_node = if hugr.entrypoint_optype().is_module() {
+        // backwards compatibility with old Guppy versions: assume entrypoint is "main"
+        // function in module.
+
+        let node = hugr
+            .children(hugr.module_root())
             .filter(|&n| {
                 hugr.get_optype(n)
                     .as_func_defn()
-                    .is_some_and(|f| f.func_name() == "main")
+                    .is_some_and(|f| f.func_name() == HUGR_MAIN)
             })
-            .collect();
-        match mains.as_slice() {
-            [] => Err(anyhow!("main function not found in HUGR"))?,
-            [x] => *x,
-            xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
-        }
+            .exactly_one()
+            .map_err(|_| {
+                anyhow!("Module entrypoint must have a single function named {HUGR_MAIN} as child")
+            })?;
+
+        node
+    } else {
+        hugr.entrypoint()
     };
     Ok(entry_point_node)
 }
+
 pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView<Node = Node>) -> Result<String> {
-    let entry_point_node = find_hugr_entry_point(hugr)?;
-    Ok(namer.name_func("main", entry_point_node))
+    const HUGR_MAIN: &str = "main";
+
+    let (name, entry_point_node) = if hugr.entrypoint_optype().is_module() {
+        // backwards compatibility with old Guppy versions: assume entrypoint is "main"
+        // function in module.
+
+        let node = hugr
+            .children(hugr.module_root())
+            .filter(|&n| {
+                hugr.get_optype(n)
+                    .as_func_defn()
+                    .is_some_and(|f| f.func_name() == HUGR_MAIN)
+            })
+            .exactly_one()
+            .map_err(|_| {
+                anyhow!("Module entrypoint must have a single function named {HUGR_MAIN} as child")
+            })?;
+
+        (HUGR_MAIN, node)
+    } else {
+        let name = {
+            hugr.entrypoint_optype()
+                .as_func_defn()
+                .ok_or_else(|| anyhow!("Entry point node is not a function definition"))?
+                .func_name()
+        };
+
+        (name.as_ref(), hugr.entrypoint())
+    };
+    Ok(namer.name_func(name, entry_point_node))
 }
 
 pub fn replace_int_opque_pointer(module: &Module, funcname: &str) -> u64 {
