@@ -184,7 +184,6 @@ pub fn find_entry_point_name(hugr: &impl HugrView<Node = Node>) -> Result<(Node,
 
         (name.as_ref(), hugr.entrypoint())
     };
-    // Ok(namer.name_func(name, entry_point_node))
     Ok((entry_point_node, name.to_string()))
 }
 
