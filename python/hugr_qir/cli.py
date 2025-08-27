@@ -36,7 +36,7 @@ from hugr_qir._hugr_qir import cli
 )
 @click.version_option(version=version("hugr_qir"))
 def hugr_qir(
-    validate_qir: bool, validate_hugr: bool, hugr_file: Path, outfile: IO
+    validate_qir: bool, validate_hugr: bool, target: str, hugr_file: Path, outfile: IO
 ) -> None:
     """Convert a HUGR file to QIR.
 
@@ -44,13 +44,14 @@ def hugr_qir(
     Per default, QIR is emitted to stdout, but can
     be written to a file using the `-o` option.
     """
-    hugr_qir_impl(validate_qir, validate_hugr, hugr_file, outfile)
+    hugr_qir_impl(validate_qir, validate_hugr, target, hugr_file, outfile)
 
 
 def hugr_qir_impl(
-    validate_qir: bool, validate_hugr: bool, hugr_file: Path, outfile: IO
+    validate_qir: bool, validate_hugr: bool, target: str, hugr_file: Path, outfile: IO
 ) -> None:
     options = ["-q"]
+    print(target)
     if validate_hugr:
         options.append("--validate")
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
