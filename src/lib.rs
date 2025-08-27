@@ -188,7 +188,7 @@ pub fn find_entry_point_name(hugr: &impl HugrView<Node = Node>) -> Result<(Node,
 }
 
 pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> {
-    let entry_point_node = find_entry_point_name(hugr).unwrap().0;
+    let (entry_point_node, _) = find_entry_point_name(hugr)?;
     Ok(entry_point_node)
 }
 
@@ -265,7 +265,7 @@ pub fn add_module_metadata(
             .get_context()
             .create_string_attribute("required_num_results", &results_count.to_string()),
     ];
-    let entrypoint_name = find_entry_point_name(hugr).unwrap();
+    let entrypoint_name = find_entry_point_name(hugr)?;
     let entry_func_name = namer.name_func(entrypoint_name.1, entrypoint_name.0);
     let fn_value = module.get_function(&entry_func_name);
     if Option::is_none(&fn_value) {
