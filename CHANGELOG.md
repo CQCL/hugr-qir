@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.10
+
+- fix issues with function names
+
 ### v0.0.9
 
 - fix issues with windows wheels
