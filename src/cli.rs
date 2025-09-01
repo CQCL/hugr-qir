@@ -15,6 +15,7 @@ use hugr_cli::hugr_io::HugrInputArgs;
 use crate::target::CompileTarget;
 use hugr_cli::CliError;
 use inkwell::OptimizationLevel;
+use strum_macros::EnumIter;
 
 /// Main command line interface
 #[derive(Parser, Debug)]
@@ -58,13 +59,13 @@ pub struct Cli {
     pub optimization_level: Option<CliOptimizationLevel>,
 }
 
-#[derive(clap::ValueEnum, Clone, Debug, Copy)]
+#[derive(EnumIter, clap::ValueEnum, Clone, Debug, Copy)]
 pub enum OutputFormat {
     Bitcode,
     LlvmIr,
 }
 
-#[derive(clap::ValueEnum, Clone, Debug, Copy)]
+#[derive(EnumIter, clap::ValueEnum, Clone, Debug, Copy)]
 pub enum CliOptimizationLevel {
     None,
     Less,

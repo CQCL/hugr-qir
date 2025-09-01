@@ -11,13 +11,15 @@ from llvmlite.binding import (  # type: ignore[import-untyped]
 from .cli import hugr_qir_impl
 
 
-def hugr_to_qir(
+def hugr_to_qir(  # noqa: PLR0913
     hugr: Package | bytes,
     *,
     validate_qir: bool = True,
     validate_hugr: bool = False,
     emit_text: bool = False,
-    target: str = "aarch64-unknown-linux-gnu"
+    target: str | None = None,
+    opt_level: str | None = None,
+    output_format: str | None = None,
 ) -> str:
     """A function for converting hugr to qir (llvm bitcode)
 
@@ -45,7 +47,15 @@ def hugr_to_qir(
         with Path.open(tmp_infile_path, "wb") as cli_input:
             cli_input.write(hugr_bytes)
         with Path.open(tmp_outfile_path, "w") as cli_output:
-            hugr_qir_impl(validate_qir, validate_hugr, target, tmp_infile_path, cli_output)
+            hugr_qir_impl(
+                validate_qir,
+                validate_hugr,
+                target,
+                opt_level,
+                output_format,
+                tmp_infile_path,
+                cli_output,
+            )
         with Path.open(tmp_outfile_path, "r") as cli_output:
             qir_ir = cli_output.read()
 

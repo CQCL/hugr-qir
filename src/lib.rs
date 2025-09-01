@@ -50,7 +50,7 @@ impl Default for CompileArgs {
             verbosity: None,
             validate: false,
             qsystem_pass: true,
-            target: CompileTarget::Native,
+            target: CompileTarget::QuantinuumHardware,
             opt_level: OptimizationLevel::Aggressive,
         }
     }
