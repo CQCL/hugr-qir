@@ -55,7 +55,7 @@ pub struct Cli {
     #[arg(value_parser, short, long, help = "Target machine")]
     pub target: Option<CompileTarget>,
 
-    #[arg(short = 'l', long, help = "LLVM optimization level")]
+    #[arg(value_parser, short = 'l', long, help = "LLVM optimization level")]
     pub optimization_level: Option<CliOptimizationLevel>,
 }
 
