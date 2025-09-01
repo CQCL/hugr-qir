@@ -57,10 +57,6 @@ impl Default for CompileArgs {
 }
 
 impl CompileArgs {
-    // const OPT_LEVEL_STR: &str = "default<O3>";
-    // const OPT_LEVEL: OptimizationLevel = OptimizationLevel::Aggressive;
-    // const COMP_TARGET: CompileTarget = CompileTarget::QuantinuumHardware;
-
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
         let pcg = QirPreludeCodegen;
 

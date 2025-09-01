@@ -3,7 +3,7 @@ use crate::inkwell::{
     targets::{CodeModel, InitializationConfig, RelocMode, Target, TargetMachine, TargetTriple},
 };
 
-#[derive(Clone, Debug, Copy, Default)]
+#[derive(clap::ValueEnum, Clone, Debug, Copy, Default)]
 #[non_exhaustive]
 pub enum CompileTarget {
     #[default]
