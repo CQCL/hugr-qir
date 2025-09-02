@@ -3,7 +3,6 @@
 import tempfile
 from importlib.metadata import version
 from pathlib import Path
-from typing import IO
 
 import click
 from quantinuum_qircheck import qircheck
@@ -13,8 +12,8 @@ from hugr_qir._hugr_qir import (
     cli,
     compile_target_choices,
     opt_level_choices,
-    output_format_choices,
 )
+from hugr_qir.output import OutputFormat, get_write_mode, ir_string_to_output_format
 
 
 @click.command(name="hugr-qir")
@@ -51,16 +50,16 @@ from hugr_qir._hugr_qir import (
     "-f",
     "--output-format",
     "output_format",
-    type=click.Choice(output_format_choices(), case_sensitive=False),
-    default=None,
+    type=click.Choice([c.value for c in OutputFormat], case_sensitive=False),
+    default="llvmir",
     help="Choice of output format",
 )
 @click.option(
     "-o",
     "--output",
     "outfile",
-    type=click.File("w"),
-    default="-",
+    type=click.Path(path_type=Path),
+    default=None,
     help="Name of output file (optional)",
 )
 @click.version_option(version=version("hugr_qir"))
@@ -69,9 +68,9 @@ def hugr_qir(  # noqa: PLR0913
     validate_hugr: bool,
     target: str | None,
     opt_level: str | None,
-    output_format: str | None,
+    output_format: str,
     hugr_file: Path,
-    outfile: IO,
+    outfile: Path | None,
 ) -> None:
     """Convert a HUGR file to QIR.
 
@@ -84,7 +83,7 @@ def hugr_qir(  # noqa: PLR0913
         validate_hugr,
         target,
         opt_level,
-        output_format,
+        OutputFormat(output_format),
         hugr_file,
         outfile,
     )
@@ -95,17 +94,15 @@ def hugr_qir_impl(  # noqa: PLR0913
     validate_hugr: bool,
     target: str | None,
     opt_level: str | None,
-    output_format: str | None,
+    output_format: OutputFormat,
     hugr_file: Path,
-    outfile: IO,
+    outfile: Path | None,
 ) -> None:
     options = ["-q"]
     if target:
-        options.append(f"-t {target}")
+        options.extend(["-t", f"{target}"])
     if opt_level:
-        options.append(f"-l {opt_level}")
-    if output_format:
-        options.append(f"-f {output_format}")
+        options.extend(["-l", f"{opt_level}"])
     if validate_hugr:
         options.append("--validate")
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
@@ -122,7 +119,14 @@ def hugr_qir_impl(  # noqa: PLR0913
             msg = f"Found a problem in the generated QIR: {e}"
             raise ValueError(msg) from e
 
-    outfile.write(qir)
+    llvm_write_mode = get_write_mode(output_format, outfile)
+    qir_out = ir_string_to_output_format(qir, output_format)
+
+    if outfile:
+        with outfile.open(mode=llvm_write_mode) as output:
+            output.write(qir_out)
+    else:
+        print(qir)
 
 
 if __name__ == "__main__":
