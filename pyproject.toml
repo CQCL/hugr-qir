@@ -50,6 +50,9 @@ reportMissingModuleSource = "none"
 build = "cp310-*"
 skip = "*-win32 *-manylinux_i686 *-musllinux*"
 manylinux-x86_64-image = "manylinux_2_34"
+test-groups = ["dev"]
+test-sources = ["python/tests", "guppy_examples"]
+test-command = "pytest python/tests -k test_guppy_files"
 
 [tool.cibuildwheel.linux.environment]
 PATH = '$HOME/.cargo/bin:/tmp/llvm/bin:$PATH'
@@ -98,4 +101,8 @@ before-build = ['pip install delvewheel']
 repair-wheel-command = [
     'delvewheel repair -w {dest_dir} {wheel}',
     'pipx run abi3audit --strict --report {wheel}',
+]
+test-groups = []
+before-test = [
+    'pip install --group {project}/pyproject.toml:dev'
 ]

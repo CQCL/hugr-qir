@@ -18,11 +18,11 @@ def rx(q: qubit, x: angle) -> None:
 
 @guppy
 @no_type_check
-def main() -> None:
+def main_circuit() -> None:
     q = qubit()
     rx(q, angle(1.5))
     result("1", measure(q))
 
 
 if __name__ == "__main__":
-    sys.stdout.buffer.write(main.compile().to_bytes())
+    sys.stdout.buffer.write(main_circuit.compile().to_bytes())
