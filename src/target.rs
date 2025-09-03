@@ -38,7 +38,7 @@ impl CompileTarget {
                 )
                 .unwrap(),
             Self::QuantinuumHardware => {
-                let triple = TargetTriple::create("aarch64-unknown-linux-gnu"); // TODO
+                let triple = TargetTriple::create("aarch64-unknown-linux-gnu");
                 Target::from_triple(&triple)
                     .unwrap()
                     .create_target_machine(&triple, "", "", level, reloc_mode, code_model)

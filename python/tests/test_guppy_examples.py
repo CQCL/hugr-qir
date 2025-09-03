@@ -71,5 +71,9 @@ def test_guppy_files_options(
     file_suffix = expected_file_extension(out_format)
     with Path.open(out_file, mode=file_read_mode) as f:
         qir = f.read()
-    snapshot_filename = guppy_file.stem + "_" + target + "_" + opt_level
-    snapshot.assert_match(qir, str(Path(snapshot_filename).with_suffix(file_suffix)))
+    # don't test snapshots for 'native' since output is machine-dependent
+    if target != "native":
+        snapshot_filename = guppy_file.stem + "_" + target + "_" + opt_level
+        snapshot.assert_match(
+            qir, str(Path(snapshot_filename).with_suffix(file_suffix))
+        )
