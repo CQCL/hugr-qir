@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.0.11
+
+- add options for compilation target and optimization level
+- configure output format using output_format option and remove 'emit_text' toggle
+
 ### v0.0.10
 
 - fix issues with function names

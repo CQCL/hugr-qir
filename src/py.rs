@@ -1,6 +1,8 @@
 use std::{ffi::OsString, iter};
 
-use clap::Parser;
+use crate::cli::{Cli, CliOptimizationLevel};
+use crate::target::CompileTarget;
+use clap::{Parser, ValueEnum};
 use hugr::llvm::inkwell;
 use itertools::Itertools as _;
 use pyo3::{
@@ -8,8 +10,6 @@ use pyo3::{
     types::{PyAnyMethods as _, PyModule, PyModuleMethods as _, PyTuple},
     wrap_pyfunction,
 };
-
-use crate::cli::Cli;
 
 #[pyfunction]
 #[pyo3(signature = (*args))]
@@ -24,8 +24,26 @@ pub fn cli(args: &Bound<PyTuple>) -> PyResult<()> {
     Ok(())
 }
 
+#[pyfunction]
+pub fn opt_level_choices() -> Vec<String> {
+    CliOptimizationLevel::value_variants()
+        .iter()
+        .filter_map(|v| v.to_possible_value().map(|pv| pv.get_name().to_string()))
+        .collect()
+}
+
+#[pyfunction]
+pub fn compile_target_choices() -> Vec<String> {
+    CompileTarget::value_variants()
+        .iter()
+        .filter_map(|v| v.to_possible_value().map(|pv| pv.get_name().to_string()))
+        .collect()
+}
+
 #[pymodule]
 pub fn _hugr_qir(m: &Bound<PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(cli, m)?)?;
+    m.add_function(wrap_pyfunction!(opt_level_choices, m)?)?;
+    m.add_function(wrap_pyfunction!(compile_target_choices, m)?)?;
     Ok(())
 }
