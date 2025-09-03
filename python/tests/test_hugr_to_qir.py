@@ -56,7 +56,7 @@ def test_guppy_files_xfail(guppy_file: Path) -> None:
 def test_guppy_file_snapshots(guppy_file: Path, snapshot: Snapshot) -> None:
     snapshot.snapshot_dir = SNAPSHOT_DIR
     hugr = guppy_to_hugr_binary(guppy_file)
-    qir = hugr_to_qir(hugr, validate_qir=False, output_format=OutputFormat.LLVMIR)
+    qir = hugr_to_qir(hugr, validate_qir=False, output_format=OutputFormat.LLVM_IR)
     snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
 
 
@@ -69,7 +69,7 @@ def test_bitcode_and_assembly_output_match(guppy_file: Path) -> None:
     assert isinstance(qir, str)
     qir_bitcode_bytes = base64.b64decode(qir.encode("utf-8"))
     qir_assembly = hugr_to_qir(
-        hugr, validate_qir=False, output_format=OutputFormat.LLVMIR
+        hugr, validate_qir=False, output_format=OutputFormat.LLVM_IR
     )
     # use a fresh context for each operation to prevent variable name collisions
     module = parse_bitcode(qir_bitcode_bytes, context=create_context())

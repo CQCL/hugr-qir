@@ -9,7 +9,7 @@ from llvmlite.binding import (  # type: ignore[import-untyped]
 
 
 class OutputFormat(Enum):
-    LLVMIR = "llvm-ir"
+    LLVM_IR = "llvm-ir"
     BITCODE = "bitcode"
     BASE64 = "base64"
 
@@ -20,7 +20,7 @@ def expected_file_extension(out_format: OutputFormat | str) -> str:
     match out_format:
         case OutputFormat.BASE64:
             return ".b64"
-        case OutputFormat.LLVMIR:
+        case OutputFormat.LLVM_IR:
             return ".ll"
         case OutputFormat.BITCODE:
             return ".bc"
@@ -40,7 +40,7 @@ def get_write_mode(out_format: OutputFormat | None, file_path: Path | None) -> s
 
 def ir_string_to_output_format(qir_ir: str, output_format: OutputFormat) -> str | bytes:
     match output_format:
-        case OutputFormat.LLVMIR:
+        case OutputFormat.LLVM_IR:
             return qir_ir
         case OutputFormat.BITCODE:
             ctx = create_context()

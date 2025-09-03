@@ -50,7 +50,7 @@ def hugr_to_qir(  # noqa: PLR0913
             validate_hugr,
             target,
             opt_level,
-            OutputFormat.LLVMIR,
+            OutputFormat.LLVM_IR,
             tmp_infile_path,
             tmp_outfile_path,
         )
