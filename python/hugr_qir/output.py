@@ -24,8 +24,9 @@ def expected_file_extension(out_format: OutputFormat | str) -> str:
             return ".ll"
         case OutputFormat.BITCODE:
             return ".bc"
-    msg = "Unrecognized output format"
-    raise ValueError(msg)
+        case _:
+            msg = "Unrecognized output format"
+            raise ValueError(msg)
 
 
 def get_write_mode(out_format: OutputFormat | None, file_path: Path | None) -> str:
@@ -51,5 +52,6 @@ def ir_string_to_output_format(qir_ir: str, output_format: OutputFormat) -> str 
             module = parse_assembly(qir_ir, context=ctx)
             qir_bitcode = module.as_bitcode()
             return b64encode(qir_bitcode).decode("utf-8")
-    errmsg = "Unrecognized output format"
-    raise ValueError(errmsg)
+        case _:
+            errmsg = "Unrecognized output format"
+            raise ValueError(errmsg)
