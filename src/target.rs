@@ -3,7 +3,7 @@ use crate::inkwell::{
     targets::{CodeModel, InitializationConfig, RelocMode, Target, TargetMachine, TargetTriple},
 };
 
-#[derive(Clone, Debug, Copy, Default)]
+#[derive(clap::ValueEnum, Clone, Debug, Copy, Default)]
 #[non_exhaustive]
 pub enum CompileTarget {
     #[default]
@@ -38,7 +38,7 @@ impl CompileTarget {
                 )
                 .unwrap(),
             Self::QuantinuumHardware => {
-                let triple = TargetTriple::create("aarch64-unknown-linux-gnu");
+                let triple = TargetTriple::create("aarch64-unknown-linux-gnu"); // TODO
                 Target::from_triple(&triple)
                     .unwrap()
                     .create_target_machine(&triple, "", "", level, reloc_mode, code_model)
