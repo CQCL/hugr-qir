@@ -34,7 +34,7 @@ from hugr_qir.output import OutputFormat, get_write_mode, ir_string_to_output_fo
     "-t",
     "--target",
     "target",
-    type=click.Choice(compile_target_choices(), case_sensitive=False),
+    type=click.Choice(compile_target_choices()),
     default=None,
     help="LLVM compile target",
 )
@@ -42,7 +42,7 @@ from hugr_qir.output import OutputFormat, get_write_mode, ir_string_to_output_fo
     "-l",
     "--opt-level",
     "opt_level",
-    type=click.Choice(opt_level_choices(), case_sensitive=False),
+    type=click.Choice(opt_level_choices()),
     default=None,
     help="LLVM optimization level",
 )
@@ -51,7 +51,7 @@ from hugr_qir.output import OutputFormat, get_write_mode, ir_string_to_output_fo
     "--output-format",
     "output_format",
     type=click.Choice([c.value for c in OutputFormat], case_sensitive=False),
-    default="llvmir",
+    default="llvm-ir",
     help="Choice of output format",
 )
 @click.option(
@@ -100,9 +100,9 @@ def hugr_qir_impl(  # noqa: PLR0913
 ) -> None:
     options = ["-q"]
     if target:
-        options.extend(["-t", f"{target}"])
+        options.extend(["-t", target])
     if opt_level:
-        options.extend(["-l", f"{opt_level}"])
+        options.extend(["-l", opt_level])
     if validate_hugr:
         options.append("--validate")
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
@@ -126,7 +126,7 @@ def hugr_qir_impl(  # noqa: PLR0913
         with outfile.open(mode=llvm_write_mode) as output:
             output.write(qir_out)
     else:
-        print(qir)
+        print(qir_out)
 
 
 if __name__ == "__main__":

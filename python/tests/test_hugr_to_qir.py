@@ -3,8 +3,9 @@ import hashlib
 from pathlib import Path
 
 import pytest
+from hugr_qir._hugr_qir import compile_target_choices, opt_level_choices
 from hugr_qir.hugr_to_qir import hugr_to_qir
-from hugr_qir.output import OutputFormat
+from hugr_qir.output import OutputFormat, expected_file_extension
 from llvmlite.binding import (  # type: ignore
     create_context,
     parse_assembly,
@@ -80,3 +81,30 @@ def test_bitcode_and_assembly_output_match(guppy_file: Path) -> None:
         hashlib.sha256(str(mod).encode()).hexdigest() for mod in [module, module2]
     ]
     assert hashes[0] == hashes[1]
+
+
+@pytest.mark.parametrize(
+    ("target", "opt_level", "out_format"),
+    [
+        (t, opt, form)
+        for t in compile_target_choices()
+        for opt in opt_level_choices()
+        for form in [c.value for c in OutputFormat]
+    ],
+)
+def test_guppy_files_options(
+    snapshot: Snapshot, target: str, opt_level: str, out_format: str
+) -> None:
+    snapshot.snapshot_dir = SNAPSHOT_DIR
+    guppy_file = guppy_files_xpass[0]
+    hugr = guppy_to_hugr_binary(guppy_file)
+    qir = hugr_to_qir(
+        hugr,
+        validate_qir=False,
+        target=target,
+        opt_level=opt_level,
+        output_format=OutputFormat(out_format),
+    )
+    file_suffix = expected_file_extension(out_format)
+    snapshot_filename = guppy_file.stem + "_" + target + "_" + opt_level
+    snapshot.assert_match(qir, str(Path(snapshot_filename).with_suffix(file_suffix)))

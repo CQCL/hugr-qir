@@ -971,7 +971,7 @@ dependencies = [
 
 [[package]]
 name = "hugr-qir"
-version = "0.0.8"
+version = "0.0.11"
 dependencies = [
  "anyhow",
  "clap",
@@ -991,8 +991,6 @@ dependencies = [
  "rstest 0.25.0",
  "serde",
  "serde_json",
- "strum",
- "strum_macros",
  "tket",
  "tket-qsystem",
  "typetag",

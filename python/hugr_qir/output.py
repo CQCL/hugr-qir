@@ -9,15 +9,31 @@ from llvmlite.binding import (  # type: ignore[import-untyped]
 
 
 class OutputFormat(Enum):
-    LLVMIR = "llvmir"
+    LLVMIR = "llvm-ir"
     BITCODE = "bitcode"
     BASE64 = "base64"
 
 
+def expected_file_extension(out_format: OutputFormat | str) -> str:
+    if isinstance(out_format, str):
+        out_format = OutputFormat(out_format)
+    match out_format:
+        case OutputFormat.BASE64:
+            return ".b64"
+        case OutputFormat.LLVMIR:
+            return ".ll"
+        case OutputFormat.BITCODE:
+            return ".bc"
+    msg = "Unrecognized output format"
+    raise ValueError(msg)
+
+
 def get_write_mode(out_format: OutputFormat | None, file_path: Path | None) -> str:
-    if out_format and out_format in [OutputFormat.BITCODE, OutputFormat.BASE64]:
-        return "wb"
-    if file_path and file_path.suffix not in [".ll", ".asm"]:
+    if out_format:
+        if out_format == OutputFormat.BITCODE:
+            return "wb"
+        return "w"
+    if file_path and file_path.suffix == ".bc":
         return "wb"
     return "w"
 

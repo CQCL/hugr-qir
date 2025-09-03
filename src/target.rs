@@ -2,9 +2,8 @@ use crate::inkwell::{
     OptimizationLevel,
     targets::{CodeModel, InitializationConfig, RelocMode, Target, TargetMachine, TargetTriple},
 };
-use strum_macros::EnumIter;
 
-#[derive(EnumIter, clap::ValueEnum, Clone, Debug, Copy, Default)]
+#[derive(clap::ValueEnum, Clone, Debug, Copy, Default)]
 #[non_exhaustive]
 pub enum CompileTarget {
     #[default]
