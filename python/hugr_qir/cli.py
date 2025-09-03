@@ -1,5 +1,6 @@
 """Cli for hugr-qir."""
 
+import logging
 import tempfile
 from importlib.metadata import version
 from pathlib import Path
@@ -14,6 +15,8 @@ from hugr_qir._hugr_qir import (
     opt_level_choices,
 )
 from hugr_qir.output import OutputFormat, get_write_mode, ir_string_to_output_format
+
+logger = logging.getLogger()
 
 
 @click.command(name="hugr-qir")
@@ -103,6 +106,12 @@ def hugr_qir_impl(  # noqa: PLR0913
         options.extend(["-t", target])
     if opt_level:
         options.extend(["-l", opt_level])
+        if opt_level == "none":
+            logger.warning(
+                "WARNING: Chosen optimization level"
+                " `none` will generally not result"
+                " in valid QIR."
+            )
     if validate_hugr:
         options.append("--validate")
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
