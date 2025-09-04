@@ -5,7 +5,7 @@
 
 A tool for converting Hierarchical Unified Graph Representation (HUGR, pronounced _hugger_) formatted quantum programs into [QIR](https://github.com/qir-alliance/qir-spec) format.
 
-### Warning: Not all hugr/guppy programs can be converted to QIR
+Warning: Not all hugr/guppy programs can be converted to QIR
 
 ## Installation
 
