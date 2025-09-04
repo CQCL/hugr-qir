@@ -12,7 +12,9 @@ from quantinuum_qircheck.qircheck import ValidationError
 from hugr_qir._hugr_qir import (
     cli,
     compile_target_choices,
+    compile_target_default,
     opt_level_choices,
+    opt_level_default,
 )
 from hugr_qir.output import OutputFormat, get_write_mode, ir_string_to_output_format
 
@@ -38,7 +40,8 @@ logger = logging.getLogger()
     "--target",
     "target",
     type=click.Choice(compile_target_choices()),
-    default=None,
+    default=compile_target_default(),
+    show_default=True,
     help="LLVM compile target",
 )
 @click.option(
@@ -46,7 +49,8 @@ logger = logging.getLogger()
     "--opt-level",
     "opt_level",
     type=click.Choice(opt_level_choices()),
-    default=None,
+    default=opt_level_default(),
+    show_default=True,
     help="LLVM optimization level",
 )
 @click.option(
@@ -55,6 +59,7 @@ logger = logging.getLogger()
     "output_format",
     type=click.Choice([c.value for c in OutputFormat], case_sensitive=False),
     default="llvm-ir",
+    show_default=True,
     help="Choice of output format",
 )
 @click.option(
@@ -69,8 +74,8 @@ logger = logging.getLogger()
 def hugr_qir(  # noqa: PLR0913
     validate_qir: bool,
     validate_hugr: bool,
-    target: str | None,
-    opt_level: str | None,
+    target: str,
+    opt_level: str,
     output_format: str,
     hugr_file: Path,
     outfile: Path | None,
@@ -95,23 +100,21 @@ def hugr_qir(  # noqa: PLR0913
 def hugr_qir_impl(  # noqa: PLR0913
     validate_qir: bool,
     validate_hugr: bool,
-    target: str | None,
-    opt_level: str | None,
+    target: str,
+    opt_level: str,
     output_format: OutputFormat,
     hugr_file: Path,
     outfile: Path | None,
 ) -> None:
     options = ["-q"]
-    if target:
-        options.extend(["-t", target])
-    if opt_level:
-        options.extend(["-l", opt_level])
-        if opt_level == "none":
-            logger.warning(
-                "WARNING: Chosen optimization level"
-                " `none` will generally not result"
-                " in valid QIR."
-            )
+    options.extend(["-t", target])
+    options.extend(["-l", opt_level])
+    if opt_level == "none":
+        logger.warning(
+            "WARNING: Chosen optimization level"
+            " `none` will generally not result"
+            " in valid QIR."
+        )
     if validate_hugr:
         options.append("--validate")
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
@@ -128,7 +131,7 @@ def hugr_qir_impl(  # noqa: PLR0913
             msg = f"Found a problem in the generated QIR: {e}"
             raise ValueError(msg) from e
 
-    llvm_write_mode = get_write_mode(output_format, outfile)
+    llvm_write_mode = get_write_mode(output_format)
     qir_out = ir_string_to_output_format(qir, output_format)
 
     if outfile:

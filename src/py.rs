@@ -1,5 +1,6 @@
 use std::{ffi::OsString, iter};
 
+use crate::CompileArgs;
 use crate::cli::{Cli, CliOptimizationLevel};
 use crate::target::CompileTarget;
 use clap::{Parser, ValueEnum};
@@ -33,6 +34,15 @@ pub fn opt_level_choices() -> Vec<String> {
 }
 
 #[pyfunction]
+pub fn opt_level_default() -> String {
+    CompileArgs::default()
+        .opt_level
+        .to_possible_value()
+        .map(|pv| pv.get_name().to_string())
+        .unwrap()
+}
+
+#[pyfunction]
 pub fn compile_target_choices() -> Vec<String> {
     CompileTarget::value_variants()
         .iter()
@@ -40,10 +50,21 @@ pub fn compile_target_choices() -> Vec<String> {
         .collect()
 }
 
+#[pyfunction]
+pub fn compile_target_default() -> String {
+    CompileArgs::default()
+        .target
+        .to_possible_value()
+        .map(|pv| pv.get_name().to_string())
+        .unwrap()
+}
+
 #[pymodule]
 pub fn _hugr_qir(m: &Bound<PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(cli, m)?)?;
     m.add_function(wrap_pyfunction!(opt_level_choices, m)?)?;
+    m.add_function(wrap_pyfunction!(opt_level_default, m)?)?;
     m.add_function(wrap_pyfunction!(compile_target_choices, m)?)?;
+    m.add_function(wrap_pyfunction!(compile_target_default, m)?)?;
     Ok(())
 }

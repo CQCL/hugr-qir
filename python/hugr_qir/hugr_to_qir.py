@@ -3,6 +3,7 @@ from pathlib import Path
 
 from hugr.package import Package
 
+from ._hugr_qir import compile_target_default, opt_level_default
 from .cli import hugr_qir_impl
 from .output import OutputFormat, ir_string_to_output_format
 
@@ -12,8 +13,8 @@ def hugr_to_qir(  # noqa: PLR0913
     *,
     validate_qir: bool = True,
     validate_hugr: bool = False,
-    target: str | None = None,
-    opt_level: str | None = None,
+    target: str = compile_target_default(),
+    opt_level: str = opt_level_default(),
     output_format: OutputFormat = OutputFormat.BASE64,
 ) -> str | bytes:
     """A function for converting hugr to qir (llvm bitcode)
@@ -22,10 +23,10 @@ def hugr_to_qir(  # noqa: PLR0913
     :param validate_qir: Whether to validate the created QIR
     :param validate_hugr: Whether to validate the input hugr before
      and after each internal pass
-    :param target: Compilation target, same options as cli,
-     run hugr-qir --help to see available options
-    :param opt_level: Compilation target, same options as cli,
-     run hugr-qir --help to see available options
+    :param target: LLVM compilation target, same options as cli,
+     run hugr-qir --help to see available options and default
+    :param opt_level: LLVM optimization level, same options as cli,
+     run hugr-qir --help to see available options and default
     :param output_format: Output format, see OutputFormat enum
      for available options
     :returns: QIR corresponding to the HUGR input in format given

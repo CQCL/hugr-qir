@@ -1,6 +1,5 @@
 use std::rc::Rc;
 
-use crate::inkwell::OptimizationLevel;
 use crate::inkwell::passes::PassBuilderOptions;
 use crate::inkwell::values::CallSiteValue;
 use crate::inkwell::values::PointerValue;
@@ -24,6 +23,7 @@ use target::CompileTarget;
 pub mod cli;
 pub mod qir;
 pub mod target;
+use crate::cli::CliOptimizationLevel;
 use itertools::Itertools;
 
 #[cfg(feature = "py")]
@@ -41,7 +41,7 @@ pub struct CompileArgs {
     pub validate: bool,
     pub qsystem_pass: bool,
     pub target: CompileTarget,
-    pub opt_level: OptimizationLevel,
+    pub opt_level: CliOptimizationLevel,
 }
 
 impl Default for CompileArgs {
@@ -52,7 +52,7 @@ impl Default for CompileArgs {
             validate: false,
             qsystem_pass: true,
             target: CompileTarget::QuantinuumHardware,
-            opt_level: OptimizationLevel::Aggressive,
+            opt_level: CliOptimizationLevel::Aggressive,
         }
     }
 }
@@ -120,16 +120,16 @@ impl CompileArgs {
     fn optimize_module_llvm(&self, module: &Module) -> Result<()> {
         self.target.initialise();
 
-        let ctm = self.target.machine(self.opt_level);
+        let ctm = self.target.machine(self.opt_level.into());
 
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
         let opt_str = match self.opt_level {
-            OptimizationLevel::None => "default<O0>",
-            OptimizationLevel::Less => "default<O1>",
-            OptimizationLevel::Default => "default<O2>",
-            OptimizationLevel::Aggressive => "default<O3>",
+            CliOptimizationLevel::None => "default<O0>",
+            CliOptimizationLevel::Less => "default<O1>",
+            CliOptimizationLevel::Default => "default<O2>",
+            CliOptimizationLevel::Aggressive => "default<O3>",
         };
 
         let _ = module.run_passes(opt_str, &ctm, PassBuilderOptions::create());
