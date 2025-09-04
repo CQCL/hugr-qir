@@ -1,6 +1,5 @@
 from base64 import b64encode
 from enum import Enum
-from pathlib import Path
 
 from llvmlite.binding import (  # type: ignore[import-untyped]
     create_context,
@@ -29,12 +28,8 @@ def expected_file_extension(out_format: OutputFormat | str) -> str:
             raise ValueError(msg)
 
 
-def get_write_mode(out_format: OutputFormat | None, file_path: Path | None) -> str:
-    if out_format:
-        if out_format == OutputFormat.BITCODE:
-            return "wb"
-        return "w"
-    if file_path and file_path.suffix == ".bc":
+def get_write_mode(out_format: OutputFormat) -> str:
+    if out_format == OutputFormat.BITCODE:
         return "wb"
     return "w"
 

@@ -143,11 +143,7 @@ impl Cli {
             validate: self.validate,
             qsystem_pass: self.qsystem_pass,
             target: self.target.unwrap_or(default_args.target),
-            opt_level: if let Some(opt_lev) = self.optimization_level {
-                opt_lev.into()
-            } else {
-                default_args.opt_level
-            },
+            opt_level: self.optimization_level.unwrap_or(default_args.opt_level),
         }
     }
 
