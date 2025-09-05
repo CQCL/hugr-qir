@@ -1,0 +1,86 @@
+name: QIR runner
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch: {}
+
+env:
+  SCCACHE_GHA_ENABLED: "true"
+  HUGR_QIR_BIN_DIR: ${{ github.workspace }}/target/debug
+  HUGR_QIR_BIN: ${{ github.workspace }}/target/debug/hugr-qir
+  # Pinned version for the uv package manager
+  UV_VERSION: "0.6.11"
+  UV_FROZEN: 1
+  LLVM_VERSION: "14.0"
+
+jobs:
+
+  build_binary:
+    name: Build HUGR-QIR binary
+    runs-on: ubuntu-latest
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mozilla-actions/sccache-action@v0.0.8
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
+      - name: Build HUGR-QIR binary
+        run: cargo build
+      - name: Upload the binary to the artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: hugr_qir_binary
+          path: target/debug/hugr-qir
+  test:
+    needs: [build_binary]
+    name: test python ${{ matrix.guppy-file }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version:
+          - { py: '3.13'}
+        guppy-file: ['quantum-classical-1', 'quantum-conditional-1', 'quantum-functions-1', 'quantum-loop-1', 'quantum-simple-1', 'quantum-complex-1', 'quantum-conditional-2', 'quantum-functions-2', 'quantum-loop-2', 'quantum-simple-2']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
+
+      - name: Download the hugr-bin binary
+        uses: actions/download-artifact@v4
+        with:
+          name: hugr_qir_binary
+          path: ${{env.HUGR_QIR_BIN_DIR}}
+
+      - name: Setup dependencies
+        run: uv sync --python ${{ matrix.python-version.py }}
+
+      - name: run qir-runner
+        run: |
+          uv run guppy_examples/${{ matrix.guppy-file }}.py > ${{ matrix.guppy-file }}.hugr
+          uv run hugr-qir ./${{ matrix.guppy-file }}.hugr --target native -o ${{ matrix.guppy-file }}.ll
+          cargo install --git https://github.com/CQCL/qir-runner runner
+          qir-runner --file ${{ matrix.guppy-file }}.ll --entrypoint __hugr__.main.1
+
