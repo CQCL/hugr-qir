@@ -62,8 +62,24 @@ jobs:
         with:
           name: hugr_qir_binary
           path: target/debug/hugr-qir
+
+  generate-file-list:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.has-changes == 'true' }}
+    outputs:
+      guppy-files: ${{ steps.set-matrix.outputs.files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Generate guppy example file list
+        id: set-matrix
+        run: |
+          files=$(ls guppy_examples/*.py | xargs -n1 basename | sed 's/\.py$//' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "files=$files" >> $GITHUB_OUTPUT
+
   test:
-    needs: [build_binary, check-changes]
+    needs: [build_binary, check-changes, generate-file-list]
     if: ${{ needs.check-changes.outputs.has-changes == 'true' }}
     name: test python ${{ matrix.guppy-file }}
     runs-on: ubuntu-latest
@@ -72,8 +88,7 @@ jobs:
       matrix:
         python-version:
           - { py: '3.13'}
-        guppy-file: ['quantum-classical-1', 'quantum-conditional-1', 'quantum-functions-1', 'quantum-loop-1', 'quantum-simple-1', 'quantum-complex-1', 'quantum-conditional-2', 'quantum-functions-2', 'quantum-loop-2', 'quantum-simple-2']
-
+        guppy-file: ${{ fromJson(needs.generate-file-list.outputs.guppy-files) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -102,4 +117,4 @@ jobs:
           uv run guppy_examples/${{ matrix.guppy-file }}.py > ${{ matrix.guppy-file }}.hugr
           uv run hugr-qir ./${{ matrix.guppy-file }}.hugr --target native -o ${{ matrix.guppy-file }}.ll
           cargo install --git https://github.com/CQCL/qir-runner runner
-          qir-runner --file ${{ matrix.guppy-file }}.ll --entrypoint __hugr__.main.1
+          qir-runner --file ${{ matrix.guppy-file }}.ll
