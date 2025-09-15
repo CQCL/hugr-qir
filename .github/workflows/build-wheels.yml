@@ -26,7 +26,7 @@ jobs:
       publish-release: ${{ steps.check-tag.outputs.publish_release }}
     steps:
       - uses: actions/checkout@v4
-      - name: Check tag
+      - name: Check need release
         id: check-tag
         run: |
           echo "publish_release=$SHOULD_RELEASE" >> $GITHUB_OUTPUT

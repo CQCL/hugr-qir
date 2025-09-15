@@ -60,8 +60,7 @@ LLVM_SYS_140_PREFIX = '/tmp/llvm'
 [tool.cibuildwheel.linux]
 before-all = [
     'curl -sSf https://sh.rustup.rs | sh -s -- -y',
-    # NOTE: used to be 'dnf install libffi-devel -y',
-    'dnf install https://azure.repo.almalinux.org/9.6/BaseOS/x86_64/os/Packages/libffi-3.4.2-8.el9.x86_64.rpm',
+    'dnf install libffi-devel -y',
     'curl -LO https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang+llvm-14.0.6-x86_64-linux-gnu-rhel-8.4.tar.xz',
     'mkdir -p /tmp/llvm',
     'tar xf clang+llvm-14.0.6-x86_64-linux-gnu-rhel-8.4.tar.xz -C /tmp/llvm --strip-components=1',
