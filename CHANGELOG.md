@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.12
+
+- add conversion of RNG functions
+
 ### v0.0.11
 
 - add options for compilation target and optimization level
