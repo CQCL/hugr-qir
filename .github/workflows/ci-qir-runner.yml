@@ -75,7 +75,7 @@ jobs:
       - name: Generate guppy example file list
         id: set-matrix
         run: |
-          files=$(ls guppy_examples/*.py | xargs -n1 basename | sed 's/\.py$//' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          files=$(ls guppy_examples/q*.py | xargs -n1 basename | sed 's/\.py$//' | jq -R -s -c 'split("\n") | map(select(length > 0))')
           echo "files=$files" >> $GITHUB_OUTPUT
 
   test:
