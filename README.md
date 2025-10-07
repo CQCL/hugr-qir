@@ -40,7 +40,7 @@ if __name__ == "__main__":
 
 2. Generate the hugr file with:
 ```
-python guppy_examples/quantum-classical-1.py > test-guppy.hugr
+python guppy_examples/general/quantum-classical-1.py > test-guppy.hugr
 ```
 
 
