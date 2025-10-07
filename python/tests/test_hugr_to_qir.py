@@ -13,7 +13,11 @@ from llvmlite.binding import (  # type: ignore
 )
 from pytest_snapshot.plugin import Snapshot  # type: ignore
 
-from .conftest import GUPPY_EXAMPLES_DIR, guppy_files, guppy_to_hugr_binary
+from .conftest import (
+    GUPPY_EXAMPLES_DIR_RUNNABLE,
+    guppy_files,
+    guppy_to_hugr_binary,
+)
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
 GUPPY_EXAMPLES_XFAIL: list[str] = []
@@ -96,7 +100,7 @@ def test_guppy_files_options(
     snapshot: Snapshot, target: str, opt_level: str, out_format: str
 ) -> None:
     snapshot.snapshot_dir = SNAPSHOT_DIR
-    guppy_file = Path(GUPPY_EXAMPLES_DIR) / Path("quantum-conditional-2.py")
+    guppy_file = Path(GUPPY_EXAMPLES_DIR_RUNNABLE) / Path("quantum-conditional-2.py")
     hugr = guppy_to_hugr_binary(guppy_file)
     qir = hugr_to_qir(
         hugr,
