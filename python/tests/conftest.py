@@ -8,7 +8,9 @@ from click.testing import CliRunner
 from hugr_qir.cli import hugr_qir
 
 GUPPY_EXAMPLES_DIR_RUNNABLE = Path(__file__).parent / "../../guppy_examples/runnable"
-GUPPY_EXAMPLES_DIR_UNRUNNABLE = Path(__file__).parent / "../../guppy_examples/unrunnable"
+GUPPY_EXAMPLES_DIR_UNRUNNABLE = (
+    Path(__file__).parent / "../../guppy_examples/unrunnable"
+)
 
 
 def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
