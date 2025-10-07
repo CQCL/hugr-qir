@@ -6,7 +6,7 @@ from hugr_qir.output import OutputFormat, expected_file_extension
 from pytest_snapshot.plugin import Snapshot  # type: ignore
 
 from .conftest import (
-    GUPPY_EXAMPLES_DIR_RUNNABLE,
+    GUPPY_EXAMPLES_DIR_GENERAL,
     cli_on_guppy,
     guppy_files,
 )
@@ -65,7 +65,7 @@ def test_guppy_files_options(
     tmp_path: Path, snapshot: Snapshot, target: str, opt_level: str, out_format: str
 ) -> None:
     snapshot.snapshot_dir = SNAPSHOT_DIR
-    guppy_file = Path(GUPPY_EXAMPLES_DIR_RUNNABLE) / Path("quantum-conditional-2.py")
+    guppy_file = Path(GUPPY_EXAMPLES_DIR_GENERAL) / Path("quantum-conditional-2.py")
     out_file = tmp_path / "out.ll"
     extra_args = ["-t", target, "-l", opt_level, "-f", out_format]
     if opt_level == "none":

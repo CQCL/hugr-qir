@@ -7,9 +7,9 @@ from typing import IO
 from click.testing import CliRunner
 from hugr_qir.cli import hugr_qir
 
-GUPPY_EXAMPLES_DIR_RUNNABLE = Path(__file__).parent / "../../guppy_examples/runnable"
-GUPPY_EXAMPLES_DIR_UNRUNNABLE = (
-    Path(__file__).parent / "../../guppy_examples/unrunnable"
+GUPPY_EXAMPLES_DIR_GENERAL = Path(__file__).parent / "../../guppy_examples/general"
+GUPPY_EXAMPLES_DIR_QHO = (
+    Path(__file__).parent / "../../guppy_examples/quantinuum-hardware-only"
 )
 
 
@@ -37,8 +37,8 @@ def guppy_to_hugr_binary(guppy_file: Path) -> bytes:
 
 
 def get_guppy_files() -> list[Path]:
-    guppy_dir_runable = Path(GUPPY_EXAMPLES_DIR_RUNNABLE)
-    guppy_dir_unrunable = Path(GUPPY_EXAMPLES_DIR_UNRUNNABLE)
+    guppy_dir_runable = Path(GUPPY_EXAMPLES_DIR_GENERAL)
+    guppy_dir_unrunable = Path(GUPPY_EXAMPLES_DIR_QHO)
 
     return list(guppy_dir_runable.glob("*.py")) + list(guppy_dir_unrunable.glob("*.py"))
 
