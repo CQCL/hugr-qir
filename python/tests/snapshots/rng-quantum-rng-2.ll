@@ -9,7 +9,7 @@ target triple = "aarch64-unknown-linux-gnu"
 @0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 @1 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 
-define void @__hugr__.main.1() local_unnamed_addr #0 {
+define dso_local void @__hugr__.main.1() local_unnamed_addr #0 {
 alloca_block:
   tail call void @___random_seed(i64 11)
   %rintb = tail call i32 @___random_int_bounded(i32 100)
