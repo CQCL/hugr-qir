@@ -8,7 +8,7 @@ source_filename = "test_context"
 %Qubit = type opaque
 %Result = type opaque
 
-define { %Qubit*, { i1, i1 } } @_hl.main.1(%Qubit* %0) {
+define private { %Qubit*, { i1, i1 } } @_hl.main.1(%Qubit* %0) {
 alloca_block:
   %"0" = alloca %Qubit*, align 8
   %"1" = alloca { i1, i1 }, align 8

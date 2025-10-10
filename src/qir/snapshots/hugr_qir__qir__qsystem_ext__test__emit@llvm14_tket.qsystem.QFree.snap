@@ -7,7 +7,7 @@ source_filename = "test_context"
 
 %Qubit = type opaque
 
-define void @_hl.main.1(%Qubit* %0) {
+define private void @_hl.main.1(%Qubit* %0) {
 alloca_block:
   br label %entry_block
 

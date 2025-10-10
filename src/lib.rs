@@ -16,7 +16,7 @@ use hugr::llvm::{CodegenExtsBuilder, inkwell};
 use hugr::{Hugr, Node};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
-use inkwell::module::Module;
+use inkwell::module::{Linkage, Module};
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 use target::CompileTarget;
@@ -149,6 +149,10 @@ impl CompileArgs {
         let result_count: u64 = replace_int_opque_pointer(&module, "__QIR__CONV_Qubit_TO_Result");
 
         add_module_metadata(&namer, hugr, &module, qubit_count, result_count)?;
+
+        // This is a workaround to an issue in hugr-llvm: https://github.com/CQCL/hugr/issues/2615
+        // Can be removed when that issue is resolved
+        set_explicit_entrypoint_linkage(&namer, hugr, &module)?;
 
         Ok(module)
     }
@@ -346,6 +350,24 @@ pub fn add_module_metadata(
         .add_global_metadata("llvm.module.flags", &md_node_3)
         .unwrap();
 
+    Ok(())
+}
+
+pub fn set_explicit_entrypoint_linkage(
+    namer: &Namer,
+    hugr: &impl HugrView<Node = Node>,
+    module: &Module,
+) -> Result<()> {
+    let entrypoint_name = find_entry_point_name(hugr)?;
+    let entry_func_name = namer.name_func(entrypoint_name.1, entrypoint_name.0);
+    let fn_value = module.get_function(&entry_func_name);
+    if Option::is_none(&fn_value) {
+        return Err(anyhow!(
+            "expected main function: \"{}\" not found in HUGR",
+            entry_func_name
+        ));
+    }
+    fn_value.unwrap().set_linkage(Linkage::External);
     Ok(())
 }
 

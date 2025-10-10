@@ -11,7 +11,7 @@ target triple = "aarch64-unknown-linux-gnu"
 @2 = private unnamed_addr constant [2 x i8] c"a\00", align 1
 @3 = private unnamed_addr constant [2 x i8] c"b\00", align 1
 
-define void @__hugr__.main.1() #0 {
+define dso_local void @__hugr__.main.1() #0 {
 alloca_block:
   %"20_0" = alloca { i1, i1 }, align 8
   %"20_1" = alloca %Qubit*, align 8
