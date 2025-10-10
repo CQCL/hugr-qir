@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.13
+
+- update dependency version requirements
+
 ### v0.0.12
 
 - add conversion of RNG functions
