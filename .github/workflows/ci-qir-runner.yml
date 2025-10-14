@@ -104,7 +104,7 @@ jobs:
           version: ${{ env.LLVM_VERSION }}
 
       - name: Download the hugr-bin binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: hugr_qir_binary
           path: ${{env.HUGR_QIR_BIN_DIR}}
