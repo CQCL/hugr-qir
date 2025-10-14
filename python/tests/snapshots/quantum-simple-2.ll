@@ -9,7 +9,7 @@ target triple = "aarch64-unknown-linux-gnu"
 @0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 @1 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 
-define void @__hugr__.main.1() local_unnamed_addr #0 {
+define dso_local void @__hugr__.main.1() local_unnamed_addr #0 {
 alloca_block:
   tail call void @__quantum__qis__mz__body(%Qubit* null, %Result* null)
   %0 = tail call i1 @__quantum__qis__read_result__body(%Result* null)

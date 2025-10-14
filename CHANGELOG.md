@@ -1,5 +1,10 @@
 ## Changelog
 
+### v0.0.13
+
+- update guppylang version requirement 0.21.5
+- update dependency version requirements
+
 ### v0.0.12
 
 - add conversion of RNG functions

@@ -9,7 +9,7 @@ target triple = "aarch64-unknown-linux-gnu"
 @0 = private unnamed_addr constant [2 x i8] c"0\00", align 1
 @1 = private unnamed_addr constant [2 x i8] c"1\00", align 1
 
-define void @__hugr__.main.1() local_unnamed_addr #0 {
+define dso_local void @__hugr__.main.1() local_unnamed_addr #0 {
 alloca_block:
   tail call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
   tail call void @__quantum__qis__rz__body(double 0x400921FB54442D18, %Qubit* null)
@@ -23,11 +23,9 @@ alloca_block:
   tail call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* null)
   tail call void @__quantum__qis__phasedx__body(double 0x3FF921FB54442D18, double 0x400921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
   tail call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
-  tail call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0x3FF921FB54442D18, %Qubit* null)
   tail call void @__quantum__qis__rzz__body(double 0x3FF921FB54442D18, %Qubit* null, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
-  tail call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
-  tail call void @__quantum__qis__phasedx__body(double 0x400921FB54442D18, double 0xBFF921FB54442D18, %Qubit* null)
-  tail call void @__quantum__qis__rz__body(double 0x3FF921FB54442D18, %Qubit* null)
+  tail call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* null)
+  tail call void @__quantum__qis__rz__body(double 0xBFF921FB54442D18, %Qubit* nonnull inttoptr (i64 1 to %Qubit*))
   tail call void @__quantum__qis__phasedx__body(double 0x4012D97C7F3321D2, double 0.000000e+00, %Qubit* null)
   tail call void @__quantum__qis__phasedx__body(double 0x4012D97C7F3321D2, double 0x3FF921FB54442D18, %Qubit* null)
   tail call void @__quantum__qis__rz__body(double 0x4012D97C7F3321D2, %Qubit* null)
