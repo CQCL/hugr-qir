@@ -1,6 +1,6 @@
 ## Changelog
 
-### v0.0.13
+### v0.0.14
 
 - update guppylang version requirement 0.21.5
 - update dependency version requirements
