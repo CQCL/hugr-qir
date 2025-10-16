@@ -8,7 +8,7 @@ dependencies = [
     "click~=8.3.0",
     "quantinuum-qircheck~=0.4.0",
     "llvmlite~=0.45.1",
-    "hugr~=0.13.1",
+    "hugr>=0.13.1,<0.15.0",
     "guppylang~=0.21.5"
 ]
 
