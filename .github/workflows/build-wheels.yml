@@ -80,7 +80,7 @@ jobs:
     needs: [build_wheels, sdist, job-logic]
     if: ${{ needs.job-logic.outputs.publish-release == 'true'}}
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
       - name: Publish to PyPI
         uses: PyO3/maturin-action@v1
         env:
