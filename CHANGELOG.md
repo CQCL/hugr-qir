@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.15
+
+- update hugr version requirement 0.14.0
+
 ### v0.0.14
 
 - update guppylang version requirement 0.21.5
