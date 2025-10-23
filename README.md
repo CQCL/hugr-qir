@@ -5,7 +5,7 @@
 
 A tool for converting Hierarchical Unified Graph Representation (HUGR, pronounced _hugger_) formatted quantum programs into [QIR](https://github.com/qir-alliance/qir-spec) format.
 
-Warning: Not all hugr/guppy programs can be converted to QIR
+Warning: Not all hugr/guppy programs can be converted to QIR.
 
 ## Installation
 
@@ -32,10 +32,12 @@ hugr-qir test-file.hugr
 Run `hugr-qir --help` to see the available options.
 
 If you want to generate a hugr file from guppy, you can do this in two steps:
-1. add this to the end of your guppy file:
+1. Add this to the end of your guppy file:
 ```
 if __name__ == "__main__":
-    sys.stdout.buffer.write(guppy.compile(main).package.to_bytes())
+    sys.stdout.buffer.write(main.compile().to_bytes())
+    # Or to compile a non-main guppy function:
+    sys.stdout.buffer.write(guppy_func.compile_function().to_bytes())
 ```
 
 2. Generate the hugr file with:
