@@ -99,8 +99,8 @@ alloca_block:
   %"133_0" = alloca %Qubit*, align 8
   %"135_0" = alloca i1, align 1
   %"136_0" = alloca { i1, i1 }, align 8
-  %"67_0" = alloca { i1, i1 }, align 8
-  %"67_1" = alloca { i1, i1 }, align 8
+  %"64_0" = alloca { i1, i1 }, align 8
+  %"64_1" = alloca { i1, i1 }, align 8
   %"090" = alloca { i1, i1 }, align 8
   %"191" = alloca { i1, i1 }, align 8
   %"094" = alloca i1, align 1
@@ -236,12 +236,12 @@ entry_block:                                      ; preds = %alloca_block
 11:                                               ; preds = %6
   %12 = extractvalue { i1, i1 } %"24_089", 1
   store i1 %12, i1* %"094", align 1
-  br label %cond_67_case_0
+  br label %cond_64_case_0
 
 13:                                               ; preds = %6
   %14 = extractvalue { i1, i1 } %"24_089", 1
   store i1 %14, i1* %"0100", align 1
-  br label %cond_67_case_1
+  br label %cond_64_case_1
 
 15:                                               ; preds = %65
   %"36_0148" = load { i1, i1 }, { i1, i1 }* %"36_0", align 1
@@ -622,7 +622,7 @@ cond_exit_125:                                    ; preds = %cond_125_case_1, %c
   store %Qubit* %"11_175", %Qubit** %"20_1", align 8
   br label %6
 
-cond_67_case_0:                                   ; preds = %11
+cond_64_case_0:                                   ; preds = %11
   %"095" = load i1, i1* %"094", align 1
   store i1 %"095", i1* %"138_0", align 1
   %"138_096" = load i1, i1* %"138_0", align 1
@@ -635,9 +635,9 @@ cond_67_case_0:                                   ; preds = %11
   %"141_099" = load { i1, i1 }, { i1, i1 }* %"141_0", align 1
   store { i1, i1 } %"140_098", { i1, i1 }* %"090", align 1
   store { i1, i1 } %"141_099", { i1, i1 }* %"191", align 1
-  br label %cond_exit_67
+  br label %cond_exit_64
 
-cond_67_case_1:                                   ; preds = %13
+cond_64_case_1:                                   ; preds = %13
   %"0101" = load i1, i1* %"0100", align 1
   store i1 %"0101", i1* %"143_0", align 1
   %"143_0102" = load i1, i1* %"143_0", align 1
@@ -659,27 +659,27 @@ cond_67_case_1:                                   ; preds = %13
   %"147_0109" = load { i1, i1 }, { i1, i1 }* %"147_0", align 1
   store { i1, i1 } %"146_0108", { i1, i1 }* %"090", align 1
   store { i1, i1 } %"147_0109", { i1, i1 }* %"191", align 1
-  br label %cond_exit_67
+  br label %cond_exit_64
 
-cond_exit_67:                                     ; preds = %cond_67_case_1, %cond_67_case_0
+cond_exit_64:                                     ; preds = %cond_64_case_1, %cond_64_case_0
   %"092" = load { i1, i1 }, { i1, i1 }* %"090", align 1
   %"193" = load { i1, i1 }, { i1, i1 }* %"191", align 1
-  store { i1, i1 } %"092", { i1, i1 }* %"67_0", align 1
-  store { i1, i1 } %"193", { i1, i1 }* %"67_1", align 1
-  %"67_0110" = load { i1, i1 }, { i1, i1 }* %"67_0", align 1
-  store { i1, i1 } %"67_0110", { i1, i1 }* %"152_0", align 1
+  store { i1, i1 } %"092", { i1, i1 }* %"64_0", align 1
+  store { i1, i1 } %"193", { i1, i1 }* %"64_1", align 1
+  %"64_0110" = load { i1, i1 }, { i1, i1 }* %"64_0", align 1
+  store { i1, i1 } %"64_0110", { i1, i1 }* %"152_0", align 1
   %"152_0111" = load { i1, i1 }, { i1, i1 }* %"152_0", align 1
   %71 = extractvalue { i1, i1 } %"152_0111", 0
   switch i1 %71, label %72 [
     i1 true, label %74
   ]
 
-72:                                               ; preds = %cond_exit_67
+72:                                               ; preds = %cond_exit_64
   %73 = extractvalue { i1, i1 } %"152_0111", 1
   store i1 %73, i1* %"0114", align 1
   br label %cond_154_case_0
 
-74:                                               ; preds = %cond_exit_67
+74:                                               ; preds = %cond_exit_64
   %75 = extractvalue { i1, i1 } %"152_0111", 1
   store i1 %75, i1* %"0117", align 1
   br label %cond_154_case_1
@@ -708,19 +708,19 @@ cond_exit_154:                                    ; preds = %cond_154_case_1, %c
   store i1 %"154_0121", i1* %"25_0", align 1
   %"25_0122" = load i1, i1* %"25_0", align 1
   %"20_0123" = load { i1, i1 }, { i1, i1 }* %"20_0", align 1
-  %"67_1124" = load { i1, i1 }, { i1, i1 }* %"67_1", align 1
+  %"64_1124" = load { i1, i1 }, { i1, i1 }* %"64_1", align 1
   switch i1 %"25_0122", label %77 [
     i1 true, label %78
   ]
 
 77:                                               ; preds = %cond_exit_154
   store { i1, i1 } %"20_0123", { i1, i1 }* %"0127", align 1
-  store { i1, i1 } %"67_1124", { i1, i1 }* %"1128", align 1
+  store { i1, i1 } %"64_1124", { i1, i1 }* %"1128", align 1
   br label %cond_26_case_0
 
 78:                                               ; preds = %cond_exit_154
   store { i1, i1 } %"20_0123", { i1, i1 }* %"0134", align 1
-  store { i1, i1 } %"67_1124", { i1, i1 }* %"1135", align 1
+  store { i1, i1 } %"64_1124", { i1, i1 }* %"1135", align 1
   br label %cond_26_case_1
 
 cond_26_case_0:                                   ; preds = %77
