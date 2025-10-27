@@ -873,9 +873,9 @@ version = "0.22.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9b0f6da51aacb075c0ca32175d5e94d1faac26a65e724a709e9dda140f5cf6d8"
 dependencies = [
- "hugr-core",
+ "hugr-core 0.22.4",
  "hugr-llvm",
- "hugr-model",
+ "hugr-model 0.22.4",
  "hugr-passes",
 ]
 
@@ -911,7 +911,7 @@ dependencies = [
  "enum_dispatch",
  "fxhash",
  "html-escape",
- "hugr-model",
+ "hugr-model 0.22.4",
  "indexmap 2.12.0",
  "itertools 0.14.0",
  "lazy_static",
@@ -920,7 +920,7 @@ dependencies = [
  "petgraph 0.8.3",
  "portgraph",
  "regex",
- "relrc",
+ "relrc 0.4.6",
  "semver",
  "serde",
  "serde_json",
@@ -936,6 +936,42 @@ dependencies = [
 ]
 
 [[package]]
+name = "hugr-core"
+version = "0.24.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "efc6c5f22af59ae50b7c2b64e9fc56934459465e1ccc669ac609a72f8d7da86f"
+dependencies = [
+ "base64",
+ "cgmath",
+ "delegate",
+ "derive_more 1.0.0",
+ "downcast-rs",
+ "enum_dispatch",
+ "html-escape",
+ "hugr-model 0.24.0",
+ "indexmap 2.12.0",
+ "itertools 0.14.0",
+ "ordered-float",
+ "pastey",
+ "petgraph 0.8.3",
+ "portgraph",
+ "regex",
+ "relrc 0.5.0",
+ "rustc-hash",
+ "semver",
+ "serde",
+ "serde_json",
+ "serde_with",
+ "smallvec",
+ "smol_str",
+ "static_assertions",
+ "strum",
+ "thiserror 2.0.17",
+ "tracing",
+ "typetag",
+]
+
+[[package]]
 name = "hugr-llvm"
 version = "0.22.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -944,7 +980,7 @@ dependencies = [
  "anyhow",
  "delegate",
  "derive_more 1.0.0",
- "hugr-core",
+ "hugr-core 0.22.4",
  "inkwell",
  "insta",
  "itertools 0.14.0",
@@ -978,6 +1014,28 @@ dependencies = [
 ]
 
 [[package]]
+name = "hugr-model"
+version = "0.24.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e05fe4f7bae5caa2265d99f8722f87799c181cac86197235e96d19e6520540c0"
+dependencies = [
+ "base64",
+ "bumpalo",
+ "capnp",
+ "derive_more 1.0.0",
+ "indexmap 2.12.0",
+ "itertools 0.14.0",
+ "ordered-float",
+ "pest",
+ "pest_derive",
+ "pretty",
+ "rustc-hash",
+ "semver",
+ "smol_str",
+ "thiserror 2.0.17",
+]
+
+[[package]]
 name = "hugr-passes"
 version = "0.22.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -985,7 +1043,7 @@ checksum = "6cd0bb069bc068ac4f705c23767477feb29b108d33ae1846c14823eaf2f1851b"
 dependencies = [
  "ascent",
  "derive_more 1.0.0",
- "hugr-core",
+ "hugr-core 0.22.4",
  "itertools 0.14.0",
  "lazy_static",
  "paste",
@@ -1005,7 +1063,7 @@ dependencies = [
  "clio",
  "hugr",
  "hugr-cli",
- "hugr-core",
+ "hugr-core 0.24.0",
  "hugr-llvm",
  "inkwell",
  "insta",
@@ -1353,6 +1411,12 @@ name = "paste"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
+
+[[package]]
+name = "pastey"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "35fb2e5f958ec131621fdd531e9fc186ed768cbe395337403ae56c17a74c68ec"
 
 [[package]]
 name = "pest"
@@ -1707,6 +1771,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "relrc"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f7c9d6253f1c4c3606b530b88ba15cd6803d4104ccd4d34173397ce49fe0b867"
+dependencies = [
+ "derive-where",
+ "derive_more 0.99.20",
+ "fxhash",
+ "itertools 0.13.0",
+ "petgraph 0.8.3",
+ "serde",
+ "slotmap_fork_lmondada",
+ "thiserror 1.0.69",
+]
+
+[[package]]
 name = "rstest"
 version = "0.24.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1967,6 +2047,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a2ae44ef20feb57a68b23d846850f861394c2e02dc425a50098ae8c90267589"
 
 [[package]]
+name = "slotmap_fork_lmondada"
+version = "1.0.8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "936d3c60e7b845c8978d64485cffa451156294a772ebfafc0ea5fbd7a3c58669"
+dependencies = [
+ "serde",
+ "version_check",
+]
+
+[[package]]
 name = "smallvec"
 version = "1.15.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2146,7 +2236,7 @@ dependencies = [
  "derive_more 2.0.1",
  "fxhash",
  "hugr",
- "hugr-core",
+ "hugr-core 0.22.4",
  "indexmap 2.12.0",
  "itertools 0.14.0",
  "lazy_static",
