@@ -98,7 +98,7 @@ jobs:
       - name: Build HUGR-QIR binary
         run: cargo build
       - name: Upload the binary to the artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hugr_qir_binary
           path: target/debug/hugr-qir
@@ -128,7 +128,7 @@ jobs:
           version: ${{ env.LLVM_VERSION }}
 
       - name: Download the hugr-bin binary
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: hugr_qir_binary
           path: ${{env.HUGR_QIR_BIN_DIR}}
