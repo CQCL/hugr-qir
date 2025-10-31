@@ -121,9 +121,9 @@ def hugr_qir_impl(  # noqa: PLR0913
         tmp_outfile_name = f"{tmp_dir}/tmp.ll"  # noqa: S108
         tmp_outfile_path = Path(tmp_outfile_name)
         tmp_options = [*options, "-o", tmp_outfile_name]
-        failedqirmsg = "QIR generation failed. This may be the result of a bug but can also \
-         happen when trying to convert a feature in HUGR/Guppylang which is not \
-         supported in QIR."
+        failedqirmsg = "QIR generation failed. This may be the result of a bug \
+         but can also happen when trying to convert a feature in HUGR/Guppylang \
+         which is not supported in QIR."
         try:
             cli(str(hugr_file), *tmp_options)
         except RuntimeError as e:
