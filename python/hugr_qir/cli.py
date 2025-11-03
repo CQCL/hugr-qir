@@ -139,9 +139,9 @@ def hugr_qir_impl(  # noqa: PLR0913
         try:
             qircheck(qir)
         except ValidationError as e:
-            msg = f"{failedqirmsg} The failur occured in the validity eheck of the \
-            generated QIR. If you want to, you can disable this check by setting \
-            the parameter `validate_qir=False`. Details on the error are: {e}"
+            msg = f"{failedqirmsg} The failure occurred in the validity check of the \
+            generated QIR. This check can be disabled by setting `--no-validate-qir`\
+            on the cli or passing `validate_qir=False` for library calls. Error details: {e}"
             raise ValueError(msg) from e
 
     llvm_write_mode = get_write_mode(output_format)
