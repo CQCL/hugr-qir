@@ -127,7 +127,7 @@ def hugr_qir_impl(  # noqa: PLR0913
         try:
             cli(str(hugr_file), *tmp_options)
         except RuntimeError as e:
-            msg = f"{failedqirmsg} Details on the error are: {e}"
+            msg = f"{failedqirmsg} Error details: {e}"
             raise ValueError(msg) from e
         try:
             with Path.open(tmp_outfile_path) as output:
