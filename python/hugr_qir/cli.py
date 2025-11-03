@@ -133,7 +133,7 @@ def hugr_qir_impl(  # noqa: PLR0913
             with Path.open(tmp_outfile_path) as output:
                 qir = output.read()
         except FileNotFoundError as e:
-            msg = f"{failedqirmsg} Details on the error are: {e}"
+            msg = f"{failedqirmsg} Error details: {e}"
             raise ValueError(msg) from e
     if validate_qir:
         try:
@@ -141,7 +141,8 @@ def hugr_qir_impl(  # noqa: PLR0913
         except ValidationError as e:
             msg = f"{failedqirmsg} The failure occurred in the validity check of the \
             generated QIR. This check can be disabled by setting `--no-validate-qir`\
-            on the cli or passing `validate_qir=False` for library calls. Error details: {e}"
+            on the cli or passing `validate_qir=False` for library calls. Error \
+            details: {e}"
             raise ValueError(msg) from e
 
     llvm_write_mode = get_write_mode(output_format)
