@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import os
 from pathlib import Path
 
 import pytest
@@ -22,6 +23,8 @@ from .conftest import (
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
 GUPPY_EXAMPLES_XFAIL: list[str] = []
 
+skip_guppy_tests: bool = os.getenv("SKIP_GUPPY_CHECKS") is not None
+
 guppy_files_xpass = [
     guppy_file
     for guppy_file in guppy_files
@@ -33,6 +36,7 @@ guppy_files_xfail = [
 ]
 
 
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file",
     guppy_files_xpass,
@@ -43,6 +47,7 @@ def test_guppy_files(guppy_file: Path) -> None:
     hugr_to_qir(hugr)
 
 
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file",
     guppy_files_xfail,
@@ -54,6 +59,7 @@ def test_guppy_files_xfail(guppy_file: Path) -> None:
         hugr_to_qir(hugr)
 
 
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files]
 )
@@ -87,6 +93,7 @@ def test_bitcode_and_assembly_output_match(guppy_file: Path) -> None:
     assert hashes[0] == hashes[1]
 
 
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     ("target", "opt_level", "out_format"),
     [

@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import pytest
@@ -15,7 +16,10 @@ SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
 
 guppy_files_xpass = list(guppy_files)
 
+skip_guppy_tests: bool = os.getenv("SKIP_GUPPY_CHECKS") is not None
 
+
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file",
     guppy_files_xpass,
@@ -31,6 +35,7 @@ def test_guppy_files(tmp_path: Path, guppy_file: Path) -> None:
     )
 
 
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files]
 )
@@ -52,6 +57,7 @@ def test_guppy_file_snapshots(
     snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
 
 
+@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     ("target", "opt_level", "out_format"),
     [
