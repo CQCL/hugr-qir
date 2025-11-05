@@ -15,7 +15,11 @@ GUPPY_EXAMPLES_DIR_QHO = (
 # Within the cibuildwheels environments, ssa variable names tend to be slightly
 # different, so verbatim snapshot tests do not pass. So we just test
 # that generation works for the wheel builds
-skip_snapshot_checks = os.getenv("CIBUILDWHEEL") == 1
+skip_snapshot_checks = os.getenv("CIBUILDWHEEL") == "1"
+
+print(
+    "WARNING: Detected tests running on cibuildwheel, so skipping all snapshot checks"
+)
 
 
 def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
