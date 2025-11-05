@@ -48,13 +48,9 @@ jobs:
       fail-fast: false
 
     steps:
-      - name: Set env
-        run: echo "SKIP_GUPPY_CHECKS=1" >> $GITHUB_ENV
       - uses: actions/checkout@v5
 
       - name: Build wheels
-        env:
-          SKIP_GUPPY_CHECKS=1
         uses: pypa/cibuildwheel@v3.2.1
 
       - uses: actions/upload-artifact@v5

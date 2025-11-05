@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import pytest
@@ -10,16 +9,14 @@ from .conftest import (
     GUPPY_EXAMPLES_DIR_GENERAL,
     cli_on_guppy,
     guppy_files,
+    skip_snapshot_checks,
 )
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
 
 guppy_files_xpass = list(guppy_files)
 
-skip_guppy_tests: bool = os.getenv("SKIP_GUPPY_CHECKS") is not None
 
-
-@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file",
     guppy_files_xpass,
@@ -35,7 +32,6 @@ def test_guppy_files(tmp_path: Path, guppy_file: Path) -> None:
     )
 
 
-@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     "guppy_file", guppy_files, ids=[str(file_path.stem) for file_path in guppy_files]
 )
@@ -54,10 +50,10 @@ def test_guppy_file_snapshots(
     )
     with Path.open(out_file) as f:
         qir = f.read()
-    snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
+    if not skip_snapshot_checks:
+        snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
 
 
-@pytest.mark.skipif(skip_guppy_tests, reason="Skip test when building wheels")
 @pytest.mark.parametrize(
     ("target", "opt_level", "out_format"),
     [
@@ -82,7 +78,7 @@ def test_guppy_files_options(
     with Path.open(out_file, mode=file_read_mode) as f:
         qir = f.read()
     # don't test snapshots for 'native' since output is machine-dependent
-    if target != "native":
+    if target != "native" and not skip_snapshot_checks:
         snapshot_filename = guppy_file.stem + "_" + target + "_" + opt_level
         snapshot.assert_match(
             qir, str(Path(snapshot_filename).with_suffix(file_suffix))
