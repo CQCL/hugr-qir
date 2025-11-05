@@ -121,14 +121,28 @@ def hugr_qir_impl(  # noqa: PLR0913
         tmp_outfile_name = f"{tmp_dir}/tmp.ll"  # noqa: S108
         tmp_outfile_path = Path(tmp_outfile_name)
         tmp_options = [*options, "-o", tmp_outfile_name]
-        cli(str(hugr_file), *tmp_options)
-        with Path.open(tmp_outfile_path) as output:
-            qir = output.read()
+        failedqirmsg = "QIR generation failed. This may be the result of a bug \
+         but can also happen when trying to convert a feature in HUGR/Guppylang \
+         which is not supported in QIR."
+        try:
+            cli(str(hugr_file), *tmp_options)
+        except RuntimeError as e:
+            msg = f"{failedqirmsg} Error details: {e}"
+            raise ValueError(msg) from e
+        try:
+            with Path.open(tmp_outfile_path) as output:
+                qir = output.read()
+        except FileNotFoundError as e:
+            msg = f"{failedqirmsg} Error details: {e}"
+            raise ValueError(msg) from e
     if validate_qir:
         try:
             qircheck(qir)
         except ValidationError as e:
-            msg = f"Found a problem in the generated QIR: {e}"
+            msg = f"{failedqirmsg} The failure occurred in the validity check of the \
+            generated QIR. This check can be disabled by setting `--no-validate-qir`\
+            on the cli or passing `validate_qir=False` for library calls. Error \
+            details: {e}"
             raise ValueError(msg) from e
 
     llvm_write_mode = get_write_mode(output_format)

@@ -9,6 +9,7 @@ from .conftest import (
     GUPPY_EXAMPLES_DIR_GENERAL,
     cli_on_guppy,
     guppy_files,
+    skip_snapshot_checks,
 )
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
@@ -49,7 +50,8 @@ def test_guppy_file_snapshots(
     )
     with Path.open(out_file) as f:
         qir = f.read()
-    snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
+    if not skip_snapshot_checks:
+        snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
 
 
 @pytest.mark.parametrize(
@@ -76,7 +78,7 @@ def test_guppy_files_options(
     with Path.open(out_file, mode=file_read_mode) as f:
         qir = f.read()
     # don't test snapshots for 'native' since output is machine-dependent
-    if target != "native":
+    if target != "native" and not skip_snapshot_checks:
         snapshot_filename = guppy_file.stem + "_" + target + "_" + opt_level
         snapshot.assert_match(
             qir, str(Path(snapshot_filename).with_suffix(file_suffix))

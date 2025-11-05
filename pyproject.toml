@@ -1,6 +1,6 @@
 [project]
 name = "hugr-qir"
-version = "0.0.15"
+version = "0.0.16"
 description = "Quantinuum's tool for converting HUGR to QIR"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -52,7 +52,7 @@ skip = "*-win32 *-manylinux_i686 *-musllinux*"
 manylinux-x86_64-image = "manylinux_2_34"
 test-groups = ["dev"]
 test-sources = ["python/tests", "guppy_examples"]
-test-command = "pytest python/tests -k test_guppy_files"
+test-command = "pytest python/tests"
 
 [tool.cibuildwheel.linux.environment]
 PATH = '$HOME/.cargo/bin:/tmp/llvm/bin:$PATH'

@@ -17,6 +17,7 @@ from .conftest import (
     GUPPY_EXAMPLES_DIR_GENERAL,
     guppy_files,
     guppy_to_hugr_binary,
+    skip_snapshot_checks,
 )
 
 SNAPSHOT_DIR = Path(__file__).parent / "snapshots"
@@ -61,7 +62,8 @@ def test_guppy_file_snapshots(guppy_file: Path, snapshot: Snapshot) -> None:
     snapshot.snapshot_dir = SNAPSHOT_DIR
     hugr = guppy_to_hugr_binary(guppy_file)
     qir = hugr_to_qir(hugr, validate_qir=False, output_format=OutputFormat.LLVM_IR)
-    snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
+    if not skip_snapshot_checks:
+        snapshot.assert_match(qir, str(Path(guppy_file.stem).with_suffix(".ll")))
 
 
 @pytest.mark.parametrize(
@@ -110,7 +112,7 @@ def test_guppy_files_options(
         output_format=OutputFormat(out_format),
     )
     # don't test snapshots for 'native' since output is machine-dependent
-    if target != "native":
+    if target != "native" and not skip_snapshot_checks:
         file_suffix = expected_file_extension(out_format)
         snapshot_filename = guppy_file.stem + "_" + target + "_" + opt_level
         snapshot.assert_match(

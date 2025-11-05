@@ -1,9 +1,11 @@
+import os
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 from typing import IO
 
+import pytest
 from click.testing import CliRunner
 from hugr_qir.cli import hugr_qir
 
@@ -11,6 +13,21 @@ GUPPY_EXAMPLES_DIR_GENERAL = Path(__file__).parent / "../../guppy_examples/gener
 GUPPY_EXAMPLES_DIR_QHO = (
     Path(__file__).parent / "../../guppy_examples/quantinuum-hardware-only"
 )
+# Within the cibuildwheels environments, ssa variable names tend to be slightly
+# different, so verbatim snapshot tests do not pass. So we just test
+# that generation works for the wheel builds
+skip_snapshot_checks = os.getenv("CIBUILDWHEEL") == "1"
+
+
+def pytest_configure(config: pytest.Config) -> None:
+    if skip_snapshot_checks:
+        config.issue_config_time_warning(
+            UserWarning(
+                "Detected tests running on cibuildwheel,"
+                " so skipping all snapshot checks"
+            ),
+            stacklevel=2,
+        )
 
 
 def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
