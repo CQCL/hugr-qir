@@ -1,0 +1,17 @@
+---
+source: src/qir/random_ext.rs
+expression: mod_str
+---
+; ModuleID = 'test_context'
+source_filename = "test_context"
+
+define private i1 @_hl.main.1(i64 %0) {
+alloca_block:
+  br label %entry_block
+
+entry_block:                                      ; preds = %alloca_block
+  call void @___random_seed(i64 %0)
+  ret i1 true
+}
+
+declare void @___random_seed(i64)

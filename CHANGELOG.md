@@ -1,5 +1,27 @@
 ## Changelog
 
+### v0.0.15
+
+- update hugr version requirement 0.14.0
+
+### v0.0.14
+
+- update guppylang version requirement 0.21.5
+- update dependency version requirements
+
+### v0.0.12
+
+- add conversion of RNG functions
+
+### v0.0.11
+
+- add options for compilation target and optimization level
+- configure output format using output_format option and remove 'emit_text' toggle
+
+### v0.0.10
+
+- fix issues with function names
+
 ### v0.0.9
 
 - fix issues with windows wheels

@@ -1,0 +1,120 @@
+name: QIR runner
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch: {}
+
+env:
+  SCCACHE_GHA_ENABLED: "true"
+  HUGR_QIR_BIN_DIR: ${{ github.workspace }}/target/debug
+  HUGR_QIR_BIN: ${{ github.workspace }}/target/debug/hugr-qir
+  # Pinned version for the uv package manager
+  UV_VERSION: "0.6.11"
+  UV_FROZEN: 1
+  LLVM_VERSION: "14.0"
+
+jobs:
+  # Check if changes were made to the relevant files.
+  # Always returns true if running on the default branch, to ensure all changes are thoroughly checked.
+  check-changes:
+    name: Check for changes in relevant files
+    runs-on: ubuntu-latest
+    # Required permissions
+    permissions:
+      pull-requests: read
+    # Set job outputs to values from filter step
+    outputs:
+      has-changes: ${{ github.ref_name == github.event.repository.default_branch || steps.filter.outputs.qir-runner }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: .github/change-filters.yml
+
+  build_binary:
+    name: Build HUGR-QIR binary
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.has-changes == 'true' }}
+    runs-on: ubuntu-latest
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: mozilla-actions/sccache-action@v0.0.9
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
+      - name: Build HUGR-QIR binary
+        run: cargo build
+      - name: Upload the binary to the artifacts
+        uses: actions/upload-artifact@v5
+        with:
+          name: hugr_qir_binary
+          path: target/debug/hugr-qir
+
+  generate-file-list:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.has-changes == 'true' }}
+    outputs:
+      guppy-files: ${{ steps.set-matrix.outputs.files }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Generate guppy example file list
+        id: set-matrix
+        run: |
+          files=$(ls guppy_examples/general/*.py | xargs -n1 basename | sed 's/\.py$//' | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "files=$files" >> $GITHUB_OUTPUT
+
+  test:
+    needs: [build_binary, check-changes, generate-file-list]
+    if: ${{ needs.check-changes.outputs.has-changes == 'true' }}
+    name: test python ${{ matrix.guppy-file }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version:
+          - { py: '3.13'}
+        guppy-file: ${{ fromJson(needs.generate-file-list.outputs.guppy-files) }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Install LLVM and Clang
+        uses: KyleMayes/install-llvm-action@v2
+        with:
+          version: ${{ env.LLVM_VERSION }}
+
+      - name: Download the hugr-bin binary
+        uses: actions/download-artifact@v6
+        with:
+          name: hugr_qir_binary
+          path: ${{env.HUGR_QIR_BIN_DIR}}
+
+      - name: Setup dependencies
+        run: uv sync --python ${{ matrix.python-version.py }}
+
+      - name: run qir-runner
+        run: |
+          uv run guppy_examples/general/${{ matrix.guppy-file }}.py > ${{ matrix.guppy-file }}.hugr
+          uv run hugr-qir ./${{ matrix.guppy-file }}.hugr --target native -o ${{ matrix.guppy-file }}.ll
+          cargo install --git https://github.com/CQCL/qir-runner runner
+          qir-runner --file ${{ matrix.guppy-file }}.ll

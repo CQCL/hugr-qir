@@ -4,6 +4,7 @@ from guppylang import guppy, qubit
 from guppylang.std.builtins import result
 from guppylang.std.quantum import h, measure
 from hugr_qir.hugr_to_qir import hugr_to_qir
+from hugr_qir.output import OutputFormat
 
 
 @guppy
@@ -22,6 +23,6 @@ def main() -> None:
     result("0", b2)
 
 
-qir = hugr_to_qir(main.compile(), emit_text=True)
+qir = hugr_to_qir(main.compile(), output_format=OutputFormat.LLVM_IR)
 
 assert len(qir) > 10  # noqa: PLR2004

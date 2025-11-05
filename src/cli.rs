@@ -12,7 +12,9 @@ use clap_verbosity_flag::InfoLevel;
 use clap_verbosity_flag::Verbosity;
 use hugr_cli::hugr_io::HugrInputArgs;
 
+use crate::target::CompileTarget;
 use hugr_cli::CliError;
+use inkwell::OptimizationLevel;
 
 /// Main command line interface
 #[derive(Parser, Debug)]
@@ -48,12 +50,37 @@ pub struct Cli {
 
     #[arg(long, help = "Run QSystemPass", default_value_t = true)]
     pub qsystem_pass: bool,
+
+    #[arg(value_parser, short, long, help = "Target machine")]
+    pub target: Option<CompileTarget>,
+
+    #[arg(value_parser, short = 'l', long, help = "LLVM optimization level")]
+    pub optimization_level: Option<CliOptimizationLevel>,
 }
 
 #[derive(clap::ValueEnum, Clone, Debug, Copy)]
 pub enum OutputFormat {
     Bitcode,
     LlvmIr,
+}
+
+#[derive(clap::ValueEnum, Clone, Debug, Copy)]
+pub enum CliOptimizationLevel {
+    None,
+    Less,
+    Default,
+    Aggressive,
+}
+
+impl From<CliOptimizationLevel> for OptimizationLevel {
+    fn from(cli_level: CliOptimizationLevel) -> Self {
+        match cli_level {
+            CliOptimizationLevel::None => OptimizationLevel::None,
+            CliOptimizationLevel::Less => OptimizationLevel::Less,
+            CliOptimizationLevel::Default => OptimizationLevel::Default,
+            CliOptimizationLevel::Aggressive => OptimizationLevel::Aggressive,
+        }
+    }
 }
 
 impl Cli {
@@ -109,11 +136,14 @@ impl Cli {
     }
 
     pub fn compile_args(&self) -> CompileArgs {
+        let default_args = CompileArgs::default();
         CompileArgs {
             debug: self.debug,
             verbosity: self.verbose.log_level(),
             validate: self.validate,
             qsystem_pass: self.qsystem_pass,
+            target: self.target.unwrap_or(default_args.target),
+            opt_level: self.optimization_level.unwrap_or(default_args.opt_level),
         }
     }
 

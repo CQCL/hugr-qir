@@ -31,9 +31,9 @@ jobs:
       pull-requests: read
     # Set job outputs to values from filter step
     outputs:
-      python: ${{ github.ref_name == github.event.repository.default_branch || steps.filter.outputs.python }}
+      python: ${{ github.ref_name == github.event.repository.default_branch || steps.filter.outputs.python-workflow }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -51,16 +51,16 @@ jobs:
         python-version: ['3.10', '3.13']
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run sccache-cache
-        uses: mozilla-actions/sccache-action@v0.0.8
+        uses: mozilla-actions/sccache-action@v0.0.9
       - name: Install LLVM and Clang
         uses: KyleMayes/install-llvm-action@v2
         with:
           version: ${{ env.LLVM_VERSION }}
           directory: ${{ runner.temp }}/llvm
       - name: Set up uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
           enable-cache: true
@@ -87,8 +87,8 @@ jobs:
       RUSTC_WRAPPER: "sccache"
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: mozilla-actions/sccache-action@v0.0.8
+      - uses: actions/checkout@v5
+      - uses: mozilla-actions/sccache-action@v0.0.9
       - name: Install stable toolchain
         uses: dtolnay/rust-toolchain@stable
       - name: Install LLVM and Clang
@@ -98,7 +98,7 @@ jobs:
       - name: Build HUGR-QIR binary
         run: cargo build
       - name: Upload the binary to the artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: hugr_qir_binary
           path: target/debug/hugr-qir
@@ -114,10 +114,10 @@ jobs:
           - { py: '3.10', coverage: false }
           - { py: '3.13', coverage: true }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Set up uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v7
         with:
           version: ${{ env.UV_VERSION }}
           enable-cache: true
@@ -128,7 +128,7 @@ jobs:
           version: ${{ env.LLVM_VERSION }}
 
       - name: Download the hugr-bin binary
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           name: hugr_qir_binary
           path: ${{env.HUGR_QIR_BIN_DIR}}

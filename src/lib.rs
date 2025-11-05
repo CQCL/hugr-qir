@@ -1,6 +1,5 @@
 use std::rc::Rc;
 
-use crate::inkwell::OptimizationLevel;
 use crate::inkwell::passes::PassBuilderOptions;
 use crate::inkwell::values::CallSiteValue;
 use crate::inkwell::values::PointerValue;
@@ -17,13 +16,16 @@ use hugr::llvm::{CodegenExtsBuilder, inkwell};
 use hugr::{Hugr, Node};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
-use inkwell::module::Module;
+use inkwell::module::{Linkage, Module};
 use qir::{QirCodegenExtension, QirPreludeCodegen};
 use rotation::RotationCodegenExtension;
 use target::CompileTarget;
 pub mod cli;
 pub mod qir;
 pub mod target;
+use crate::cli::CliOptimizationLevel;
+use crate::qir::random_ext::RandomCodegenExtension;
+use itertools::Itertools;
 
 #[cfg(feature = "py")]
 mod py;
@@ -39,6 +41,8 @@ pub struct CompileArgs {
     pub verbosity: Option<Level>,
     pub validate: bool,
     pub qsystem_pass: bool,
+    pub target: CompileTarget,
+    pub opt_level: CliOptimizationLevel,
 }
 
 impl Default for CompileArgs {
@@ -48,15 +52,13 @@ impl Default for CompileArgs {
             verbosity: None,
             validate: false,
             qsystem_pass: true,
+            target: CompileTarget::QuantinuumHardware,
+            opt_level: CliOptimizationLevel::Aggressive,
         }
     }
 }
 
 impl CompileArgs {
-    const OPT_LEVEL_STR: &str = "default<O3>";
-    const OPT_LEVEL: OptimizationLevel = OptimizationLevel::Aggressive;
-    const COMP_TARGET: CompileTarget = CompileTarget::QuantinuumHardware;
-
     pub fn codegen_extensions(&self) -> CodegenExtsMap<'static, Hugr> {
         let pcg = QirPreludeCodegen;
 
@@ -68,6 +70,7 @@ impl CompileArgs {
             .add_logic_extensions()
             .add_extension(RotationCodegenExtension::new(QirPreludeCodegen))
             .add_extension(QirCodegenExtension)
+            .add_extension(RandomCodegenExtension)
             .finish()
     }
 
@@ -117,14 +120,21 @@ impl CompileArgs {
 
     /// Optimize the module using LLVM passes
     fn optimize_module_llvm(&self, module: &Module) -> Result<()> {
-        Self::COMP_TARGET.initialise();
+        self.target.initialise();
 
-        let ctm = Self::COMP_TARGET.machine(Self::OPT_LEVEL);
+        let ctm = self.target.machine(self.opt_level.into());
 
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
-        let _ = module.run_passes(Self::OPT_LEVEL_STR, &ctm, PassBuilderOptions::create());
+        let opt_str = match self.opt_level {
+            CliOptimizationLevel::None => "default<O0>",
+            CliOptimizationLevel::Less => "default<O1>",
+            CliOptimizationLevel::Default => "default<O2>",
+            CliOptimizationLevel::Aggressive => "default<O3>",
+        };
+
+        let _ = module.run_passes(opt_str, &ctm, PassBuilderOptions::create());
         Ok(())
     }
 
@@ -140,6 +150,10 @@ impl CompileArgs {
 
         add_module_metadata(&namer, hugr, &module, qubit_count, result_count)?;
 
+        // This is a workaround to an issue in hugr-llvm: https://github.com/CQCL/hugr/issues/2615
+        // Can be removed when that issue is resolved
+        set_explicit_entrypoint_linkage(&namer, hugr, &module)?;
+
         Ok(module)
     }
 
@@ -153,27 +167,42 @@ impl CompileArgs {
     }
 }
 
-pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> {
-    let entry_point_node = {
-        let mains: Vec<_> = hugr
-            .nodes()
+pub fn find_entry_point_name(hugr: &impl HugrView<Node = Node>) -> Result<(Node, String)> {
+    const HUGR_MAIN: &str = "main";
+
+    let (name, entry_point_node) = if hugr.entrypoint_optype().is_module() {
+        // backwards compatibility with old Guppy versions: assume entrypoint is "main"
+        // function in module.
+
+        let node = hugr
+            .children(hugr.module_root())
             .filter(|&n| {
                 hugr.get_optype(n)
                     .as_func_defn()
-                    .is_some_and(|f| f.func_name() == "main")
+                    .is_some_and(|f| f.func_name() == HUGR_MAIN)
             })
-            .collect();
-        match mains.as_slice() {
-            [] => Err(anyhow!("main function not found in HUGR"))?,
-            [x] => *x,
-            xs => Err(anyhow!("found {} main functions in HUGR", xs.len()))?,
-        }
+            .exactly_one()
+            .map_err(|_| {
+                anyhow!("Module entrypoint must have a single function named {HUGR_MAIN} as child")
+            })?;
+
+        (HUGR_MAIN, node)
+    } else {
+        let name = {
+            hugr.entrypoint_optype()
+                .as_func_defn()
+                .ok_or_else(|| anyhow!("Entry point node is not a function definition"))?
+                .func_name()
+        };
+
+        (name.as_ref(), hugr.entrypoint())
     };
-    Ok(entry_point_node)
+    Ok((entry_point_node, name.to_string()))
 }
-pub fn find_entry_point_name(namer: &Namer, hugr: &impl HugrView<Node = Node>) -> Result<String> {
-    let entry_point_node = find_hugr_entry_point(hugr)?;
-    Ok(namer.name_func("main", entry_point_node))
+
+pub fn find_hugr_entry_point(hugr: &impl HugrView<Node = Node>) -> Result<Node> {
+    let (entry_point_node, _) = find_entry_point_name(hugr)?;
+    Ok(entry_point_node)
 }
 
 pub fn replace_int_opque_pointer(module: &Module, funcname: &str) -> u64 {
@@ -249,7 +278,8 @@ pub fn add_module_metadata(
             .get_context()
             .create_string_attribute("required_num_results", &results_count.to_string()),
     ];
-    let entry_func_name = find_entry_point_name(namer, hugr)?;
+    let entrypoint_name = find_entry_point_name(hugr)?;
+    let entry_func_name = namer.name_func(entrypoint_name.1, entrypoint_name.0);
     let fn_value = module.get_function(&entry_func_name);
     if Option::is_none(&fn_value) {
         return Err(anyhow!(
@@ -320,6 +350,24 @@ pub fn add_module_metadata(
         .add_global_metadata("llvm.module.flags", &md_node_3)
         .unwrap();
 
+    Ok(())
+}
+
+pub fn set_explicit_entrypoint_linkage(
+    namer: &Namer,
+    hugr: &impl HugrView<Node = Node>,
+    module: &Module,
+) -> Result<()> {
+    let entrypoint_name = find_entry_point_name(hugr)?;
+    let entry_func_name = namer.name_func(entrypoint_name.1, entrypoint_name.0);
+    let fn_value = module.get_function(&entry_func_name);
+    if Option::is_none(&fn_value) {
+        return Err(anyhow!(
+            "expected main function: \"{}\" not found in HUGR",
+            entry_func_name
+        ));
+    }
+    fn_value.unwrap().set_linkage(Linkage::External);
     Ok(())
 }
 
