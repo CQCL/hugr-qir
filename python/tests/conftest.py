@@ -5,6 +5,7 @@ import tempfile
 from pathlib import Path
 from typing import IO
 
+import pytest
 from click.testing import CliRunner
 from hugr_qir.cli import hugr_qir
 
@@ -17,9 +18,16 @@ GUPPY_EXAMPLES_DIR_QHO = (
 # that generation works for the wheel builds
 skip_snapshot_checks = os.getenv("CIBUILDWHEEL") == "1"
 
-print(
-    "WARNING: Detected tests running on cibuildwheel, so skipping all snapshot checks"
-)
+
+def pytest_configure(config: pytest.Config) -> None:
+    if skip_snapshot_checks:
+        config.issue_config_time_warning(
+            UserWarning(
+                "Detected tests running on cibuildwheel,"
+                " so skipping all snapshot checks"
+            ),
+            stacklevel=2,
+        )
 
 
 def guppy_to_hugr_file(guppy_file: Path, outfd: IO) -> None:
