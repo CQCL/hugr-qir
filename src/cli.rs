@@ -15,7 +15,6 @@ use hugr_cli::hugr_io::HugrInputArgs;
 use crate::target::CompileTarget;
 use hugr_cli::CliError;
 use inkwell::OptimizationLevel;
-
 /// Main command line interface
 #[derive(Parser, Debug)]
 #[clap(author, version, about, long_about = None)]
@@ -92,8 +91,9 @@ impl Cli {
         &mut self,
         context: &'c inkwell::context::Context,
     ) -> Result<inkwell::module::Module<'c>> {
-        let package = self.input_args.get_package()?;
-        let generator = hugr::envelope::get_generator(&package.modules);
+        let (desc, package) = self.input_args.get_described_package()?;
+        let generator = desc.generator();
+
         package
             .validate()
             .map_err(|val_err| Self::wrap_generator(generator, val_err))?;
