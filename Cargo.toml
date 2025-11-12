@@ -10,14 +10,14 @@ py = ["dep:pyo3"]
 
 [dependencies]
 anyhow = "1.0.98"
-clap = "4.5.49"
+clap = "4.5.51"
 inkwell = { version = "0.6.0", features = ["llvm14-0"] }
 clap-verbosity-flag = "3.0.2"
 clio = { version = "0.3.5", features = ["clap-parse"] }
-hugr = { version = "0.24.0", features = ["llvm"] }
-hugr-core = "0.24.0"
-hugr-cli = "0.24.0"
-hugr-llvm = { version = "0.24.0", features = ["test-utils"] }
+hugr = { version = "0.24.2", features = ["llvm"] }
+hugr-core = "0.24.2"
+hugr-cli = "0.24.2"
+hugr-llvm = { version = "0.24.2", features = ["test-utils"] }
 itertools = "0.14.0"
 lazy_static = "1.5.0"
 petgraph = { version = ">= 0.8.1, < 0.9", default-features = false }
