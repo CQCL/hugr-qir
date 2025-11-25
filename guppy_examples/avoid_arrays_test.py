@@ -95,7 +95,7 @@ def main_generator(size: int) -> GuppyFunctionDefinition[[None], None]:
 
 
 if __name__ == "__main__":
-    package = main_generator(28).compile()
+    package = main_generator(20).compile()
     outfile = Path("./avoid_arrays_test.hugr")
     with outfile.open("wb") as of:
         of.write(package.to_bytes())
