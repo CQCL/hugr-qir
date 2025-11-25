@@ -142,7 +142,7 @@ def hugr_qir_impl(  # noqa: PLR0913
             msg = f"{failedqirmsg} The failure occurred in the validity check of the \
             generated QIR. This check can be disabled by setting `--no-validate-qir`\
             on the cli or passing `validate_qir=False` for library calls. Error \
-            details: {e}"
+            details: {e.error_message}"
             raise ValueError(msg) from e
 
     llvm_write_mode = get_write_mode(output_format)

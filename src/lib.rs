@@ -14,7 +14,6 @@ use hugr::llvm::emit::{EmitHugr, Namer};
 use hugr::llvm::utils::fat::FatExt;
 use hugr::llvm::{CodegenExtsBuilder, inkwell};
 use hugr::{Hugr, Node};
-use hugr_llvm::extension::collections::stack_array::{ArrayCodegenExtension, DefaultArrayCodegen};
 use hugr_llvm::inkwell::attributes::AttributeLoc;
 use inkwell::context::Context;
 use inkwell::module::{Linkage, Module};
@@ -66,8 +65,6 @@ impl CompileArgs {
         CodegenExtsBuilder::default()
             .add_prelude_extensions(pcg.clone())
             .add_default_int_extensions()
-            //.add_default_array_extensions()
-            .add_extension(ArrayCodegenExtension::new(DefaultArrayCodegen))
             .add_float_extensions()
             .add_conversion_extensions()
             .add_logic_extensions()
@@ -138,6 +135,8 @@ impl CompileArgs {
         };
 
         let _ = module.run_passes(opt_str, &ctm, PassBuilderOptions::create());
+        let _ = module.run_passes("lowerswitch", &ctm, PassBuilderOptions::create());
+
         Ok(())
     }
 
@@ -169,6 +168,8 @@ impl CompileArgs {
         let qubit_count: u64 = replace_int_opque_pointer(&module, "__quantum__rt__qubit_allocate");
         let result_count: u64 = replace_int_opque_pointer(&module, "__QIR__CONV_Qubit_TO_Result");
         add_module_metadata(&namer, hugr, &module, qubit_count, result_count)?;
+
+        self.optimize_module_llvm(&module)?;
 
         Ok(module)
     }
