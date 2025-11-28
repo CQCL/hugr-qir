@@ -179,16 +179,21 @@ entry_block:                                      ; preds = %alloca_block
   store { i1, i1 } zeroinitializer, { i1, i1 }* %"15_0", align 1
   %"15_01" = load { i1, i1 }, { i1, i1 }* %"15_0", align 1
   %1 = extractvalue { i1, i1 } %"15_01", 0
-  switch i1 %1, label %2 [
-    i1 true, label %4
-  ]
+  br label %LeafBlock
 
-2:                                                ; preds = %0
+LeafBlock:                                        ; preds = %0
+  %SwitchLeaf = icmp eq i1 %1, true
+  br i1 %SwitchLeaf, label %4, label %NewDefault
+
+NewDefault:                                       ; preds = %LeafBlock
+  br label %2
+
+2:                                                ; preds = %NewDefault
   %3 = extractvalue { i1, i1 } %"15_01", 1
   store i1 %3, i1* %"0", align 1
   br label %cond_114_case_0
 
-4:                                                ; preds = %0
+4:                                                ; preds = %LeafBlock
   %5 = extractvalue { i1, i1 } %"15_01", 1
   store i1 %5, i1* %"03", align 1
   br label %cond_114_case_1
@@ -229,16 +234,21 @@ entry_block:                                      ; preds = %alloca_block
   store { i1, i1 } %"136_088", { i1, i1 }* %"24_0", align 1
   %"24_089" = load { i1, i1 }, { i1, i1 }* %"24_0", align 1
   %10 = extractvalue { i1, i1 } %"24_089", 0
-  switch i1 %10, label %11 [
-    i1 true, label %13
-  ]
+  br label %LeafBlock214
 
-11:                                               ; preds = %6
+LeafBlock214:                                     ; preds = %6
+  %SwitchLeaf215 = icmp eq i1 %10, true
+  br i1 %SwitchLeaf215, label %13, label %NewDefault213
+
+NewDefault213:                                    ; preds = %LeafBlock214
+  br label %11
+
+11:                                               ; preds = %NewDefault213
   %12 = extractvalue { i1, i1 } %"24_089", 1
   store i1 %12, i1* %"094", align 1
   br label %cond_64_case_0
 
-13:                                               ; preds = %6
+13:                                               ; preds = %LeafBlock214
   %14 = extractvalue { i1, i1 } %"24_089", 1
   store i1 %14, i1* %"0100", align 1
   br label %cond_64_case_1
@@ -270,8 +280,7 @@ entry_block:                                      ; preds = %alloca_block
   %"39_0157" = load {}, {}* %"39_0", align 1
   %"36_0158" = load { i1, i1 }, { i1, i1 }* %"36_0", align 1
   %"38_0159" = load { i1, i1 }, { i1, i1 }* %"38_0", align 1
-  switch i1 false, label %19 [
-  ]
+  br label %19
 
 19:                                               ; preds = %15
   store { i1, i1 } %"36_0158", { i1, i1 }* %"55_0", align 1
@@ -292,8 +301,7 @@ entry_block:                                      ; preds = %alloca_block
   %"45_0164" = load {}, {}* %"45_0", align 1
   %"41_0165" = load { i1, i1 }, { i1, i1 }* %"41_0", align 1
   %"43_0166" = load { i1, i1 }, { i1, i1 }* %"43_0", align 1
-  switch i1 false, label %21 [
-  ]
+  br label %21
 
 21:                                               ; preds = %20
   store { i1, i1 } %"41_0165", { i1, i1 }* %"51_0", align 1
@@ -315,8 +323,7 @@ entry_block:                                      ; preds = %alloca_block
   %"49_0172" = load {}, {}* %"49_0", align 1
   %"47_0173" = load { i1, i1 }, { i1, i1 }* %"47_0", align 1
   %"47_1174" = load { i1, i1 }, { i1, i1 }* %"47_1", align 1
-  switch i1 false, label %23 [
-  ]
+  br label %23
 
 23:                                               ; preds = %22
   store { i1, i1 } %"47_0173", { i1, i1 }* %"51_0", align 1
@@ -338,8 +345,7 @@ entry_block:                                      ; preds = %alloca_block
   %"53_0180" = load {}, {}* %"53_0", align 1
   %"51_0181" = load { i1, i1 }, { i1, i1 }* %"51_0", align 1
   %"51_1182" = load { i1, i1 }, { i1, i1 }* %"51_1", align 1
-  switch i1 false, label %25 [
-  ]
+  br label %25
 
 25:                                               ; preds = %24
   store { i1, i1 } %"51_0181", { i1, i1 }* %"55_0", align 1
@@ -357,16 +363,21 @@ entry_block:                                      ; preds = %alloca_block
   store { i1, i1 } %"55_1185", { i1, i1 }* %"176_0", align 1
   %"176_0186" = load { i1, i1 }, { i1, i1 }* %"176_0", align 1
   %27 = extractvalue { i1, i1 } %"176_0186", 0
-  switch i1 %27, label %28 [
-    i1 true, label %30
-  ]
+  br label %LeafBlock217
 
-28:                                               ; preds = %26
+LeafBlock217:                                     ; preds = %26
+  %SwitchLeaf218 = icmp eq i1 %27, true
+  br i1 %SwitchLeaf218, label %30, label %NewDefault216
+
+NewDefault216:                                    ; preds = %LeafBlock217
+  br label %28
+
+28:                                               ; preds = %NewDefault216
   %29 = extractvalue { i1, i1 } %"176_0186", 1
   store i1 %29, i1* %"0189", align 1
   br label %cond_178_case_0
 
-30:                                               ; preds = %26
+30:                                               ; preds = %LeafBlock217
   %31 = extractvalue { i1, i1 } %"176_0186", 1
   store i1 %31, i1* %"0192", align 1
   br label %cond_178_case_1
@@ -391,14 +402,19 @@ cond_exit_114:                                    ; preds = %cond_114_case_1, %c
   store { i1, %Qubit* } %33, { i1, %Qubit* }* %"228_0", align 8
   %"228_06" = load { i1, %Qubit* }, { i1, %Qubit* }* %"228_0", align 8
   %34 = extractvalue { i1, %Qubit* } %"228_06", 0
-  switch i1 %34, label %35 [
-    i1 true, label %36
-  ]
+  br label %LeafBlock220
 
-35:                                               ; preds = %cond_exit_114
+LeafBlock220:                                     ; preds = %cond_exit_114
+  %SwitchLeaf221 = icmp eq i1 %34, true
+  br i1 %SwitchLeaf221, label %36, label %NewDefault219
+
+NewDefault219:                                    ; preds = %LeafBlock220
+  br label %35
+
+35:                                               ; preds = %NewDefault219
   br label %cond_229_case_0
 
-36:                                               ; preds = %cond_exit_114
+36:                                               ; preds = %LeafBlock220
   %37 = extractvalue { i1, %Qubit* } %"228_06", 1
   store %Qubit* %37, %Qubit** %"011", align 8
   br label %cond_229_case_1
@@ -428,14 +444,19 @@ cond_exit_229:                                    ; preds = %cond_229_case_1, %c
   store { i1, %Qubit* } %38, { i1, %Qubit* }* %"215_0", align 8
   %"215_015" = load { i1, %Qubit* }, { i1, %Qubit* }* %"215_0", align 8
   %39 = extractvalue { i1, %Qubit* } %"215_015", 0
-  switch i1 %39, label %40 [
-    i1 true, label %41
-  ]
+  br label %LeafBlock223
 
-40:                                               ; preds = %cond_exit_229
+LeafBlock223:                                     ; preds = %cond_exit_229
+  %SwitchLeaf224 = icmp eq i1 %39, true
+  br i1 %SwitchLeaf224, label %41, label %NewDefault222
+
+NewDefault222:                                    ; preds = %LeafBlock223
+  br label %40
+
+40:                                               ; preds = %NewDefault222
   br label %cond_216_case_0
 
-41:                                               ; preds = %cond_exit_229
+41:                                               ; preds = %LeafBlock223
   %42 = extractvalue { i1, %Qubit* } %"215_015", 1
   store %Qubit* %42, %Qubit** %"020", align 8
   br label %cond_216_case_1
@@ -501,16 +522,21 @@ cond_exit_216:                                    ; preds = %cond_216_case_1, %c
   store { i1, i1 } %"99_037", { i1, i1 }* %"14_0", align 1
   %"14_038" = load { i1, i1 }, { i1, i1 }* %"14_0", align 1
   %50 = extractvalue { i1, i1 } %"14_038", 0
-  switch i1 %50, label %51 [
-    i1 true, label %53
-  ]
+  br label %LeafBlock226
 
-51:                                               ; preds = %cond_exit_216
+LeafBlock226:                                     ; preds = %cond_exit_216
+  %SwitchLeaf227 = icmp eq i1 %50, true
+  br i1 %SwitchLeaf227, label %53, label %NewDefault225
+
+NewDefault225:                                    ; preds = %LeafBlock226
+  br label %51
+
+51:                                               ; preds = %NewDefault225
   %52 = extractvalue { i1, i1 } %"14_038", 1
   store i1 %52, i1* %"042", align 1
   br label %cond_65_case_0
 
-53:                                               ; preds = %cond_exit_216
+53:                                               ; preds = %LeafBlock226
   %54 = extractvalue { i1, i1 } %"14_038", 1
   store i1 %54, i1* %"048", align 1
   br label %cond_65_case_1
@@ -563,16 +589,21 @@ cond_exit_65:                                     ; preds = %cond_65_case_1, %co
   store { i1, i1 } %"65_158", { i1, i1 }* %"123_0", align 1
   %"123_059" = load { i1, i1 }, { i1, i1 }* %"123_0", align 1
   %59 = extractvalue { i1, i1 } %"123_059", 0
-  switch i1 %59, label %60 [
-    i1 true, label %62
-  ]
+  br label %LeafBlock229
 
-60:                                               ; preds = %cond_exit_65
+LeafBlock229:                                     ; preds = %cond_exit_65
+  %SwitchLeaf230 = icmp eq i1 %59, true
+  br i1 %SwitchLeaf230, label %62, label %NewDefault228
+
+NewDefault228:                                    ; preds = %LeafBlock229
+  br label %60
+
+60:                                               ; preds = %NewDefault228
   %61 = extractvalue { i1, i1 } %"123_059", 1
   store i1 %61, i1* %"062", align 1
   br label %cond_125_case_0
 
-62:                                               ; preds = %cond_exit_65
+62:                                               ; preds = %LeafBlock229
   %63 = extractvalue { i1, i1 } %"123_059", 1
   store i1 %63, i1* %"065", align 1
   br label %cond_125_case_1
@@ -608,16 +639,21 @@ cond_exit_125:                                    ; preds = %cond_125_case_1, %c
   %"17_073" = load i1, i1* %"17_0", align 1
   %"65_074" = load { i1, i1 }, { i1, i1 }* %"65_0", align 1
   %"11_175" = load %Qubit*, %Qubit** %"11_1", align 8
-  switch i1 %"17_073", label %65 [
-    i1 true, label %66
-  ]
+  br label %LeafBlock232
 
-65:                                               ; preds = %cond_exit_125
+LeafBlock232:                                     ; preds = %cond_exit_125
+  %SwitchLeaf233 = icmp eq i1 %"17_073", true
+  br i1 %SwitchLeaf233, label %66, label %NewDefault231
+
+NewDefault231:                                    ; preds = %LeafBlock232
+  br label %65
+
+65:                                               ; preds = %NewDefault231
   store { i1, i1 } %"65_074", { i1, i1 }* %"36_0", align 1
   store %Qubit* %"11_175", %Qubit** %"36_1", align 8
   br label %15
 
-66:                                               ; preds = %cond_exit_125
+66:                                               ; preds = %LeafBlock232
   store { i1, i1 } %"65_074", { i1, i1 }* %"20_0", align 1
   store %Qubit* %"11_175", %Qubit** %"20_1", align 8
   br label %6
@@ -670,16 +706,21 @@ cond_exit_64:                                     ; preds = %cond_64_case_1, %co
   store { i1, i1 } %"64_0110", { i1, i1 }* %"152_0", align 1
   %"152_0111" = load { i1, i1 }, { i1, i1 }* %"152_0", align 1
   %71 = extractvalue { i1, i1 } %"152_0111", 0
-  switch i1 %71, label %72 [
-    i1 true, label %74
-  ]
+  br label %LeafBlock235
 
-72:                                               ; preds = %cond_exit_64
+LeafBlock235:                                     ; preds = %cond_exit_64
+  %SwitchLeaf236 = icmp eq i1 %71, true
+  br i1 %SwitchLeaf236, label %74, label %NewDefault234
+
+NewDefault234:                                    ; preds = %LeafBlock235
+  br label %72
+
+72:                                               ; preds = %NewDefault234
   %73 = extractvalue { i1, i1 } %"152_0111", 1
   store i1 %73, i1* %"0114", align 1
   br label %cond_154_case_0
 
-74:                                               ; preds = %cond_exit_64
+74:                                               ; preds = %LeafBlock235
   %75 = extractvalue { i1, i1 } %"152_0111", 1
   store i1 %75, i1* %"0117", align 1
   br label %cond_154_case_1
@@ -709,16 +750,21 @@ cond_exit_154:                                    ; preds = %cond_154_case_1, %c
   %"25_0122" = load i1, i1* %"25_0", align 1
   %"20_0123" = load { i1, i1 }, { i1, i1 }* %"20_0", align 1
   %"64_1124" = load { i1, i1 }, { i1, i1 }* %"64_1", align 1
-  switch i1 %"25_0122", label %77 [
-    i1 true, label %78
-  ]
+  br label %LeafBlock238
 
-77:                                               ; preds = %cond_exit_154
+LeafBlock238:                                     ; preds = %cond_exit_154
+  %SwitchLeaf239 = icmp eq i1 %"25_0122", true
+  br i1 %SwitchLeaf239, label %78, label %NewDefault237
+
+NewDefault237:                                    ; preds = %LeafBlock238
+  br label %77
+
+77:                                               ; preds = %NewDefault237
   store { i1, i1 } %"20_0123", { i1, i1 }* %"0127", align 1
   store { i1, i1 } %"64_1124", { i1, i1 }* %"1128", align 1
   br label %cond_26_case_0
 
-78:                                               ; preds = %cond_exit_154
+78:                                               ; preds = %LeafBlock238
   store { i1, i1 } %"20_0123", { i1, i1 }* %"0134", align 1
   store { i1, i1 } %"64_1124", { i1, i1 }* %"1135", align 1
   br label %cond_26_case_1
@@ -744,16 +790,21 @@ cond_26_case_1:                                   ; preds = %78
   store { i1, i1 } %"1137", { i1, i1 }* %"32_1", align 1
   %"32_1138" = load { i1, i1 }, { i1, i1 }* %"32_1", align 1
   %81 = extractvalue { i1, i1 } %"32_1138", 0
-  switch i1 %81, label %82 [
-    i1 true, label %84
-  ]
+  br label %LeafBlock241
 
-82:                                               ; preds = %cond_26_case_1
+LeafBlock241:                                     ; preds = %cond_26_case_1
+  %SwitchLeaf242 = icmp eq i1 %81, true
+  br i1 %SwitchLeaf242, label %84, label %NewDefault240
+
+NewDefault240:                                    ; preds = %LeafBlock241
+  br label %82
+
+82:                                               ; preds = %NewDefault240
   %83 = extractvalue { i1, i1 } %"32_1138", 1
   store i1 %83, i1* %"0139", align 1
   br label %cond_151_case_0
 
-84:                                               ; preds = %cond_26_case_1
+84:                                               ; preds = %LeafBlock241
   %85 = extractvalue { i1, i1 } %"32_1138", 1
   store i1 %85, i1* %"0141", align 1
   br label %cond_151_case_1
@@ -765,18 +816,23 @@ cond_exit_26:                                     ; preds = %cond_exit_151, %con
   store { i1, { i1, i1 }, { i1, i1 } } %"26_0146", { i1, { i1, i1 }, { i1, i1 } }* %"26_0", align 1
   %"26_0147" = load { i1, { i1, i1 }, { i1, i1 } }, { i1, { i1, i1 }, { i1, i1 } }* %"26_0", align 1
   %86 = extractvalue { i1, { i1, i1 }, { i1, i1 } } %"26_0147", 0
-  switch i1 %86, label %87 [
-    i1 true, label %90
-  ]
+  br label %LeafBlock244
 
-87:                                               ; preds = %cond_exit_26
+LeafBlock244:                                     ; preds = %cond_exit_26
+  %SwitchLeaf245 = icmp eq i1 %86, true
+  br i1 %SwitchLeaf245, label %90, label %NewDefault243
+
+NewDefault243:                                    ; preds = %LeafBlock244
+  br label %87
+
+87:                                               ; preds = %NewDefault243
   %88 = extractvalue { i1, { i1, i1 }, { i1, i1 } } %"26_0147", 1
   %89 = extractvalue { i1, { i1, i1 }, { i1, i1 } } %"26_0147", 2
   store { i1, i1 } %88, { i1, i1 }* %"47_0", align 1
   store { i1, i1 } %89, { i1, i1 }* %"47_1", align 1
   br label %22
 
-90:                                               ; preds = %cond_exit_26
+90:                                               ; preds = %LeafBlock244
   %91 = extractvalue { i1, { i1, i1 }, { i1, i1 } } %"26_0147", 1
   store { i1, i1 } %91, { i1, i1 }* %"41_0", align 1
   br label %20
@@ -827,16 +883,21 @@ cond_exit_178:                                    ; preds = %cond_178_case_1, %c
   store { i1, i1 } %"55_0197", { i1, i1 }* %"166_0", align 1
   %"166_0198" = load { i1, i1 }, { i1, i1 }* %"166_0", align 1
   %94 = extractvalue { i1, i1 } %"166_0198", 0
-  switch i1 %94, label %95 [
-    i1 true, label %97
-  ]
+  br label %LeafBlock247
 
-95:                                               ; preds = %cond_exit_178
+LeafBlock247:                                     ; preds = %cond_exit_178
+  %SwitchLeaf248 = icmp eq i1 %94, true
+  br i1 %SwitchLeaf248, label %97, label %NewDefault246
+
+NewDefault246:                                    ; preds = %LeafBlock247
+  br label %95
+
+95:                                               ; preds = %NewDefault246
   %96 = extractvalue { i1, i1 } %"166_0198", 1
   store i1 %96, i1* %"0201", align 1
   br label %cond_168_case_0
 
-97:                                               ; preds = %cond_exit_178
+97:                                               ; preds = %LeafBlock247
   %98 = extractvalue { i1, i1 } %"166_0198", 1
   store i1 %98, i1* %"0204", align 1
   br label %cond_168_case_1
@@ -870,8 +931,7 @@ cond_exit_168:                                    ; preds = %cond_168_case_1, %c
   %"63_0211" = load {}, {}* %"63_0", align 1
   store {} %"63_0211", {}* %"63_0", align 1
   %"63_0212" = load {}, {}* %"63_0", align 1
-  switch i1 false, label %100 [
-  ]
+  br label %100
 
 100:                                              ; preds = %cond_exit_168
   br label %32
