@@ -127,14 +127,14 @@ impl CompileArgs {
         module.set_triple(&ctm.get_triple());
         module.set_data_layout(&ctm.get_target_data().get_data_layout());
 
-        let opt_str = match self.opt_level {
+        let mut opt_str = String::from(match self.opt_level {
             CliOptimizationLevel::None => "default<O0>",
             CliOptimizationLevel::Less => "default<O1>",
             CliOptimizationLevel::Default => "default<O2>",
             CliOptimizationLevel::Aggressive => "default<O3>",
-        };
-
-        let _ = module.run_passes(opt_str, &ctm, PassBuilderOptions::create());
+        });
+        opt_str.push_str(",lowerswitch");
+        let _ = module.run_passes(opt_str.as_str(), &ctm, PassBuilderOptions::create());
         Ok(())
     }
 
