@@ -1,5 +1,9 @@
 ## Changelog
 
+### v0.0.17
+
+- fix error messages
+
 ### v0.0.16
 
 - update hugr rust version requirement 0.24.2
