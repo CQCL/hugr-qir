@@ -30,7 +30,7 @@ tket = "0.16.0"
 tket-qsystem = { version = "0.22.0", features = ["cli"] }
 
 [dev-dependencies]
-insta = "1.42.1"
+insta = "1.44.3"
 rstest = "0.26.1"
 serde = { version = "1.0.218", features = ["derive"] }
 typetag = "0.2.19"
