@@ -34,30 +34,30 @@ alloca_block:
   %"119_0" = alloca i1, align 1
   %"13_0" = alloca {}, align 8
   %"8_0" = alloca %Qubit*, align 8
-  %"228_0" = alloca { i1, %Qubit* }, align 8
-  %"229_0" = alloca %Qubit*, align 8
+  %"234_0" = alloca { i1, %Qubit* }, align 8
+  %"235_0" = alloca %Qubit*, align 8
   %"07" = alloca %Qubit*, align 8
-  %"235_0" = alloca { i32, i8* }, align 8
-  %"236_0" = alloca %Qubit*, align 8
+  %"241_0" = alloca { i32, i8* }, align 8
+  %"242_0" = alloca %Qubit*, align 8
   %"011" = alloca %Qubit*, align 8
-  %"237_0" = alloca %Qubit*, align 8
+  %"243_0" = alloca %Qubit*, align 8
   %"9_0" = alloca %Qubit*, align 8
-  %"215_0" = alloca { i1, %Qubit* }, align 8
-  %"216_0" = alloca %Qubit*, align 8
+  %"221_0" = alloca { i1, %Qubit* }, align 8
+  %"222_0" = alloca %Qubit*, align 8
   %"016" = alloca %Qubit*, align 8
-  %"222_0" = alloca { i32, i8* }, align 8
-  %"223_0" = alloca %Qubit*, align 8
+  %"228_0" = alloca { i32, i8* }, align 8
+  %"229_0" = alloca %Qubit*, align 8
   %"020" = alloca %Qubit*, align 8
-  %"224_0" = alloca %Qubit*, align 8
+  %"230_0" = alloca %Qubit*, align 8
   %"10_0" = alloca { %Qubit*, %Qubit* }, align 8
   %"11_0" = alloca %Qubit*, align 8
   %"12_0" = alloca %Qubit*, align 8
-  %"203_0" = alloca %Qubit*, align 8
-  %"210_0" = alloca double, align 8
-  %"208_0" = alloca double, align 8
-  %"211_0" = alloca %Qubit*, align 8
-  %"206_0" = alloca double, align 8
-  %"212_0" = alloca %Qubit*, align 8
+  %"209_0" = alloca %Qubit*, align 8
+  %"216_0" = alloca double, align 8
+  %"214_0" = alloca double, align 8
+  %"217_0" = alloca %Qubit*, align 8
+  %"212_0" = alloca double, align 8
+  %"218_0" = alloca %Qubit*, align 8
   %"14_0" = alloca { i1, i1 }, align 8
   %"96_0" = alloca %Qubit*, align 8
   %"98_0" = alloca i1, align 1
@@ -89,12 +89,12 @@ alloca_block:
   %"26_0" = alloca { i1, { i1, i1 }, { i1, i1 } }, align 8
   %"23_0" = alloca {}, align 8
   %"22_0" = alloca %Qubit*, align 8
-  %"193_0" = alloca %Qubit*, align 8
-  %"200_0" = alloca double, align 8
-  %"198_0" = alloca double, align 8
-  %"201_0" = alloca %Qubit*, align 8
-  %"196_0" = alloca double, align 8
-  %"202_0" = alloca %Qubit*, align 8
+  %"199_0" = alloca %Qubit*, align 8
+  %"206_0" = alloca double, align 8
+  %"204_0" = alloca double, align 8
+  %"207_0" = alloca %Qubit*, align 8
+  %"202_0" = alloca double, align 8
+  %"208_0" = alloca %Qubit*, align 8
   %"24_0" = alloca { i1, i1 }, align 8
   %"133_0" = alloca %Qubit*, align 8
   %"135_0" = alloca i1, align 1
@@ -200,21 +200,21 @@ entry_block:                                      ; preds = %alloca_block
   store %Qubit* %"20_177", %Qubit** %"20_1", align 8
   store {} undef, {}* %"23_0", align 1
   %"20_178" = load %Qubit*, %Qubit** %"20_1", align 8
-  store %Qubit* %"20_178", %Qubit** %"193_0", align 8
-  store double 0xBFF921FB54442D18, double* %"200_0", align 8
-  store double 0x3FF921FB54442D18, double* %"198_0", align 8
-  %"193_079" = load %Qubit*, %Qubit** %"193_0", align 8
-  %"198_080" = load double, double* %"198_0", align 8
-  %"200_081" = load double, double* %"200_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"198_080", double %"200_081", %Qubit* %"193_079")
-  store %Qubit* %"193_079", %Qubit** %"201_0", align 8
-  store double 0x400921FB54442D18, double* %"196_0", align 8
-  %"201_082" = load %Qubit*, %Qubit** %"201_0", align 8
-  %"196_083" = load double, double* %"196_0", align 8
-  call void @__quantum__qis__rz__body(double %"196_083", %Qubit* %"201_082")
-  store %Qubit* %"201_082", %Qubit** %"202_0", align 8
-  %"202_084" = load %Qubit*, %Qubit** %"202_0", align 8
-  store %Qubit* %"202_084", %Qubit** %"22_0", align 8
+  store %Qubit* %"20_178", %Qubit** %"199_0", align 8
+  store double 0xBFF921FB54442D18, double* %"206_0", align 8
+  store double 0x3FF921FB54442D18, double* %"204_0", align 8
+  %"199_079" = load %Qubit*, %Qubit** %"199_0", align 8
+  %"204_080" = load double, double* %"204_0", align 8
+  %"206_081" = load double, double* %"206_0", align 8
+  call void @__quantum__qis__phasedx__body(double %"204_080", double %"206_081", %Qubit* %"199_079")
+  store %Qubit* %"199_079", %Qubit** %"207_0", align 8
+  store double 0x400921FB54442D18, double* %"202_0", align 8
+  %"207_082" = load %Qubit*, %Qubit** %"207_0", align 8
+  %"202_083" = load double, double* %"202_0", align 8
+  call void @__quantum__qis__rz__body(double %"202_083", %Qubit* %"207_082")
+  store %Qubit* %"207_082", %Qubit** %"208_0", align 8
+  %"208_084" = load %Qubit*, %Qubit** %"208_0", align 8
+  store %Qubit* %"208_084", %Qubit** %"22_0", align 8
   %"22_085" = load %Qubit*, %Qubit** %"22_0", align 8
   store %Qubit* %"22_085", %Qubit** %"133_0", align 8
   %"133_086" = load %Qubit*, %Qubit** %"133_0", align 8
@@ -388,79 +388,79 @@ cond_114_case_1:                                  ; preds = %4
 cond_exit_114:                                    ; preds = %cond_114_case_1, %cond_114_case_0
   store {} undef, {}* %"13_0", align 1
   %33 = insertvalue { i1, %Qubit* } { i1 true, %Qubit* poison }, %Qubit* null, 1
-  store { i1, %Qubit* } %33, { i1, %Qubit* }* %"228_0", align 8
-  %"228_06" = load { i1, %Qubit* }, { i1, %Qubit* }* %"228_0", align 8
-  %34 = extractvalue { i1, %Qubit* } %"228_06", 0
+  store { i1, %Qubit* } %33, { i1, %Qubit* }* %"234_0", align 8
+  %"234_06" = load { i1, %Qubit* }, { i1, %Qubit* }* %"234_0", align 8
+  %34 = extractvalue { i1, %Qubit* } %"234_06", 0
   switch i1 %34, label %35 [
     i1 true, label %36
   ]
 
 35:                                               ; preds = %cond_exit_114
-  br label %cond_229_case_0
+  br label %cond_235_case_0
 
 36:                                               ; preds = %cond_exit_114
-  %37 = extractvalue { i1, %Qubit* } %"228_06", 1
+  %37 = extractvalue { i1, %Qubit* } %"234_06", 1
   store %Qubit* %37, %Qubit** %"011", align 8
-  br label %cond_229_case_1
+  br label %cond_235_case_1
 
-cond_229_case_0:                                  ; preds = %35
-  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @0, i32 0, i32 0) }, { i32, i8* }* %"235_0", align 8
-  %"235_09" = load { i32, i8* }, { i32, i8* }* %"235_0", align 8
+cond_235_case_0:                                  ; preds = %35
+  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @0, i32 0, i32 0) }, { i32, i8* }* %"241_0", align 8
+  %"241_09" = load { i32, i8* }, { i32, i8* }* %"241_0", align 8
   call void @abort()
-  store %Qubit* null, %Qubit** %"236_0", align 8
-  %"236_010" = load %Qubit*, %Qubit** %"236_0", align 8
-  store %Qubit* %"236_010", %Qubit** %"07", align 8
-  br label %cond_exit_229
+  store %Qubit* null, %Qubit** %"242_0", align 8
+  %"242_010" = load %Qubit*, %Qubit** %"242_0", align 8
+  store %Qubit* %"242_010", %Qubit** %"07", align 8
+  br label %cond_exit_235
 
-cond_229_case_1:                                  ; preds = %36
+cond_235_case_1:                                  ; preds = %36
   %"012" = load %Qubit*, %Qubit** %"011", align 8
-  store %Qubit* %"012", %Qubit** %"237_0", align 8
-  %"237_013" = load %Qubit*, %Qubit** %"237_0", align 8
-  store %Qubit* %"237_013", %Qubit** %"07", align 8
-  br label %cond_exit_229
+  store %Qubit* %"012", %Qubit** %"243_0", align 8
+  %"243_013" = load %Qubit*, %Qubit** %"243_0", align 8
+  store %Qubit* %"243_013", %Qubit** %"07", align 8
+  br label %cond_exit_235
 
-cond_exit_229:                                    ; preds = %cond_229_case_1, %cond_229_case_0
+cond_exit_235:                                    ; preds = %cond_235_case_1, %cond_235_case_0
   %"08" = load %Qubit*, %Qubit** %"07", align 8
-  store %Qubit* %"08", %Qubit** %"229_0", align 8
-  %"229_014" = load %Qubit*, %Qubit** %"229_0", align 8
-  store %Qubit* %"229_014", %Qubit** %"8_0", align 8
+  store %Qubit* %"08", %Qubit** %"235_0", align 8
+  %"235_014" = load %Qubit*, %Qubit** %"235_0", align 8
+  store %Qubit* %"235_014", %Qubit** %"8_0", align 8
   %38 = insertvalue { i1, %Qubit* } { i1 true, %Qubit* poison }, %Qubit* inttoptr (i64 1 to %Qubit*), 1
-  store { i1, %Qubit* } %38, { i1, %Qubit* }* %"215_0", align 8
-  %"215_015" = load { i1, %Qubit* }, { i1, %Qubit* }* %"215_0", align 8
-  %39 = extractvalue { i1, %Qubit* } %"215_015", 0
+  store { i1, %Qubit* } %38, { i1, %Qubit* }* %"221_0", align 8
+  %"221_015" = load { i1, %Qubit* }, { i1, %Qubit* }* %"221_0", align 8
+  %39 = extractvalue { i1, %Qubit* } %"221_015", 0
   switch i1 %39, label %40 [
     i1 true, label %41
   ]
 
-40:                                               ; preds = %cond_exit_229
-  br label %cond_216_case_0
+40:                                               ; preds = %cond_exit_235
+  br label %cond_222_case_0
 
-41:                                               ; preds = %cond_exit_229
-  %42 = extractvalue { i1, %Qubit* } %"215_015", 1
+41:                                               ; preds = %cond_exit_235
+  %42 = extractvalue { i1, %Qubit* } %"221_015", 1
   store %Qubit* %42, %Qubit** %"020", align 8
-  br label %cond_216_case_1
+  br label %cond_222_case_1
 
-cond_216_case_0:                                  ; preds = %40
-  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @1, i32 0, i32 0) }, { i32, i8* }* %"222_0", align 8
-  %"222_018" = load { i32, i8* }, { i32, i8* }* %"222_0", align 8
+cond_222_case_0:                                  ; preds = %40
+  store { i32, i8* } { i32 1, i8* getelementptr inbounds ([38 x i8], [38 x i8]* @1, i32 0, i32 0) }, { i32, i8* }* %"228_0", align 8
+  %"228_018" = load { i32, i8* }, { i32, i8* }* %"228_0", align 8
   call void @abort()
-  store %Qubit* null, %Qubit** %"223_0", align 8
-  %"223_019" = load %Qubit*, %Qubit** %"223_0", align 8
-  store %Qubit* %"223_019", %Qubit** %"016", align 8
-  br label %cond_exit_216
+  store %Qubit* null, %Qubit** %"229_0", align 8
+  %"229_019" = load %Qubit*, %Qubit** %"229_0", align 8
+  store %Qubit* %"229_019", %Qubit** %"016", align 8
+  br label %cond_exit_222
 
-cond_216_case_1:                                  ; preds = %41
+cond_222_case_1:                                  ; preds = %41
   %"021" = load %Qubit*, %Qubit** %"020", align 8
-  store %Qubit* %"021", %Qubit** %"224_0", align 8
-  %"224_022" = load %Qubit*, %Qubit** %"224_0", align 8
-  store %Qubit* %"224_022", %Qubit** %"016", align 8
-  br label %cond_exit_216
+  store %Qubit* %"021", %Qubit** %"230_0", align 8
+  %"230_022" = load %Qubit*, %Qubit** %"230_0", align 8
+  store %Qubit* %"230_022", %Qubit** %"016", align 8
+  br label %cond_exit_222
 
-cond_exit_216:                                    ; preds = %cond_216_case_1, %cond_216_case_0
+cond_exit_222:                                    ; preds = %cond_222_case_1, %cond_222_case_0
   %"017" = load %Qubit*, %Qubit** %"016", align 8
-  store %Qubit* %"017", %Qubit** %"216_0", align 8
-  %"216_023" = load %Qubit*, %Qubit** %"216_0", align 8
-  store %Qubit* %"216_023", %Qubit** %"9_0", align 8
+  store %Qubit* %"017", %Qubit** %"222_0", align 8
+  %"222_023" = load %Qubit*, %Qubit** %"222_0", align 8
+  store %Qubit* %"222_023", %Qubit** %"9_0", align 8
   %"8_024" = load %Qubit*, %Qubit** %"8_0", align 8
   %"9_025" = load %Qubit*, %Qubit** %"9_0", align 8
   %43 = insertvalue { %Qubit*, %Qubit* } poison, %Qubit* %"8_024", 0
@@ -472,21 +472,21 @@ cond_exit_216:                                    ; preds = %cond_216_case_1, %c
   store %Qubit* %45, %Qubit** %"11_0", align 8
   store %Qubit* %46, %Qubit** %"11_1", align 8
   %"11_027" = load %Qubit*, %Qubit** %"11_0", align 8
-  store %Qubit* %"11_027", %Qubit** %"203_0", align 8
-  store double 0xBFF921FB54442D18, double* %"210_0", align 8
-  store double 0x3FF921FB54442D18, double* %"208_0", align 8
-  %"203_028" = load %Qubit*, %Qubit** %"203_0", align 8
-  %"208_029" = load double, double* %"208_0", align 8
-  %"210_030" = load double, double* %"210_0", align 8
-  call void @__quantum__qis__phasedx__body(double %"208_029", double %"210_030", %Qubit* %"203_028")
-  store %Qubit* %"203_028", %Qubit** %"211_0", align 8
-  store double 0x400921FB54442D18, double* %"206_0", align 8
-  %"211_031" = load %Qubit*, %Qubit** %"211_0", align 8
-  %"206_032" = load double, double* %"206_0", align 8
-  call void @__quantum__qis__rz__body(double %"206_032", %Qubit* %"211_031")
-  store %Qubit* %"211_031", %Qubit** %"212_0", align 8
-  %"212_033" = load %Qubit*, %Qubit** %"212_0", align 8
-  store %Qubit* %"212_033", %Qubit** %"12_0", align 8
+  store %Qubit* %"11_027", %Qubit** %"209_0", align 8
+  store double 0xBFF921FB54442D18, double* %"216_0", align 8
+  store double 0x3FF921FB54442D18, double* %"214_0", align 8
+  %"209_028" = load %Qubit*, %Qubit** %"209_0", align 8
+  %"214_029" = load double, double* %"214_0", align 8
+  %"216_030" = load double, double* %"216_0", align 8
+  call void @__quantum__qis__phasedx__body(double %"214_029", double %"216_030", %Qubit* %"209_028")
+  store %Qubit* %"209_028", %Qubit** %"217_0", align 8
+  store double 0x400921FB54442D18, double* %"212_0", align 8
+  %"217_031" = load %Qubit*, %Qubit** %"217_0", align 8
+  %"212_032" = load double, double* %"212_0", align 8
+  call void @__quantum__qis__rz__body(double %"212_032", %Qubit* %"217_031")
+  store %Qubit* %"217_031", %Qubit** %"218_0", align 8
+  %"218_033" = load %Qubit*, %Qubit** %"218_0", align 8
+  store %Qubit* %"218_033", %Qubit** %"12_0", align 8
   %"12_034" = load %Qubit*, %Qubit** %"12_0", align 8
   store %Qubit* %"12_034", %Qubit** %"96_0", align 8
   %"96_035" = load %Qubit*, %Qubit** %"96_0", align 8
@@ -505,12 +505,12 @@ cond_exit_216:                                    ; preds = %cond_216_case_1, %c
     i1 true, label %53
   ]
 
-51:                                               ; preds = %cond_exit_216
+51:                                               ; preds = %cond_exit_222
   %52 = extractvalue { i1, i1 } %"14_038", 1
   store i1 %52, i1* %"042", align 1
   br label %cond_65_case_0
 
-53:                                               ; preds = %cond_exit_216
+53:                                               ; preds = %cond_exit_222
   %54 = extractvalue { i1, i1 } %"14_038", 1
   store i1 %54, i1* %"048", align 1
   br label %cond_65_case_1
