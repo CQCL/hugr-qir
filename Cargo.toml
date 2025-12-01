@@ -11,7 +11,7 @@ py = ["dep:pyo3"]
 [dependencies]
 anyhow = "1.0.98"
 clap = "4.5.53"
-inkwell = { version = "0.6.0", features = ["llvm14-0"] }
+inkwell = { version = "0.7.1", features = ["llvm14-0"] }
 clap-verbosity-flag = "3.0.2"
 clio = { version = "0.3.5", features = ["clap-parse"] }
 hugr = { version = "0.24.3", features = ["llvm"] }
