@@ -3,6 +3,7 @@
 ### v0.0.17
 
 - fix error messages
+- support more complicated guppy if/elif statements
 
 ### v0.0.16
 
